@@ -1,0 +1,34 @@
+[
+  {
+    "id": 0,
+    "name": "Рома",
+    "password": "asdasd",
+    "tweets": [
+      0,
+      1
+    ],
+    "following": [
+      1
+    ],
+    "followers": [
+      1,
+      2
+    ]
+  },
+  {
+    "id": 1,
+    "name": "Антон",
+    "password": "asdasd",
+    "tweets": [],
+    "following": [],
+    "followers": []
+  },
+  {
+    "id": 2,
+    "name": "Кирилл",
+    "password": "asdasd",
+    "tweets": [],
+    "following": [],
+    "followers": []
+  }
+]
