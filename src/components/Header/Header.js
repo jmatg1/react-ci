@@ -11,38 +11,38 @@ const drawerWidth = 240
 
 const useStyles = makeStyles(theme => ({
   toolbar: {
-    addingRight: 24, // keep right padding when drawer closed
+    addingRight: 24 // keep right padding when drawer closed
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
+      duration: theme.transitions.duration.leavingScreen
+    })
   },
   appBarShift: {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
+      duration: theme.transitions.duration.enteringScreen
+    })
   },
   menuButton: {
-    marginRight: 36,
+    marginRight: 36
   },
   menuButtonHidden: {
-    display: 'none',
+    display: 'none'
   },
   title: {
-    flexGrow: 1,
+    flexGrow: 1
   }
 
 }))
 
 const Header = (props) => {
   const classes = useStyles()
-  const {open, handleOpen} = props
+  const { open, handleOpen } = props
 
   return (
     <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>

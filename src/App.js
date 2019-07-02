@@ -12,8 +12,8 @@ class App extends Component {
 
     return (
       <>
-          <Route path="/auth" component={Login}/>
-          {profileId === null ? <Redirect to="/auth" component={Login}/> : <Wrapper/>}
+        <Route path="/auth" component={Login}/>
+        {profileId === null ? <Redirect to="/auth" component={Login}/> : <Wrapper/>}
       </>
 
     )

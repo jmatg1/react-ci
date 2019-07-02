@@ -1,98 +1,123 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import React, { Component } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import clsx from 'clsx'
+import Card from '@material-ui/core/Card'
+import CardHeader from '@material-ui/core/CardHeader'
+import CardContent from '@material-ui/core/CardContent'
+import CardActions from '@material-ui/core/CardActions'
+import Collapse from '@material-ui/core/Collapse'
+import Avatar from '@material-ui/core/Avatar'
+import IconButton from '@material-ui/core/IconButton'
+import Typography from '@material-ui/core/Typography'
+import { red } from '@material-ui/core/colors'
+import FavoriteIcon from '@material-ui/icons/Favorite'
+import ShareIcon from '@material-ui/icons/Share'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+import { withStyles } from '@material-ui/styles';
 
-const useStyles = makeStyles(theme => ({
+import { connect } from 'react-redux'
+import Moment from 'react-moment'
+import 'moment/locale/ru'
+
+
+class Tweet extends Component {
+  state = {
+    expanded: false
+  }
+
+
+  handleExpandClick = () => {
+    this.setState(prevState => ({
+        expanded: !prevState.expanded
+      })
+    )
+  }
+
+  render () {
+    console.log('render TWEET')
+    const  {tweet: {text, dateCreate, likes}, user: {name}, classes}  = this.props
+    const {expanded} = this.state
+
+    return (
+      <Card className={classes.card}>
+        <CardHeader
+          avatar={
+            <Avatar aria-label="Recipe" className={classes.avatar}>
+              {name[0]}
+            </Avatar>
+          }
+          action={
+            <IconButton aria-label="Settings">
+              <MoreVertIcon/>
+            </IconButton>
+          }
+          title={name}
+          subheader={<Moment locale="ru" fromNow>{dateCreate}</Moment>}
+        />
+        <CardContent>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {text}
+          </Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+          <IconButton aria-label="Add to favorites">
+            <FavoriteIcon color="secondary"/>
+            {likes.length}
+          </IconButton>
+          <IconButton aria-label="Share">
+            <ShareIcon/>
+          </IconButton>
+          <IconButton
+            className={clsx(classes.expand, {
+              [classes.expandOpen]: expanded
+            })}
+            onClick={this.handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="Show more"
+          >
+            <ExpandMoreIcon/>
+          </IconButton>
+        </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            <Typography paragraph>Комментарии:</Typography>
+
+          </CardContent>
+        </Collapse>
+      </Card>
+    )
+  }
+}
+
+const mapStateToProps = (state, prevProps) => {
+
+  return {
+    user: state.users.get(String(prevProps.tweet.createUserId))
+  }
+}
+
+
+const styles = {
   card: {
-    maxWidth: '100%',
+    maxWidth: '100%'
   },
   media: {
     height: 0,
-    paddingTop: '56.25%', // 16:9
+    paddingTop: '56.25%' // 16:9
   },
   expand: {
     transform: 'rotate(0deg)',
     marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
+    transition: 'transform 0.5s linear'
   },
   expandOpen: {
-    transform: 'rotate(180deg)',
+    transform: 'rotate(180deg)'
   },
   avatar: {
-    backgroundColor: red[500],
-  },
-}));
-
-export default function Tweet() {
-  const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
-
-  function handleExpandClick() {
-    setExpanded(!expanded);
+    backgroundColor: red[500]
   }
-
-  return (
-    <Card className={classes.card}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="Recipe" className={classes.avatar}>
-            R
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="Settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
-      />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          This impressive paella is a perfect party dish and a fun meal to cook together with your
-          guests. Add 1 cup of frozen peas along with the mussels, if you like.
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="Add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="Share">
-          <ShareIcon />
-        </IconButton>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="Show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>Комментарии:</Typography>
-
-        </CardContent>
-      </Collapse>
-    </Card>
-  );
 }
+
+export default withStyles(styles)(connect(mapStateToProps)(Tweet))
+

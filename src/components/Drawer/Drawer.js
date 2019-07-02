@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: '0 8px',
-    ...theme.mixins.toolbar,
+    ...theme.mixins.toolbar
   },
   drawerPaper: {
     position: 'relative',
@@ -24,30 +24,30 @@ const useStyles = makeStyles(theme => ({
     width: drawerWidth,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
+      duration: theme.transitions.duration.enteringScreen
+    })
   },
   drawerPaperClose: {
     overflowX: 'hidden',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
+      duration: theme.transitions.duration.leavingScreen
     }),
     width: theme.spacing(7),
     [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9),
-    },
+      width: theme.spacing(9)
+    }
   }
 }))
 
 const Drawer = (props) => {
   const classes = useStyles()
-  const {open,handleDrawerClose} = props
+  const { open, handleDrawerClose } = props
   return (
     <Draw
       variant="permanent"
       classes={{
-        paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+        paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
       }}
       open={open}
     >

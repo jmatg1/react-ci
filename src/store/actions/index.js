@@ -5,3 +5,7 @@ export {
 export {
   setProfile
 } from './profile'
+
+export {
+  fetchTweetsMain
+} from './tweets'

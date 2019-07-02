@@ -3,7 +3,6 @@ import * as actionTypes from '../actions/actionTypes'
 import contactsDate from '../data/users'
 import { arrayToObject, getItem, setItem } from '../../shared/utility'
 
-
 let contactsStor = getItem('users')
 
 if (!contactsStor) {
@@ -11,18 +10,18 @@ if (!contactsStor) {
   contactsStor = contactsDate
 }
 
-contactsStor = arrayToObject(contactsStor)
-//----------------------------------------
+const initialStore = new Map(arrayToObject(contactsStor))
+// ----------------------------------------
 
 const signupUser = (state, action) => {
-  const {payload: newUser} = action
+  const { payload: newUser } = action
   return state.set(newUser.id, newUser)
 }
 
-const usersStore = (state = new Map (contactsStor), action) => {
+const usersStore = (state = initialStore, action) => {
   switch (action.type) {
-    case actionTypes.SINGUP_USER: return signupUser (state, action)
-    default: return state
+  case actionTypes.SINGUP_USER: return signupUser(state, action)
+  default: return state
   }
 }
 

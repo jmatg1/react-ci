@@ -19,9 +19,9 @@
     "id": 1,
     "name": "Антон",
     "password": "asdasd",
-    "tweets": [],
+    "tweets": [2],
     "following": [],
-    "followers": []
+    "followers": [1]
   },
   {
     "id": 2,

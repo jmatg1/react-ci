@@ -16,26 +16,26 @@ import * as actions from '../../store/actions/index'
 const useStyles = makeStyles(theme => ({
   '@global': {
     body: {
-      backgroundColor: theme.palette.common.white,
-    },
+      backgroundColor: theme.palette.common.white
+    }
   },
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.secondary.main
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
+    margin: theme.spacing(3, 0, 2)
+  }
 }))
 
 function SignIn (props) {
@@ -47,9 +47,8 @@ function SignIn (props) {
   const findUser = (users, error) => {
     const foundUser = users.find(user => {
       if (user.name === signName) {
-
         if (error) {
-          alert(error);
+          alert(error)
           return true
         }
 
@@ -64,12 +63,11 @@ function SignIn (props) {
    */
   const handleFormInput = (ev) => {
     switch (ev.target.name) {
-      case 'name':
-        setSignName(ev.target.value)
-      case 'password':
-        setSignPassword(ev.target.value)
+    case 'name':
+      setSignName(ev.target.value)
+    case 'password':
+      setSignPassword(ev.target.value)
     }
-
   }
   /**
    * Обработка Checkbox
@@ -100,16 +98,13 @@ function SignIn (props) {
       signupUser(newUser)
       const { password, ...profile } = newUser
       setProfile(profile)
-
     } else { // авторизация
       const foundUser = findUser(users)
       if (!foundUser) return alert('Неверный логин или пароль')
       const { password, ...profile } = foundUser
       setProfile(profile)
-
     }
     history.push('/')
-
   }
 
   return (
@@ -146,8 +141,8 @@ function SignIn (props) {
             autoComplete="current-password"
           />
           <FormControlLabel onChange={handleRadio}
-                            control={<Checkbox value="reg" color="primary"/>}
-                            label="Зарегистрироваться?"
+            control={<Checkbox value="reg" color="primary"/>}
+            label="Зарегистрироваться?"
           />
           <Button
             type="submit"

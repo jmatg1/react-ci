@@ -1,0 +1,26 @@
+[
+  {
+    "id": 0,
+    "createUserId":0,
+    "text": "Мой первый твит",
+    "likes": [1],
+    "comments": [0],
+    "dateCreate": "2019-06-20T10:11:38.207Z"
+  },
+  {
+    "id": 1,
+    "createUserId":0,
+    "text": "Мой второй твит",
+    "likes": [1],
+    "comments": [],
+    "dateCreate": "2019-06-20T10:11:38.207Z"
+  },
+  {
+    "id": 2,
+    "createUserId":1,
+    "text": "Твит Второго Пользователя",
+    "likes": [0],
+    "comments": [],
+    "dateCreate": "2019-06-29T10:11:38.207Z"
+  }
+]
