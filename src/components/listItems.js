@@ -15,24 +15,11 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Главная"/>
     </ListItem>
-
-    <ListItem button component={Link} to="/food">
+    <ListItem button component={Link} to="/feed">
       <ListItemIcon>
         <PeopleIcon/>
       </ListItemIcon>
       <ListItemText primary="Рекомендации"/>
     </ListItem>
-  </div>
-)
-
-export const secondaryListItems = (
-  <div>
-    {/*<ListSubheader inset>Saved reports</ListSubheader>*/}
-    {/*<ListItem button>*/}
-    {/*  <ListItemIcon>*/}
-    {/*    <AssignmentIcon />*/}
-    {/*  </ListItemIcon>*/}
-    {/*  <ListItemText primary="Current month" />*/}
-    {/*</ListItem>*/}
   </div>
 )

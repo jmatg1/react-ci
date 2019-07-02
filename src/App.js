@@ -3,7 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import Login from './containers/Login/Login'
-import Profile from './containers/Profile/Profile'
+import Wrapper from './containers/Wrapper/Wrapper'
 
 class App extends Component {
   render () {
@@ -11,13 +11,11 @@ class App extends Component {
     console.log('RENDER APP')
 
     return (
-      <div className="container">
-        <Switch>
+      <>
           <Route path="/auth" component={Login}/>
-          {profileId === null ? <Redirect to="/auth" component={Login}/> : '<Redirect to="/" component={Profile} />'}
-          <Route path="/" component={Profile}/>
-        </Switch>
-      </div>
+          {profileId === null ? <Redirect to="/auth" component={Login}/> : <Wrapper/>}
+      </>
+
     )
   }
 }
