@@ -2,7 +2,6 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
-import Divider from '@material-ui/core/Divider'
 import ListItemText from '@material-ui/core/ListItemText'
 import Typography from '@material-ui/core/Typography'
 
@@ -10,6 +9,7 @@ import { connect } from 'react-redux'
 
 import { fetchComments } from '../../selectors/index'
 import SubmitComment from '../CommentSubmit/CommentSubmit'
+import Moment from 'react-moment'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -36,7 +36,12 @@ const CommentList = (props) => {
   if (comments.length === 0) return <Typography>Нет комментариев</Typography>
 
   comments.map((cm, i) => {
-    const author = <>{cm.user.name}<span className={classes.mark}> id{cm.user.id}</span></>
+    const author = <>
+      {cm.user.name}
+      <span className={classes.mark}>
+        id{cm.user.id}
+      </span>
+      </>
     commentArray.push(
       <ListItem key={i} alignItems="flex-start">
         <ListItemText
@@ -50,6 +55,9 @@ const CommentList = (props) => {
                 color="textPrimary"
               >
                 {cm.comment.text}
+              </Typography>
+              <Typography>
+                <Moment locale="ru" fromNow>{cm.comment.dateCreate}</Moment>
               </Typography>
             </>
           }
