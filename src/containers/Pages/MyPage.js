@@ -9,8 +9,9 @@ import UserHead from '../../components/UserHead/UserHead'
 import Tweet from '../../components/Tweet/Tweet'
 
 class MyPage extends Component {
-
   render () {
+    console.log('render MyPage')
+
     const { profile, tweets } = this.props
 
     let renderTwits = []
@@ -32,6 +33,8 @@ class MyPage extends Component {
 }
 
 const mapStateToProps = (state, prevProps) => {
+  console.log('connect MyPage')
+  
   return {
     profile: state.profile,
     tweets: fetchTweetsMain(state, prevProps)

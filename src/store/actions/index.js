@@ -7,5 +7,6 @@ export {
 } from './profile'
 
 export {
-  fetchTweetsMain
+  fetchTweetsMain,
+  changeFavoriteTweet
 } from './tweets'

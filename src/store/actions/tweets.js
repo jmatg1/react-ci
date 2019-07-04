@@ -1,8 +1,8 @@
 import * as actionTypes from './actionTypes'
 
-export const addTweet = payload => {
+export const changeFavoriteTweet = payload => {
   return {
-    type: actionTypes.SINGUP_USER,
+    type: actionTypes.CHANGE_FAVORITE_TWEET,
     payload
   }
 }

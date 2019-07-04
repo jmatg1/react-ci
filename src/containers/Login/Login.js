@@ -65,8 +65,10 @@ function SignIn (props) {
     switch (ev.target.name) {
     case 'name':
       setSignName(ev.target.value)
+      break
     case 'password':
       setSignPassword(ev.target.value)
+      break
     }
   }
   /**

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
@@ -14,30 +13,38 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import ShareIcon from '@material-ui/icons/Share'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
-import { withStyles } from '@material-ui/styles';
+import { withStyles } from '@material-ui/styles'
 
 import { connect } from 'react-redux'
 import Moment from 'react-moment'
 import 'moment/locale/ru'
-
-
+import * as actions from '../../store/actions/index'
 class Tweet extends Component {
   state = {
     expanded: false
   }
 
-
+  /**
+   * Обработка по стрелочки вниз
+   * Открывает, закрывает список комментариев
+   */
   handleExpandClick = () => {
     this.setState(prevState => ({
-        expanded: !prevState.expanded
-      })
+      expanded: !prevState.expanded
+    })
     )
   }
-
+  handleClickFavorite = () => {
+    this.props.onChangeFavoriteTweet({
+      TweetId: this.props.tweet.id,
+      isFavorite: !this.props.tweet.isFavorite,
+      profileId: this.props.profileId
+    })
+  }
   render () {
-    console.log('render TWEET')
-    const  {tweet: {text, dateCreate, likes}, user: {name}, classes}  = this.props
-    const {expanded} = this.state
+    console.log('render TWEET', this.props.tweet)
+    const { tweet: { text, dateCreate, likes, isFavorite }, user: { name }, classes } = this.props
+    const { expanded } = this.state
 
     return (
       <Card className={classes.card}>
@@ -61,9 +68,9 @@ class Tweet extends Component {
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label="Add to favorites">
-            <FavoriteIcon color="secondary"/>
-            {likes.length}
+          <IconButton aria-label="Add to favorites" onClick={this.handleClickFavorite}>
+            <FavoriteIcon color={isFavorite ? 'secondary' : 'primary'}/>
+            <span className={classes.count}>{likes.length}</span>
           </IconButton>
           <IconButton aria-label="Share">
             <ShareIcon/>
@@ -90,13 +97,19 @@ class Tweet extends Component {
   }
 }
 
-const mapStateToProps = (state, prevProps) => {
+const mapStateToProps = (state,prevProps) => {
 
   return {
+    profileId: state.profile.toJS().id,
     user: state.users.get(String(prevProps.tweet.createUserId))
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onChangeFavoriteTweet: (payload) => dispatch(actions.changeFavoriteTweet(payload))
+  }
+}
 
 const styles = {
   card: {
@@ -116,8 +129,11 @@ const styles = {
   },
   avatar: {
     backgroundColor: red[500]
+  },
+  count: {
+    fontSize: '16px',
+    marginLeft: '5px'
   }
 }
 
-export default withStyles(styles)(connect(mapStateToProps)(Tweet))
-
+export default withStyles(styles)(connect(mapStateToProps,mapDispatchToProps)(Tweet))
