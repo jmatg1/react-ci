@@ -28,19 +28,19 @@ const fetchTweetsMain = (state, { payload: { id, following } }) => {
 
 const changeFavoriteTweet = (state, { payload: { tweetId, isFavorite, profileId } }) => {
   let newLikes = [...state.get(tweetId).likes]
-  isFavorite ? newLikes.push(profileId) :  newLikes = newLikes.filter( lkId => lkId !== profileId)
+  isFavorite ? newLikes.push(profileId) : newLikes = newLikes.filter(lkId => lkId !== profileId)
 
   let a = state
     .updateIn(
       [tweetId, 'likes'],
-        likes => newLikes
+      likes => newLikes
     )
 
   return a
 }
 
 const addComment = (state, action) => {
-  const {tweetId, comment } = action.payload
+  const { tweetId, comment } = action.payload
 
   let updComments = [...state.get(tweetId).commentsId]
   updComments.push(comment.id)
@@ -58,7 +58,7 @@ const tweetStore = (state = initialStore, action) => {
     return fetchTweetsMain(state, action)
   case actionTypes.CHANGE_FAVORITE_TWEET:
     return changeFavoriteTweet(state, action)
-    case actionTypes.ADD_COMMENT: return addComment(state, action)
+  case actionTypes.ADD_COMMENT: return addComment(state, action)
   default:
     return state
   }

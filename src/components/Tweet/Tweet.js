@@ -92,7 +92,7 @@ export class Tweet extends Component {
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
             <Typography paragraph>Комментарии:</Typography>
-              <CommentList tweetId={tweetId} commentsId={commentsId}/>
+            <CommentList tweetId={tweetId} />
           </CardContent>
         </Collapse>
       </Card>
@@ -100,8 +100,7 @@ export class Tweet extends Component {
   }
 }
 
-const mapStateToProps = (state,prevProps) => {
-
+const mapStateToProps = (state, prevProps) => {
   return {
     profileId: state.profile.id,
     user: state.users.get(prevProps.tweet.createUserId)
@@ -139,4 +138,4 @@ const styles = {
   }
 }
 
-export default withStyles(styles)(connect(mapStateToProps,mapDispatchToProps)(Tweet))
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Tweet))

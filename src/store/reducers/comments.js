@@ -13,22 +13,18 @@ if (!commentsStore) {
 const initialStore = new Map(arrToMap(commentsStore))
 // ----------------------------------------
 
-
-
 const addComment = (state, action) => {
   const { comment } = action.payload
 
   return state.set(comment.id, comment)
 }
 
-
 const commentsReducer = (state = initialStore, action) => {
   switch (action.type) {
-    case actionTypes.ADD_COMMENT: return addComment(state, action)
+  case actionTypes.ADD_COMMENT: return addComment(state, action)
   default:
     return state
   }
 }
 
 export default commentsReducer
-

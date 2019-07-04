@@ -15,12 +15,12 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
     maxWidth: 400,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.paper
   },
   inline: {
-    display: 'inline',
+    display: 'inline'
   },
-  mark:{
+  mark: {
     fontSize: '12px',
     color: 'rgba(0, 0, 0, 0.54)'
   }
@@ -67,11 +67,11 @@ const CommentList = (props) => {
 }
 
 const mapStateToProps = (state, prevProps) => {
-  const { users, comments } = state
-  const { commentsId } = prevProps
+  const { users, comments, tweets } = state
+  const { tweetId } = prevProps
 
   return {
-    comments: fetchComments(commentsId, users, comments)
+    comments: fetchComments(tweetId, users, comments, tweets)
   }
 }
 

@@ -13,7 +13,7 @@ class MyPage extends Component {
     console.log('render MyPage')
 
     const { profile, tweets } = this.props
-    console.log('tweets',tweets)
+    console.log('tweets', tweets)
 
     let renderTwits = []
     tweets.flatMap(tw => {
