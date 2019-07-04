@@ -19,7 +19,7 @@ class UserHead extends Component {
   render () {
     const { subscribe } = this.state
     const { isMe = false, pageId = null, profile } = this.props
-    const { id, name, tweets, following, followers } = profile.toJS()
+    const { id, name, tweets, following, followers } = profile
 
     const classes = {
       paper: {

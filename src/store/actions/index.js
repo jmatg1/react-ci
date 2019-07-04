@@ -10,3 +10,8 @@ export {
   fetchTweetsMain,
   changeFavoriteTweet
 } from './tweets'
+
+export {
+  addComment,
+  editComment
+} from './comments'

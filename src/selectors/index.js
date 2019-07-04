@@ -1,7 +1,9 @@
+
+
 // Ищем все твиты как свои так и твиты подписок
 export const fetchTweetsMain = (state) => {
-  const { id, following } = state.profile.toJS()
-  let filterTwitter = state.tweets
+  const { profile: { id, following }, tweets } = state
+  let filterTwitter = tweets
     .filter(tweet => {
       if (tweet.createUserId === id || following    // собственные твиты
         .find(folId => (folId === tweet.createUserId))) { // твиты подписок
@@ -16,6 +18,16 @@ export const fetchTweetsMain = (state) => {
     })
 
   return filterTwitter
+}
+export const fetchComments = (commentsId, users, comments) => {
+ const filterComments = commentsId.map(cmId =>
+    ({
+      comment: comments.get(cmId),
+      user: users.get(comments.get(cmId).createUserId)
+    })
+  )
+  return filterComments
+
 }
 
 // export const fetchTweetsUser = (state) => {

@@ -8,6 +8,7 @@ import App from './App'
 import users from './store/reducers/users'
 import profile from './store/reducers/profile'
 import tweets from './store/reducers/tweets'
+import comments from './store/reducers/comments'
 import localStorage from './middlewares/localStorage'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
@@ -15,7 +16,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const rootReducer = combineReducers({
   users,
   profile,
-  tweets
+  tweets,
+  comments
 })
 
 const store = createStore(rootReducer, composeEnhancers(

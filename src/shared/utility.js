@@ -1,3 +1,5 @@
+import { Map } from 'immutable'
+
 export const updateObject = (oldObject, updatedProperties) => {
   return {
     ...oldObject,
@@ -44,3 +46,10 @@ export const setItem = (key, value) => {
   window.localStorage.setItem(key, JSON.stringify(value))
 }
 export const randomId = () => Math.floor(Date.now() + Math.random())
+
+export function arrToMap(arr, DataModel) {
+  return arr.reduce(
+    (acc, item) => acc.set(item.id, DataModel ? new DataModel(item) : item),
+    new Map({})
+  )
+}

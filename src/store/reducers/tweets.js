@@ -1,7 +1,7 @@
-import { Map, fromJS } from 'immutable'
+import { Map } from 'immutable'
 import * as actionTypes from '../actions/actionTypes'
 import tweetsDate from '../data/tweets'
-import { arrayToObject, getItem, setItem } from '../../shared/utility'
+import { getItem, setItem, arrToMap } from '../../shared/utility'
 
 let tweetsStor = getItem('tweets')
 
@@ -10,7 +10,7 @@ if (!tweetsStor) {
   tweetsStor = tweetsDate
 }
 
-const initialStore = new Map(arrayToObject(tweetsStor))
+const initialStore = new Map(arrToMap(tweetsStor))
 // ----------------------------------------
 
 const fetchTweetsMain = (state, { payload: { id, following } }) => {
@@ -26,24 +26,30 @@ const fetchTweetsMain = (state, { payload: { id, following } }) => {
   return filterTwitter
 }
 
-const changeFavoriteTweet = (state, { payload: { TweetId, isFavorite, profileId } }) => {
-  console.log('profileId', profileId)
-
-  let newLikes = [...state.get(String(TweetId)).likes]
+const changeFavoriteTweet = (state, { payload: { tweetId, isFavorite, profileId } }) => {
+  let newLikes = [...state.get(tweetId).likes]
   isFavorite ? newLikes.push(profileId) :  newLikes = newLikes.filter( lkId => lkId !== profileId)
+
   let a = state
     .updateIn(
-      [String(TweetId), 'likes'],
+      [tweetId, 'likes'],
         likes => newLikes
     )
 
-  console.log(a)
-
-  // console.log(newState)
-
-
-
   return a
+}
+
+const addComment = (state, action) => {
+  const {tweetId, comment } = action.payload
+
+  let updComments = [...state.get(tweetId).commentsId]
+  updComments.push(comment.id)
+
+  const updState = state.updateIn(
+    [tweetId, 'commentsId'],
+    commentsId => updComments
+  )
+  return updState
 }
 
 const tweetStore = (state = initialStore, action) => {
@@ -52,6 +58,7 @@ const tweetStore = (state = initialStore, action) => {
     return fetchTweetsMain(state, action)
   case actionTypes.CHANGE_FAVORITE_TWEET:
     return changeFavoriteTweet(state, action)
+    case actionTypes.ADD_COMMENT: return addComment(state, action)
   default:
     return state
   }

@@ -19,7 +19,10 @@ import { connect } from 'react-redux'
 import Moment from 'react-moment'
 import 'moment/locale/ru'
 import * as actions from '../../store/actions/index'
-class Tweet extends Component {
+
+import CommentList from '../../components/CommentList/CommentList'
+
+export class Tweet extends Component {
   state = {
     expanded: false
   }
@@ -36,14 +39,14 @@ class Tweet extends Component {
   }
   handleClickFavorite = () => {
     this.props.onChangeFavoriteTweet({
-      TweetId: this.props.tweet.id,
+      tweetId: this.props.tweet.id,
       isFavorite: !this.props.tweet.isFavorite,
       profileId: this.props.profileId
     })
   }
   render () {
-    console.log('render TWEET', this.props.tweet)
-    const { tweet: { text, dateCreate, likes, isFavorite }, user: { name }, classes } = this.props
+    console.log('render tweet')
+    const { tweet: { id: tweetId, commentsId, text, dateCreate, likes, isFavorite }, user: { name }, classes } = this.props
     const { expanded } = this.state
 
     return (
@@ -89,7 +92,7 @@ class Tweet extends Component {
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
             <Typography paragraph>Комментарии:</Typography>
-
+              <CommentList tweetId={tweetId} commentsId={commentsId}/>
           </CardContent>
         </Collapse>
       </Card>
@@ -100,8 +103,8 @@ class Tweet extends Component {
 const mapStateToProps = (state,prevProps) => {
 
   return {
-    profileId: state.profile.toJS().id,
-    user: state.users.get(String(prevProps.tweet.createUserId))
+    profileId: state.profile.id,
+    user: state.users.get(prevProps.tweet.createUserId)
   }
 }
 

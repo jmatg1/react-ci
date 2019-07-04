@@ -1,7 +1,7 @@
 import { Map } from 'immutable'
 import * as actionTypes from '../actions/actionTypes'
 import contactsDate from '../data/users'
-import { arrayToObject, getItem, setItem } from '../../shared/utility'
+import { arrToMap, getItem, setItem } from '../../shared/utility'
 
 let contactsStor = getItem('users')
 
@@ -10,7 +10,7 @@ if (!contactsStor) {
   contactsStor = contactsDate
 }
 
-const initialStore = new Map(arrayToObject(contactsStor))
+const initialStore = new Map(arrToMap(contactsStor))
 // ----------------------------------------
 
 const signupUser = (state, action) => {

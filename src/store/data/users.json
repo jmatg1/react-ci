@@ -30,5 +30,13 @@
     "tweets": [],
     "following": [],
     "followers": []
+  },
+  {
+    "id": 3,
+    "name": "Вова",
+    "password": "asdasd",
+    "tweets": [],
+    "following": [],
+    "followers": []
   }
 ]
