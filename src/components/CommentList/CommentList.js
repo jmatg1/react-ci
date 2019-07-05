@@ -11,20 +11,6 @@ import { fetchComments } from '../../selectors/index'
 import SubmitComment from '../CommentSubmit/CommentSubmit'
 import Moment from 'react-moment'
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%',
-    maxWidth: 400,
-    backgroundColor: theme.palette.background.paper
-  },
-  inline: {
-    display: 'inline'
-  },
-  mark: {
-    fontSize: '12px',
-    color: 'rgba(0, 0, 0, 0.54)'
-  }
-}))
 
 const CommentList = (props) => {
   const { comments, tweetId } = props
@@ -56,7 +42,9 @@ const CommentList = (props) => {
               >
                 {cm.comment.text}
               </Typography>
-              <Typography>
+              <Typography component={'br'}/>
+              <Typography  component={'span'}
+                           variant={'body2'}>
                 <Moment locale="ru" fromNow>{cm.comment.dateCreate}</Moment>
               </Typography>
             </>
@@ -73,6 +61,22 @@ const CommentList = (props) => {
     </List>
   )
 }
+
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    width: '100%',
+    maxWidth: 400,
+    backgroundColor: theme.palette.background.paper
+  },
+  inline: {
+    display: 'inline'
+  },
+  mark: {
+    fontSize: '12px',
+    color: 'rgba(0, 0, 0, 0.54)'
+  }
+}))
 
 const mapStateToProps = (state, prevProps) => {
   const { users, comments, tweets } = state
