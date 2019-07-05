@@ -11,7 +11,6 @@ import { fetchComments } from '../../selectors/index'
 import SubmitComment from '../CommentSubmit/CommentSubmit'
 import Moment from 'react-moment'
 
-
 const CommentList = (props) => {
   const { comments, tweetId } = props
   console.log('render CommentList')
@@ -27,7 +26,7 @@ const CommentList = (props) => {
       <span className={classes.mark}>
         id{cm.user.id}
       </span>
-      </>
+    </>
     commentArray.push(
       <ListItem key={i} alignItems="flex-start">
         <ListItemText
@@ -43,8 +42,8 @@ const CommentList = (props) => {
                 {cm.comment.text}
               </Typography>
               <Typography component={'br'}/>
-              <Typography  component={'span'}
-                           variant={'body2'}>
+              <Typography component={'span'}
+                variant={'body2'}>
                 <Moment locale="ru" fromNow>{cm.comment.dateCreate}</Moment>
               </Typography>
             </>
@@ -61,7 +60,6 @@ const CommentList = (props) => {
     </List>
   )
 }
-
 
 const useStyles = makeStyles(theme => ({
   root: {

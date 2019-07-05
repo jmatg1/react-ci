@@ -24,8 +24,7 @@ import TweetMenu from '../TweetMenu/TweetMenu'
 
 export class Tweet extends Component {
   state = {
-    expanded: false,
-    anchorEl: true
+    expanded: false
   }
 
   /**
@@ -47,8 +46,8 @@ export class Tweet extends Component {
   }
   render () {
     console.log('render tweet')
-    const { tweet: { id: tweetId, commentsId, text, dateCreate, likes, isFavorite }, user: { name }, classes } = this.props
-    const { expanded, anchorEl } = this.state
+    const { tweet: { id: tweetId, text, dateCreate, likes, isFavorite }, user: { name }, classes } = this.props
+    const { expanded } = this.state
 
     return (
       <Card className={classes.card}>
@@ -59,7 +58,7 @@ export class Tweet extends Component {
             </Avatar>
           }
           action={
-              <TweetMenu tweet={this.props.tweet}/>
+            <TweetMenu tweet={this.props.tweet}/>
 
           }
           title={name}

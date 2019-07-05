@@ -1,4 +1,4 @@
-import { Map, List } from 'immutable'
+import { Map } from 'immutable'
 import * as actionTypes from '../actions/actionTypes'
 import commentsDate from '../data/comments'
 import { getItem, setItem, arrToMap } from '../../shared/utility'

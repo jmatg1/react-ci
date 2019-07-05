@@ -19,10 +19,10 @@ const signupUser = (state, action) => {
 }
 
 const tweetRemove = (state, action) => {
-  const { tweet: {id: tweetId}, profileId } = action
+  const { tweet: { id: tweetId }, profileId } = action
   console.log('--------------------')
 
-  const uptState =  state
+  const uptState = state
     .updateIn(
       [profileId, 'tweets'],
       tweets => tweets.filter(twId => twId !== tweetId)
@@ -30,7 +30,6 @@ const tweetRemove = (state, action) => {
   console.log(uptState.toJS())
   console.log('--------------------')
   return uptState
-
 }
 
 const usersStore = (state = initialStore, action) => {

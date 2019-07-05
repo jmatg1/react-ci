@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component, useContext } from 'react'
+import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
@@ -6,11 +7,13 @@ import Grid from '@material-ui/core/Grid'
 
 import { connect } from 'react-redux'
 import { getUser } from '../../selectors/index'
+import * as actions from '../../store/actions/index'
 
 class UserHead extends Component {
   state = {
     subscribe: false
   }
+
   /**
    * Обработка кнопки Подписаться/Отписаться
    */
@@ -18,10 +21,29 @@ class UserHead extends Component {
     //  this.props.onSubscribe(this.state.subscribe)
     //  this.setState({subscribe: false})
   }
+  handleAddTweet = () => {
+    this.context.openDialog({
+      placeholder: 'Текст нового твита',
+      title: 'Добавить новый твит',
+      inputValue: '',
+      data: {},
+      callBack: this.addTweet
+    })
+  }
 
+  addTweet = (text) => {
+    this.props.onAddTweet(  {
+      id: Math.floor(Math.random() * 10000),
+      createUserId: this.props.profileId,
+      text: text,
+      likes: [],
+      commentsId: [],
+      dateCreate: new Date().toJSON()
+    })
+  }
   render () {
     const { subscribe } = this.state
-    const { pageId = null, user: {id: userId, name, following, tweets, followers }, profileId, userPageId } = this.props
+    const { pageId = null, user: { name, following, tweets, followers }, profileId, userPageId } = this.props
 
     const isMe = userPageId === profileId
 
@@ -35,7 +57,7 @@ class UserHead extends Component {
     }
 
     if (!isMe) {
-      if (following.find(usId => usId === pageId)) {  // ищем пользователя
+      if (following.find(usId => usId === pageId)) { // ищем пользователя
         this.setState({ subscribe: true })
       }
     }
@@ -61,13 +83,19 @@ class UserHead extends Component {
               {followers.length}
             </Grid>
 
-            {isMe ? null : (
+            {isMe ?
+              <Grid item xs={3}>
+                <Button variant="contained" color="primary" className={classes.button} onClick={this.handleAddTweet}>
+                  Добавить твит
+                </Button>
+              </Grid>
+              :
               <Grid item xs={3}>
                 <Button variant="contained" color="primary" className={classes.button} onClick={this.handleSubscribe}>
                   {subscribe ? 'Отписаться' : 'Подписаться'}
                 </Button>
               </Grid>
-            )}
+            }
 
           </Grid>
         </Paper>
@@ -76,11 +104,19 @@ class UserHead extends Component {
   }
 }
 
-const mapStateToProps = (state,prevProps) => {
+const mapStateToProps = (state, prevProps) => {
   return {
-    user: getUser(state,prevProps),
+    user: getUser(state, prevProps),
     profileId: state.profile.id
   }
 }
 
-export default connect(mapStateToProps)(UserHead)
+const mapDispatchToProps = dispatch => {
+  return {
+    onAddTweet: (tweet) => dispatch(actions.addTweet(tweet))
+  }
+}
+UserHead.contextTypes = ({
+  openDialog: PropTypes.func
+})
+export default connect(mapStateToProps,mapDispatchToProps)(UserHead)

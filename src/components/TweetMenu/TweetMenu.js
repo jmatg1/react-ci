@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import IconButton from '@material-ui/core/IconButton'
@@ -7,10 +7,12 @@ import MoreVertIcon from '@material-ui/icons/MoreVert'
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions/index'
 import Dialog from '../Dialog/Dialog'
+import PopupsContext from '../../contexts'
 
 const TweetMenu = (props) => {
-  const { tweet, tweet: { id: tweetId, createUserId }, profileId, onTweetRemove } = props
+  const { tweet, tweet: { createUserId, text }, profileId, onTweetRemove } = props
   const [tweetMenuEl, setAnchorEl] = React.useState(null)
+  const popupsContext = useContext(PopupsContext)
 
   const isMyTweet = createUserId === profileId
 
@@ -21,27 +23,30 @@ const TweetMenu = (props) => {
   const handleTweetMenuSelect = (type) => {
     setAnchorEl(null)
     switch (type) {
-      case 'remove':
-        return tweetRemoveOrIgnore()
-      case 'edit':
-        return handleDialogOpen()
-      default:
-        return null
+    case 'remove':
+      return tweetRemoveOrIgnore()
+    case 'edit':
+      return handleDialogOpen()
+    default:
+      return null
     }
-
   }
 
   const handleTweetMenuClose = () => {
     setAnchorEl(null)
-
   }
 
-  //----
+  // ----
 
   const [isTweetEdit, setTweetEdit] = React.useState(false)
 
   const handleDialogOpen = () => {
-    setTweetEdit(true)
+    popupsContext.openDialog({
+        placeholder: 'Текст твита',
+        title: 'Изменить твит',
+        inputValue:  text,
+        callBack: handleDialogSave
+      })
   }
   const handleDialogClose = () => {
     setTweetEdit(false)
@@ -50,18 +55,16 @@ const TweetMenu = (props) => {
     const { tweet: { id }, onTweetEdit } = props
     setTweetEdit(false)
     onTweetEdit(id, text)
-
   }
 
   const tweetRemoveOrIgnore = () => {
     if (isMyTweet) {
-      onTweetRemove(tweet, profileId) //удаляем твитер из базы и из списка твитов пользователя
+      onTweetRemove(tweet, profileId) // удаляем твит из базы и из списка твитов пользователя
     }
   }
   return (
     <>
-
-      <Dialog tweet={tweet} open={isTweetEdit} handleSave={handleDialogSave} handleClose={handleDialogClose}/>
+      {/*<Dialog tweet={tweet} open={isTweetEdit} handleSave={handleDialogSave} handleClose={handleDialogClose}/>*/}
       <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleTweetMenuOpen}>
         <MoreVertIcon/>
       </IconButton>

@@ -14,29 +14,25 @@ const initialStore = new Map(arrToMap(tweetsStor))
 // ----------------------------------------
 
 const fetchTweetsMain = (state, { payload: { id, following } }) => {
-  let filterTwitter = initialStore
+  return initialStore
     .filter(tweet => (
-        tweet.createUserId === id || following
-          .find(folId => (
-              folId === tweet.createUserId
-            )
-          )
-      )
-    )
-  return filterTwitter
+      tweet.createUserId === id || following
+        .find(folId => (
+          folId === tweet.createUserId
+        )
+        )
+    ))
 }
 
 const changeFavoriteTweet = (state, { payload: { tweetId, isFavorite, profileId } }) => {
   let newLikes = [...state.get(tweetId).likes]
   isFavorite ? newLikes.push(profileId) : newLikes = newLikes.filter(lkId => lkId !== profileId)
 
-  let a = state
+  return state
     .updateIn(
       [tweetId, 'likes'],
       likes => newLikes
     )
-
-  return a
 }
 
 const addComment = (state, action) => {
@@ -45,23 +41,24 @@ const addComment = (state, action) => {
   let updComments = [...state.get(tweetId).commentsId]
   updComments.push(comment.id)
 
-  const updState = state.updateIn(
+  return state.updateIn(
     [tweetId, 'commentsId'],
     commentsId => updComments
   )
-  return updState
+}
+const addTweet = (state, {tweet}) => {
+  return state.set(tweet.id, tweet)
 }
 
 const tweetEdit = (state, action) => {
   const { tweetId, text: tweetText } = action
   console.log('tweetEdit', action)
 
-  const uptState = state
+  return state
     .updateIn(
       [tweetId, 'text'],
       text => tweetText
     )
-  return uptState
 }
 const tweetRemove = (state, action) => {
   return state.delete(action.tweet.id)
@@ -69,22 +66,25 @@ const tweetRemove = (state, action) => {
 
 const tweetStore = (state = initialStore, action) => {
   switch (action.type) {
-    case actionTypes.FETCH_TWEETS_MAIN:
-      return fetchTweetsMain(state, action)
+  case actionTypes.FETCH_TWEETS_MAIN:
+    return fetchTweetsMain(state, action)
 
-    case actionTypes.CHANGE_FAVORITE_TWEET:
-      return changeFavoriteTweet(state, action)
+  case actionTypes.CHANGE_FAVORITE_TWEET:
+    return changeFavoriteTweet(state, action)
 
-    case actionTypes.TWEET_EDIT:
-      return tweetEdit(state, action)
-    case actionTypes.TWEET_REMOVE:
-      return tweetRemove(state, action)
+  case actionTypes.TWEET_EDIT:
+    return tweetEdit(state, action)
+  case actionTypes.TWEET_REMOVE:
+    return tweetRemove(state, action)
 
-    case actionTypes.ADD_COMMENT:
-      return addComment(state, action)
+  case actionTypes.ADD_COMMENT:
+    return addComment(state, action)
 
-    default:
-      return state
+  case actionTypes.ADD_TWEET:
+    return addTweet(state, action)
+
+  default:
+    return state
   }
 }
 

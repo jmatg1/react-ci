@@ -1,5 +1,11 @@
 import * as actionTypes from './actionTypes'
 
+export const addTweet = tweet => {
+  return {
+    type: actionTypes.ADD_TWEET,
+    tweet
+  }
+}
 export const changeFavoriteTweet = payload => {
   return {
     type: actionTypes.CHANGE_FAVORITE_TWEET,
@@ -22,7 +28,7 @@ export const tweetEdit = (tweetId, text) => {
   }
 }
 // обрабатывает reducer tweets, users
-export const tweetRemove = (tweet,profileId) => {
+export const tweetRemove = (tweet, profileId) => {
   return {
     type: actionTypes.TWEET_REMOVE,
     tweet,

@@ -11,6 +11,42 @@ import Drawer from '../../components/Drawer/Drawer'
 import Feed from '../../containers/Pages/Feed'
 import MyPage from '../../containers/Pages/MyPage'
 import UserPage from '../../containers/Pages/UserPage'
+import Dialog  from '../../components/Dialog/Dialog'
+
+
+export default function Wrapper () {
+  const classes = useStyles()
+  const [open, setOpen] = React.useState(true)
+  const handleDrawerOpen = () => {
+    setOpen(true)
+  }
+  const handleDrawerClose = () => {
+    setOpen(false)
+  }
+
+  return (
+    <div className={classes.root}>
+      <CssBaseline/>
+      <Header open={open} handleOpen={handleDrawerOpen}/>
+      <Drawer open={open} handleDrawerClose={handleDrawerClose}/>
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer}/>
+        <Container maxWidth="lg" className={classes.container}>
+          <Grid container spacing={3}>
+
+            <Switch>
+              <Route path="/user/:id" component={UserPage}/>
+              <Route path="/feed" component={Feed}/>
+              <Route path="/" component={MyPage}/>
+            </Switch>
+
+          </Grid>
+        </Container>
+      </main>
+    </div>
+  )
+}
+
 
 const drawerWidth = 240
 
@@ -46,36 +82,3 @@ const useStyles = makeStyles(theme => ({
     height: 240
   }
 }))
-
-export default function Wrapper () {
-  const classes = useStyles()
-  const [open, setOpen] = React.useState(true)
-  const handleDrawerOpen = () => {
-    setOpen(true)
-  }
-  const handleDrawerClose = () => {
-    setOpen(false)
-  }
-
-  return (
-    <div className={classes.root}>
-      <CssBaseline/>
-      <Header open={open} handleOpen={handleDrawerOpen}/>
-      <Drawer open={open} handleDrawerClose={handleDrawerClose}/>
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer}/>
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-
-            <Switch>
-              <Route path="/user/:id" component={UserPage}/>
-              <Route path="/feed" component={Feed}/>
-              <Route path="/" component={MyPage}/>
-            </Switch>
-
-          </Grid>
-        </Container>
-      </main>
-    </div>
-  )
-}

@@ -8,6 +8,7 @@ export {
 } from './profile'
 
 export {
+  addTweet,
   fetchTweetsMain,
   changeFavoriteTweet,
   tweetEdit,
