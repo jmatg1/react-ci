@@ -27,6 +27,11 @@ export const fetchComments = (tweetId, users, comments, tweets) => {
   return filterComments
 }
 
+export const getUser = (state, {userPageId}) => {
+
+  return state.users.get(userPageId)
+}
+
 // export const fetchTweetsUser = (state) => {
 //   const { id, following } = state.profile.toJS()
 //   let filterTwitter = state.tweets

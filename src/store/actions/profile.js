@@ -6,3 +6,9 @@ export const setProfile = profile => {
     payload: profile
   }
 }
+export const uptProfile = profileId => {
+  return {
+    type: actionTypes.UPDATE_PROFILE,
+    profileId
+  }
+}

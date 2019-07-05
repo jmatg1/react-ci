@@ -13,3 +13,27 @@ export const fetchTweetsMain = payload => {
     payload
   }
 }
+
+export const tweetEdit = (tweetId, text) => {
+  return {
+    type: actionTypes.TWEET_EDIT,
+    tweetId,
+    text
+  }
+}
+// обрабатывает reducer tweets, users
+export const tweetRemove = (tweet,profileId) => {
+  return {
+    type: actionTypes.TWEET_REMOVE,
+    tweet,
+    profileId
+  }
+}
+// обрабатывает reducer tweets, users
+// export const tweetIgnore = (tweet,profileId) => {
+//   return {
+//     type: actionTypes.TWEET_REMOVE,
+//     tweet,
+//     profileId
+//   }
+// }

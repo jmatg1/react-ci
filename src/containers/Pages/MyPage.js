@@ -12,8 +12,7 @@ class MyPage extends Component {
   render () {
     console.log('render MyPage')
 
-    const { profile, tweets } = this.props
-    console.log('tweets', tweets)
+    const { profileId, tweets } = this.props
 
     let renderTwits = []
     tweets.flatMap(tw => {
@@ -26,7 +25,7 @@ class MyPage extends Component {
 
     return (
       <>
-        <UserHead isMe profile={profile}/>
+        <UserHead userPageId={profileId}/>
         {renderTwits}
       </>
     )
@@ -37,7 +36,7 @@ const mapStateToProps = (state, prevProps) => {
   console.log('connect MyPage')
 
   return {
-    profile: state.profile,
+    profileId: state.profile.id,
     tweets: fetchTweetsMain(state, prevProps)
   }
 }

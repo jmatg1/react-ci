@@ -12,7 +12,6 @@ import { red } from '@material-ui/core/colors'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import ShareIcon from '@material-ui/icons/Share'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
 import { withStyles } from '@material-ui/styles'
 
 import { connect } from 'react-redux'
@@ -21,10 +20,12 @@ import 'moment/locale/ru'
 import * as actions from '../../store/actions/index'
 
 import CommentList from '../../components/CommentList/CommentList'
+import TweetMenu from '../TweetMenu/TweetMenu'
 
 export class Tweet extends Component {
   state = {
-    expanded: false
+    expanded: false,
+    anchorEl: true
   }
 
   /**
@@ -47,7 +48,7 @@ export class Tweet extends Component {
   render () {
     console.log('render tweet')
     const { tweet: { id: tweetId, commentsId, text, dateCreate, likes, isFavorite }, user: { name }, classes } = this.props
-    const { expanded } = this.state
+    const { expanded, anchorEl } = this.state
 
     return (
       <Card className={classes.card}>
@@ -58,9 +59,8 @@ export class Tweet extends Component {
             </Avatar>
           }
           action={
-            <IconButton aria-label="Settings">
-              <MoreVertIcon/>
-            </IconButton>
+              <TweetMenu tweet={this.props.tweet}/>
+
           }
           title={name}
           subheader={<Moment locale="ru" fromNow>{dateCreate}</Moment>}
@@ -75,9 +75,11 @@ export class Tweet extends Component {
             <FavoriteIcon color={isFavorite ? 'secondary' : 'primary'}/>
             <span className={classes.count}>{likes.length}</span>
           </IconButton>
+
           <IconButton aria-label="Share">
             <ShareIcon/>
           </IconButton>
+
           <IconButton
             className={clsx(classes.expand, {
               [classes.expandOpen]: expanded
@@ -88,6 +90,7 @@ export class Tweet extends Component {
           >
             <ExpandMoreIcon/>
           </IconButton>
+
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>

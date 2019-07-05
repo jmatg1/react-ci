@@ -4,6 +4,9 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 
+import { connect } from 'react-redux'
+import { getUser } from '../../selectors/index'
+
 class UserHead extends Component {
   state = {
     subscribe: false
@@ -18,8 +21,9 @@ class UserHead extends Component {
 
   render () {
     const { subscribe } = this.state
-    const { isMe = false, pageId = null, profile } = this.props
-    const { id, name, tweets, following, followers } = profile
+    const { pageId = null, user: {id: userId, name, following, tweets, followers }, profileId, userPageId } = this.props
+
+    const isMe = userPageId === profileId
 
     const classes = {
       paper: {
@@ -31,7 +35,7 @@ class UserHead extends Component {
     }
 
     if (!isMe) {
-      if (following.find(usId => usId === pageId)) {
+      if (following.find(usId => usId === pageId)) {  // ищем пользователя
         this.setState({ subscribe: true })
       }
     }
@@ -72,4 +76,11 @@ class UserHead extends Component {
   }
 }
 
-export default UserHead
+const mapStateToProps = (state,prevProps) => {
+  return {
+    user: getUser(state,prevProps),
+    profileId: state.profile.id
+  }
+}
+
+export default connect(mapStateToProps)(UserHead)

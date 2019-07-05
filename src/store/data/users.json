@@ -13,7 +13,8 @@
     "followers": [
       1,
       2
-    ]
+    ],
+    "ignoreList": []
   },
   {
     "id": 1,
@@ -21,7 +22,8 @@
     "password": "asdasd",
     "tweets": [2],
     "following": [],
-    "followers": [1]
+    "followers": [1],
+    "ignoreList": []
   },
   {
     "id": 2,
@@ -29,7 +31,8 @@
     "password": "asdasd",
     "tweets": [],
     "following": [],
-    "followers": []
+    "followers": [],
+    "ignoreList": []
   },
   {
     "id": 3,
@@ -37,6 +40,7 @@
     "password": "asdasd",
     "tweets": [],
     "following": [],
-    "followers": []
+    "followers": [],
+    "ignoreList": []
   }
 ]

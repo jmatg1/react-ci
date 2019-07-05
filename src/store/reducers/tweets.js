@@ -16,12 +16,12 @@ const initialStore = new Map(arrToMap(tweetsStor))
 const fetchTweetsMain = (state, { payload: { id, following } }) => {
   let filterTwitter = initialStore
     .filter(tweet => (
-      tweet.createUserId === id || following
-        .find(folId => (
-          folId === tweet.createUserId
-        )
-        )
-    )
+        tweet.createUserId === id || following
+          .find(folId => (
+              folId === tweet.createUserId
+            )
+          )
+      )
     )
   return filterTwitter
 }
@@ -52,15 +52,39 @@ const addComment = (state, action) => {
   return updState
 }
 
+const tweetEdit = (state, action) => {
+  const { tweetId, text: tweetText } = action
+  console.log('tweetEdit', action)
+
+  const uptState = state
+    .updateIn(
+      [tweetId, 'text'],
+      text => tweetText
+    )
+  return uptState
+}
+const tweetRemove = (state, action) => {
+  return state.delete(action.tweet.id)
+}
+
 const tweetStore = (state = initialStore, action) => {
   switch (action.type) {
-  case actionTypes.FETCH_TWEETS_MAIN:
-    return fetchTweetsMain(state, action)
-  case actionTypes.CHANGE_FAVORITE_TWEET:
-    return changeFavoriteTweet(state, action)
-  case actionTypes.ADD_COMMENT: return addComment(state, action)
-  default:
-    return state
+    case actionTypes.FETCH_TWEETS_MAIN:
+      return fetchTweetsMain(state, action)
+
+    case actionTypes.CHANGE_FAVORITE_TWEET:
+      return changeFavoriteTweet(state, action)
+
+    case actionTypes.TWEET_EDIT:
+      return tweetEdit(state, action)
+    case actionTypes.TWEET_REMOVE:
+      return tweetRemove(state, action)
+
+    case actionTypes.ADD_COMMENT:
+      return addComment(state, action)
+
+    default:
+      return state
   }
 }
 

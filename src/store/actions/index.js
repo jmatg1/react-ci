@@ -3,12 +3,15 @@ export {
 } from './users'
 
 export {
-  setProfile
+  setProfile,
+  uptProfile
 } from './profile'
 
 export {
   fetchTweetsMain,
-  changeFavoriteTweet
+  changeFavoriteTweet,
+  tweetEdit,
+  tweetRemove
 } from './tweets'
 
 export {
