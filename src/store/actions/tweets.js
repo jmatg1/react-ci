@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes'
-
+// обрабатывает reducer tweets, users
 export const addTweet = tweet => {
   return {
     type: actionTypes.ADD_TWEET,
@@ -28,11 +28,10 @@ export const tweetEdit = (tweetId, text) => {
   }
 }
 // обрабатывает reducer tweets, users
-export const tweetRemove = (tweet, profileId) => {
+export const tweetRemove = (tweet) => {
   return {
     type: actionTypes.TWEET_REMOVE,
-    tweet,
-    profileId
+    tweet
   }
 }
 // обрабатывает reducer tweets, users

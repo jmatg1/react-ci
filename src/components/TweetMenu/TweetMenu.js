@@ -59,12 +59,11 @@ const TweetMenu = (props) => {
 
   const tweetRemoveOrIgnore = () => {
     if (isMyTweet) {
-      onTweetRemove(tweet, profileId) // удаляем твит из базы и из списка твитов пользователя
+      onTweetRemove(tweet) // удаляем твит из базы и из списка твитов пользователя
     }
   }
   return (
     <>
-      {/*<Dialog tweet={tweet} open={isTweetEdit} handleSave={handleDialogSave} handleClose={handleDialogClose}/>*/}
       <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleTweetMenuOpen}>
         <MoreVertIcon/>
       </IconButton>
@@ -85,7 +84,7 @@ const TweetMenu = (props) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onTweetRemove: (tweet, profileId) => dispatch(actions.tweetRemove(tweet, profileId)),
+    onTweetRemove: (tweet) => dispatch(actions.tweetRemove(tweet)),
     onTweetEdit: (id, text) => dispatch(actions.tweetEdit(id, text))
   }
 }

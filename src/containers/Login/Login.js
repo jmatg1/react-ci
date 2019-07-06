@@ -13,6 +13,7 @@ import Container from '@material-ui/core/Container'
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions/index'
 
+
 const useStyles = makeStyles(theme => ({
   '@global': {
     body: {
@@ -37,6 +38,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 0, 2)
   }
 }))
+
 
 function SignIn (props) {
   const [isSignUp, setIsSignUp] = useState(false)
@@ -90,13 +92,16 @@ function SignIn (props) {
     if (isSignUp) { // регистрация
       if (findUser(users, 'Логин занят')) return
       const newUser = {
-        id: users.size,
+        id: users.length,
         name: signName,
         password: signPassword,
         tweets: [],
         following: [],
         followers: []
       }
+
+      console.log('newUser',newUser)
+
       signupUser(newUser)
       const { password, ...profile } = newUser
       setProfile(profile)
@@ -163,7 +168,7 @@ function SignIn (props) {
 
 const mapStateToProps = state => {
   return {
-    users: state.users
+    users: state.users.valueSeq().toJS()
   }
 }
 const mapDispathToProps = dispath => {

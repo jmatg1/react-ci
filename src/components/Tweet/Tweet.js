@@ -105,7 +105,7 @@ export class Tweet extends Component {
 const mapStateToProps = (state, prevProps) => {
   return {
     profileId: state.profile.id,
-    user: state.users.get(prevProps.tweet.createUserId)
+    user: state.users.get(prevProps.tweet.createUserId).toJS()
   }
 }
 

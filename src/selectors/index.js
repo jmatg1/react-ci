@@ -27,7 +27,10 @@ export const fetchComments = (tweetId, users, comments, tweets) => {
 }
 
 export const getUser = (state, { userPageId }) => {
-  return state.users.get(userPageId)
+
+  console.log('state.users.get(userPageId)',state.users.get(userPageId))
+
+  return state.users.get(userPageId).toJS()
 }
 
 // export const fetchTweetsUser = (state) => {
