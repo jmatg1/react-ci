@@ -1,13 +1,9 @@
 import { setItem } from '../shared/utility'
-import * as actionTypes from '../store/actions/actionTypes'
 export default (store) => (next) => (action) => {
   next(action)
-  if (action.type === actionTypes.SET_PROFILE) saveUsers(store)
-  if (action.type === actionTypes.ADD_COMMENT) {
-    saveComments(store)
-    saveTweets(store)
-  }
-  if (action.type === actionTypes.ADD_TWEET) saveTweets(store)
+  saveUsers(store)
+  saveComments(store)
+  saveTweets(store)
 }
 
 const saveComments = (store) => setItem('comments', Object.values(store.getState().comments.toJS()))
