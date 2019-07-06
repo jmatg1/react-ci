@@ -21,7 +21,7 @@ export const fetchComments = (tweetId, users, comments, tweets) => {
   return tweets.get(tweetId).commentsId.map(cmId =>
     ({
       comment: comments.get(cmId),
-      user: users.get(comments.get(cmId).createUserId)
+      user: users.get(comments.get(cmId).createUserId).toJS()
     })
   )
 }

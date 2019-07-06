@@ -13,12 +13,9 @@ import Moment from 'react-moment'
 
 const CommentList = (props) => {
   const { comments, tweetId } = props
-  console.log('render CommentList')
 
   const classes = useStyles()
   let commentArray = []
-
-  if (comments.length === 0) return <Typography>Нет комментариев</Typography>
 
   comments.map((cm, i) => {
     const author = <>
@@ -41,8 +38,10 @@ const CommentList = (props) => {
               >
                 {cm.comment.text}
               </Typography>
-              <Typography component={'br'}/>
-              <Typography component={'span'}
+              <Typography
+                component={'br'}/>
+              <Typography
+                component={'span'}
                 variant={'body2'}>
                 <Moment locale="ru" fromNow>{cm.comment.dateCreate}</Moment>
               </Typography>
@@ -54,10 +53,12 @@ const CommentList = (props) => {
   })
 
   return (
-    <List className={classes.root}>
+    <>
       <SubmitComment tweetId={tweetId}/>
-      {commentArray}
-    </List>
+      <List className={classes.root}>
+        {commentArray}
+      </List>
+    </>
   )
 }
 
