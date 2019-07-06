@@ -18,6 +18,12 @@ const FormDialog = (props) => {
   const handleChangeValue = (ev) => {
     setValue(ev.target.value)
   }
+
+  const handleSubmit = () => {
+    handleSave(value)
+    setValue('')
+  }
+
   return (
     <div>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
@@ -38,7 +44,7 @@ const FormDialog = (props) => {
           <Button onClick={handleClose} color="primary">
             Отмена
           </Button>
-          <Button onClick={() => handleSave(value)} color="primary">
+          <Button onClick={handleSubmit} color="primary">
             Сохранить
           </Button>
         </DialogActions>
