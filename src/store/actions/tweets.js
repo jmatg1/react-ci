@@ -5,7 +5,7 @@ export const addTweet = tweet => {
     type: actionTypes.ADD_TWEET,
     tweet
   }
-}
+}// обрабатывает reducer tweets, users
 export const changeFavoriteTweet = payload => {
   return {
     type: actionTypes.CHANGE_FAVORITE_TWEET,

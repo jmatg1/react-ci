@@ -1,4 +1,7 @@
 export const SINGUP_USER = 'SINGUP_USER'
+export const ADD_USER_IGNORE = 'ADD_USER_IGNORE'
+export const REMOVE_USER_IGNORE = 'REMOVE_USER_IGNORE'
+
 export const SET_PROFILE = 'SET_PROFILE'
 export const UPDATE_PROFILE = 'UPDATE_PROFILE'
 

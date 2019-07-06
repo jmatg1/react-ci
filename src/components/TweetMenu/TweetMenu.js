@@ -6,11 +6,10 @@ import MoreVertIcon from '@material-ui/icons/MoreVert'
 
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions/index'
-import Dialog from '../Dialog/Dialog'
 import PopupsContext from '../../contexts'
 
 const TweetMenu = (props) => {
-  const { tweet, tweet: { createUserId, text }, profileId, onTweetRemove } = props
+  const { tweet, tweet: { createUserId, text }, profileId, onTweetRemove, onAddUserIgnore } = props
   const [tweetMenuEl, setAnchorEl] = React.useState(null)
   const popupsContext = useContext(PopupsContext)
 
@@ -38,28 +37,25 @@ const TweetMenu = (props) => {
 
   // ----
 
-  const [isTweetEdit, setTweetEdit] = React.useState(false)
-
   const handleDialogOpen = () => {
     popupsContext.openDialog({
-        placeholder: 'Текст твита',
-        title: 'Изменить твит',
-        inputValue:  text,
-        callBack: handleDialogSave
-      })
-  }
-  const handleDialogClose = () => {
-    setTweetEdit(false)
+      placeholder: 'Текст твита',
+      title: 'Изменить твит',
+      inputValue: text,
+      callBack: handleDialogSave
+    })
   }
   const handleDialogSave = (text) => {
     const { tweet: { id }, onTweetEdit } = props
-    setTweetEdit(false)
     onTweetEdit(id, text)
   }
 
   const tweetRemoveOrIgnore = () => {
     if (isMyTweet) {
       onTweetRemove(tweet) // удаляем твит из базы и из списка твитов пользователя
+    } else { // добавляем в игнор пользователя
+      console.log('ignore -->', tweet)
+      onAddUserIgnore(tweet, profileId)
     }
   }
   return (
@@ -85,6 +81,7 @@ const TweetMenu = (props) => {
 const mapDispatchToProps = dispatch => {
   return {
     onTweetRemove: (tweet) => dispatch(actions.tweetRemove(tweet)),
+    onAddUserIgnore: (tweet, profileId) => dispatch(actions.addUserIgnore(tweet, profileId)),
     onTweetEdit: (id, text) => dispatch(actions.tweetEdit(id, text))
   }
 }

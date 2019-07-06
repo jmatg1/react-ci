@@ -1,5 +1,6 @@
 export {
-  signupUser
+  signupUser,
+  addUserIgnore
 } from './users'
 
 export {
