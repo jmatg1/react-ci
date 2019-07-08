@@ -27,8 +27,8 @@ const tweetRemove = (state, { tweet }) => {
 const tweetAdd = (state, { tweet }) => {
   return state
     .updateIn(
-      [tweet.id, 'tweets'],
-      tweets => tweets.push(tweet.createUserId)
+      [tweet.createUserId, 'tweets'],
+      tweets => tweets.push(tweet.id)
     )
 }
 const addUserIgnore = (state, { tweet, profileId }) => {
