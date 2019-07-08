@@ -69,8 +69,13 @@ export const fetchTweetsUser = (state, pageId) => {
     })
 }
 
-export const fetchAllTweets = state => {
+export const fetchAllTweets = (state, profileId) => {
   return state.tweets
+    .map(tweet => {
+        tweet.isFavorite = tweet.likes.find(lkId => lkId === profileId) !== undefined // лакнут ли этот пост
+        return tweet
+
+    })
     .sort((a, b) => { // сортируем от самых новых
       const dateA = new Date(a.dateCreate).getTime()
       const dateB = new Date(b.dateCreate).getTime()

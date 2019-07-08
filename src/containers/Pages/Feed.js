@@ -27,7 +27,7 @@ const Feed = (props) => {
 
 const mapStateToProps = state => {
   return {
-    tweets: fetchAllTweets(state)
+    tweets: fetchAllTweets(state, state.profile.id)
   }
 }
 
