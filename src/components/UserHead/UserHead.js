@@ -51,7 +51,7 @@ class UserHead extends Component {
   }
   render () {
     const {
-      user: { name, following, tweets, followers, isSubscribed },
+      user: { name, following, tweets, followers, isSubscribed, avatar },
       profileId,
       userPageId } = this.props
 
@@ -70,8 +70,9 @@ class UserHead extends Component {
       <Grid item xs={12}>
         <Paper style={classes.paper}>
           <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Typography variant="h3" gutterBottom>{name}</Typography>
+            <Grid item xs={12} style={{display: 'flex'}}>
+              <img src={avatar} alt="Avatar"/>
+              <Typography style={{marginLeft: '25px'}} variant="h3" gutterBottom>{name}</Typography>
             </Grid>
 
             <Grid item xs={3}>

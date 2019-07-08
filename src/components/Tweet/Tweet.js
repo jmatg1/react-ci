@@ -51,16 +51,14 @@ export class Tweet extends Component {
   }
   render () {
     console.log('render tweet')
-    const { tweet: { id: tweetId, text, dateCreate, likes, isFavorite, createUserId }, user: { name }, classes } = this.props
+    const { tweet: { id: tweetId, text, dateCreate, likes, isFavorite, createUserId }, user: { name, avatar }, classes } = this.props
     const { expanded } = this.state
 
     return (
       <Card className={classes.card}>
         <CardHeader
           avatar={
-            <Avatar aria-label="Recipe" className={classes.avatar}>
-              {name[0]}
-            </Avatar>
+            <Avatar src={avatar}  alt="Remy Sharp" className={classes.avatar}>name[0]</Avatar>
           }
           action={
             <TweetMenu tweet={this.props.tweet}/>
@@ -108,6 +106,7 @@ export class Tweet extends Component {
 }
 
 const mapStateToProps = (state, prevProps) => {
+
   return {
     profileId: state.profile.id,
     user: state.users.get(prevProps.tweet.createUserId).toJS()
