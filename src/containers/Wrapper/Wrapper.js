@@ -9,8 +9,7 @@ import Grid from '@material-ui/core/Grid'
 import Header from '../../components/Header/Header'
 import Drawer from '../../components/Drawer/Drawer'
 import Feed from '../../containers/Pages/Feed'
-import MyPage from '../../containers/Pages/MyPage'
-import UserPage from '../../containers/Pages/UserPage'
+import User from '../../containers/Pages/User'
 
 export default function Wrapper () {
   const classes = useStyles()
@@ -33,9 +32,9 @@ export default function Wrapper () {
           <Grid container spacing={3}>
 
             <Switch>
-              <Route path="/user/:id" component={UserPage}/>
               <Route path="/feed" component={Feed}/>
-              <Route path="/" component={MyPage}/>
+              <Route path="/:id" component={User}/>
+              <Route path="/" component={User}/>
             </Switch>
 
           </Grid>

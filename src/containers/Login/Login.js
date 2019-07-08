@@ -68,7 +68,7 @@ function SignIn (props) {
   const handleFormSubmit = (ev) => {
     ev.preventDefault()
     const { users, signupUser, setProfile, history } = props
-
+    let profileId = null
     if (isSignUp) { // регистрация
       if (findUser(users, 'Логин занят')) return
       const newUser = {
@@ -82,13 +82,15 @@ function SignIn (props) {
       signupUser(newUser)
       const { password, ...profile } = newUser
       setProfile(profile)
+      profileId = newUser.id
     } else { // авторизация
       const foundUser = findUser(users)
       if (!foundUser) return alert('Неверный логин или пароль')
       const { password, ...profile } = foundUser
       setProfile(profile)
+      profileId = profile.id
     }
-    history.replace('/') // редирект происходит, только вслучаи успешной рег. или автор.
+    history.replace(`/${profileId}`) // редирект происходит, только вслучаи успешной рег. или автор.
   }
 
   return (

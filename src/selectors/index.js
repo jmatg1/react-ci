@@ -34,21 +34,21 @@ export const getUser = (state, { userPageId }) => {
   return state.users.get(userPageId).toJS()
 }
 
-// export const fetchTweetsUser = (state) => {
-//   const { id, following } = state.profile.toJS()
-//   let filterTwitter = state.tweets
-//     .filter(tweet => (
-//       tweet.createUserId === id || following
-//         .find(folId => (
-//           folId === tweet.createUserId
-//         )
-//         )
-//     )
-//     )
-//     .sort((a, b) => {
-//       const dateA = new Date(a.dateCreate).getTime(); const dateB = new Date(b.dateCreate).getTime()
-//       return dateA + dateB
-//     })
-//
-//   return filterTwitter
-// }
+export const fetchTweetsUser = (state, pageId) => {
+  const { profile: { id: profileId }, tweets } = state
+
+  return tweets
+    .filter(tweet => {
+      if (tweet.createUserId === pageId) { // твиты пользователя
+        tweet.isFavorite = tweet.likes.find(lkId => lkId === profileId) !== undefined // лакнут ли этот пост
+        return tweet
+      }
+      return null
+    })
+    .sort((a, b) => { // сортируем от самых новых
+      const dateA = new Date(a.dateCreate).getTime()
+      const dateB = new Date(b.dateCreate).getTime()
+
+      return dateB - dateA
+    })
+}

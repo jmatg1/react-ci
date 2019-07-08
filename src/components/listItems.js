@@ -21,5 +21,11 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Рекомендации"/>
     </ListItem>
+    <ListItem button component={Link} to="/2">
+      <ListItemIcon>
+        <PeopleIcon/>
+      </ListItemIcon>
+      <ListItemText primary="Кирилл"/>
+    </ListItem>
   </div>
 )

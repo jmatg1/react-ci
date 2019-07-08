@@ -15,6 +15,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { withStyles } from '@material-ui/styles'
 
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import Moment from 'react-moment'
 import 'moment/locale/ru'
 import * as actions from '../../store/actions/index'
@@ -50,7 +51,7 @@ export class Tweet extends Component {
   }
   render () {
     console.log('render tweet')
-    const { tweet: { id: tweetId, text, dateCreate, likes, isFavorite }, user: { name }, classes } = this.props
+    const { tweet: { id: tweetId, text, dateCreate, likes, isFavorite, createUserId }, user: { name }, classes } = this.props
     const { expanded } = this.state
 
     return (
@@ -65,7 +66,7 @@ export class Tweet extends Component {
             <TweetMenu tweet={this.props.tweet}/>
 
           }
-          title={name}
+          title=<Link to={`/${createUserId}`}>{name}</Link>
           subheader={<Moment locale="ru" fromNow>{dateCreate}</Moment>}
         />
         <CardContent>

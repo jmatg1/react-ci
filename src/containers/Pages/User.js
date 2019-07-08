@@ -4,15 +4,17 @@ import Grid from '@material-ui/core/Grid'
 import { connect } from 'react-redux'
 
 import * as actions from '../../store/actions/index'
-import { fetchTweetsMain } from '../../selectors/index'
+import { fetchTweetsMain, fetchTweetsUser } from '../../selectors/index'
 import UserHead from '../../components/UserHead/UserHead'
 import Tweet from '../../components/Tweet/Tweet'
 
-class MyPage extends Component {
+class User extends Component {
   render () {
     console.log('render MyPage')
 
-    const { profileId, tweets } = this.props
+    const { tweets } = this.props
+    const routeId = Number(this.props.match.params.id)
+    const pageId = routeId || this.props.profileId
 
     let renderTwits = []
     tweets.flatMap(tw => {
@@ -25,7 +27,7 @@ class MyPage extends Component {
 
     return (
       <>
-        <UserHead userPageId={profileId}/>
+        <UserHead userPageId={pageId}/>
         {renderTwits}
       </>
     )
@@ -34,10 +36,15 @@ class MyPage extends Component {
 
 const mapStateToProps = (state, prevProps) => {
   console.log('connect MyPage')
+  const profileId = state.profile.id
+  const routeId = Number(prevProps.match.params.id)
+  const pageId = routeId || profileId
+  let isMyPage = false
+  if (pageId === profileId) isMyPage = true
 
   return {
-    profileId: state.profile.id,
-    tweets: fetchTweetsMain(state, prevProps)
+    profileId: profileId,
+    tweets: isMyPage ? fetchTweetsMain(state, prevProps) : fetchTweetsUser(state, pageId)
   }
 }
 
@@ -47,4 +54,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyPage)
+export default connect(mapStateToProps, mapDispatchToProps)(User)
