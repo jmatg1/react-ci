@@ -50,9 +50,21 @@ const removeUserIgnore = (state, { tweet, profileId }) => {
     )
 }
 // Подписаться на пользователя
-// const subscribeUser = (state, action) => {
-//
-// }
+const subscribeUser = (state, {payload}) => {
+  const  {
+    profileId,
+    subscribeId,
+    isSubscribed
+  } = payload
+
+  if (isSubscribed) {
+    return unsubscribe(state, {id: subscribeId, profileId })
+  }
+  return state.updateIn(
+    [profileId, 'following'],
+    following => following.push(subscribeId)
+  )
+}
 // Отписаться от пользователя
 const unsubscribe = (state, { id, profileId }) => {
   return state.updateIn(
@@ -68,6 +80,7 @@ const usersStore = (state = initialStore, action) => {
   case actionTypes.TWEET_ADD: return tweetAdd(state, action)
   case actionTypes.USER_ADD_IGNORE: return addUserIgnore(state, action)
   case actionTypes.USER_REMOVE_IGNORE: return removeUserIgnore(state, action)
+  case actionTypes.USER_SUBSCRIBE: return subscribeUser(state, action)
   default: return state
   }
 }

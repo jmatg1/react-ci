@@ -30,8 +30,25 @@ export const fetchComments = (tweetId, users, comments, tweets) => {
   )
 }
 // Получаем пользователя
-export const getUser = (state, { userPageId }) => {
-  return state.users.get(userPageId).toJS()
+export const getUser = (state, id) => {
+  if (state.profile.id === id )  return state.users.get(id).toJS()
+
+  // получаем чужую страницу
+  // добавляем isSubscribed если мы на него подписаны
+  const   profileId = state.profile.id,
+          userPageId = id,
+          user = state.users.get(id).toJS()
+
+  user.isSubscribed = false
+
+  const following = state.users.getIn([profileId, 'following'])
+
+  if (following.find(usId => usId === userPageId)) { // пользователь подписан на него
+    user.isSubscribed = true
+  }
+
+
+  return user
 }
 
 export const fetchTweetsUser = (state, pageId) => {

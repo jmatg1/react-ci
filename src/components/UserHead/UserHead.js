@@ -10,16 +10,18 @@ import { getUser } from '../../selectors/index'
 import * as actions from '../../store/actions/index'
 
 class UserHead extends Component {
-  state = {
-    subscribe: false
-  }
 
   /**
    * Обработка кнопки Подписаться/Отписаться
    */
   handleSubscribe = () => {
-    //  this.props.onSubscribe(this.state.subscribe)
-    //  this.setState({subscribe: false})
+    const {user: {id, isSubscribed}, profileId,  } = this.props
+    const data = {
+      profileId,
+      subscribeId: id,
+      isSubscribed
+    }
+     this.props.onSubscribe(data)
   }
   /**
    * Обработка клика по Добавить твит
@@ -49,8 +51,10 @@ class UserHead extends Component {
     })
   }
   render () {
-    const { subscribe } = this.state
-    const { pageId = null, user: { name, following, tweets, followers }, profileId, userPageId } = this.props
+    const {
+      user: { name, following, tweets, followers, isSubscribed },
+      profileId,
+      userPageId } = this.props
 
     const isMe = userPageId === profileId
 
@@ -63,11 +67,6 @@ class UserHead extends Component {
       }
     }
 
-    if (!isMe) {
-      if (following.find(usId => usId === pageId)) { // ищем пользователя
-        this.setState({ subscribe: true })
-      }
-    }
 
     return (
       <Grid item xs={12}>
@@ -98,7 +97,7 @@ class UserHead extends Component {
               </Grid>
               : <Grid item xs={3}>
                 <Button variant="contained" color="primary" className={classes.button} onClick={this.handleSubscribe}>
-                  {subscribe ? 'Отписаться' : 'Подписаться'}
+                  {isSubscribed ? 'Отписаться' : 'Подписаться'}
                 </Button>
               </Grid>
             }
@@ -112,14 +111,15 @@ class UserHead extends Component {
 
 const mapStateToProps = (state, prevProps) => {
   return {
-    user: getUser(state, prevProps),
+    user: getUser(state, prevProps.userPageId),
     profileId: state.profile.id
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAddTweet: (tweet) => dispatch(actions.addTweet(tweet))
+    onAddTweet: (tweet) => dispatch(actions.addTweet(tweet)),
+    onSubscribe: (payload) => dispatch(actions.subscribe(payload))
   }
 }
 UserHead.contextTypes = ({

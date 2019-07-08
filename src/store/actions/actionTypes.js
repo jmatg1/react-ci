@@ -1,6 +1,7 @@
 export const USER_SIGN = 'USER_SIGN'
 export const USER_ADD_IGNORE = 'USER_ADD_IGNORE'
 export const USER_REMOVE_IGNORE = 'USER_REMOVE_IGNORE'
+export const USER_SUBSCRIBE = 'USER_SUBSCRIBE'
 
 export const PROFILE_SET = 'PROFILE_SET'
 export const PROFILE_UPDATE = 'PROFILE_UPDATE'

@@ -11,3 +11,8 @@ export const addUserIgnore = (tweet, profileId) => ({
   tweet,
   profileId
 })
+
+export const subscribe = payload => ({
+  type: actionTypes.USER_SUBSCRIBE,
+  payload
+})
