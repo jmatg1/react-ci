@@ -83,3 +83,13 @@ export const fetchAllTweets = (state, profileId) => {
       return dateB - dateA
     })
 }
+
+export const fetchIgnoreUsers = state => {
+  const { users, profile: { id: profileId } } = state
+
+  const ignoreList = users.getIn([profileId, "ignoreList"])
+
+  return users
+    .filter((_, i) => ignoreList.find(igId => igId === i)).toJS()
+
+}

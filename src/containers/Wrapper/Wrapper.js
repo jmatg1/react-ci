@@ -10,6 +10,7 @@ import Header from '../../components/Header/Header'
 import Drawer from '../../components/Drawer/Drawer'
 import Feed from '../../containers/Pages/Feed'
 import User from '../../containers/Pages/User'
+import Blacklist from '../../containers/Pages/Blacklist'
 
 export default function Wrapper () {
   const classes = useStyles()
@@ -33,6 +34,7 @@ export default function Wrapper () {
 
             <Switch>
               <Route path="/feed" component={Feed}/>
+              <Route path="/blacklist" component={Blacklist}/>
               <Route path="/:id" component={User}/>
               <Route path="/" component={User}/>
             </Switch>

@@ -17,6 +17,7 @@ class User extends Component {
     const pageId = routeId || this.props.profileId
 
     let renderTwits = []
+
     tweets.flatMap(tw => {
       renderTwits.push(
         <Grid key={tw.id} item xs={4}>

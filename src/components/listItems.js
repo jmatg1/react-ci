@@ -21,11 +21,11 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Рекомендации"/>
     </ListItem>
-    <ListItem button component={Link} to="/2">
+    <ListItem button component={Link} to="/blacklist">
       <ListItemIcon>
         <PeopleIcon/>
       </ListItemIcon>
-      <ListItemText primary="Кирилл"/>
+      <ListItemText primary="Черный список"/>
     </ListItem>
   </div>
 )
