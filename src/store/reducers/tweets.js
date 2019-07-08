@@ -64,10 +64,10 @@ const tweetRemove = (state, action) => {
 
 const tweetStore = (state = initialStore, action) => {
   switch (action.type) {
-  case actionTypes.FETCH_TWEETS_MAIN:
+  case actionTypes.TWEETS_FETCH_MAIN:
     return fetchTweetsMain(state, action)
 
-  case actionTypes.CHANGE_FAVORITE_TWEET:
+  case actionTypes.TWEET_CHANGE_FAVORITE:
     return changeFavoriteTweet(state, action)
 
   case actionTypes.TWEET_EDIT:
@@ -75,10 +75,10 @@ const tweetStore = (state = initialStore, action) => {
   case actionTypes.TWEET_REMOVE:
     return tweetRemove(state, action)
 
-  case actionTypes.ADD_COMMENT:
+  case actionTypes.COMMENT_ADD:
     return addComment(state, action)
 
-  case actionTypes.ADD_TWEET:
+  case actionTypes.TWEET_ADD:
     return addTweet(state, action)
 
   default:

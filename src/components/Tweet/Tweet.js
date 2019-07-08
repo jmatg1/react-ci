@@ -37,6 +37,10 @@ export class Tweet extends Component {
     })
     )
   }
+  /**
+   * Клик по сердечку
+   * Добавить/Удалить в/из избранного
+   */
   handleClickFavorite = () => {
     this.props.onChangeFavoriteTweet({
       tweetId: this.props.tweet.id,

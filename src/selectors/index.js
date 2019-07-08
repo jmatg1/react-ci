@@ -1,24 +1,26 @@
 // Ищем все твиты как свои так и твиты подписок
+// Добавляем isFavorite к каждому твиту, true - пост лайкнут
 export const fetchTweetsMain = (state) => {
   const { profile: { id }, tweets } = state
 
-  const following = state.users.getIn([id, 'following']).toJS()
+  const following = state.users.getIn([id, 'following']).toJS() // список подписок
   return tweets
     .filter(tweet => {
-      if (tweet.createUserId === id || following // собственные твиты
-        .find(folId => (folId === tweet.createUserId))) { // твиты подписок
+      if (tweet.createUserId === id || // собственные твиты
+        following.find(folId => (folId === tweet.createUserId))) { // твиты подписок
         tweet.isFavorite = tweet.likes.find(lkId => lkId === id) !== undefined // лакнут ли этот пост
         return tweet
       }
       return null
     })
-    .sort((a, b) => {
+    .sort((a, b) => { // сортируем от самых новых
       const dateA = new Date(a.dateCreate).getTime()
       const dateB = new Date(b.dateCreate).getTime()
 
       return dateB - dateA
     })
 }
+// Получаем комментарии твита
 export const fetchComments = (tweetId, users, comments, tweets) => {
   return tweets.get(tweetId).commentsId.map(cmId =>
     ({
@@ -27,7 +29,7 @@ export const fetchComments = (tweetId, users, comments, tweets) => {
     })
   )
 }
-
+// Получаем пользователя
 export const getUser = (state, { userPageId }) => {
   return state.users.get(userPageId).toJS()
 }

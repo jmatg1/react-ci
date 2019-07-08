@@ -10,7 +10,9 @@ const FormDialog = (props) => {
   const { handleSave, handleClose, open } = props
   const { placeholder, title, inputValue } = props.dialog
   const [value, setValue] = useState(inputValue)
-
+  /**
+   * Установить в поле ввода текст
+   */
   useEffect(() => {
     setValue(inputValue)
   }, [inputValue])

@@ -8,6 +8,28 @@ import List from '@material-ui/core/List'
 import { mainListItems } from '../listItems'
 import { makeStyles } from '@material-ui/core'
 
+const Drawer = (props) => {
+  const classes = useStyles()
+  const { open, handleDrawerClose } = props
+  return (
+    <Draw
+      variant="permanent"
+      classes={{
+        paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
+      }}
+      open={open}
+    >
+      <div className={classes.toolbarIcon}>
+        <IconButton onClick={handleDrawerClose}>
+          <ChevronLeftIcon/>
+        </IconButton>
+      </div>
+      <Divider/>
+      <List>{mainListItems}</List>
+    </Draw>
+  )
+}
+
 const drawerWidth = 240
 
 const useStyles = makeStyles(theme => ({
@@ -39,27 +61,5 @@ const useStyles = makeStyles(theme => ({
     }
   }
 }))
-
-const Drawer = (props) => {
-  const classes = useStyles()
-  const { open, handleDrawerClose } = props
-  return (
-    <Draw
-      variant="permanent"
-      classes={{
-        paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
-      }}
-      open={open}
-    >
-      <div className={classes.toolbarIcon}>
-        <IconButton onClick={handleDrawerClose}>
-          <ChevronLeftIcon/>
-        </IconButton>
-      </div>
-      <Divider/>
-      <List>{mainListItems}</List>
-    </Draw>
-  )
-}
 
 export default Drawer

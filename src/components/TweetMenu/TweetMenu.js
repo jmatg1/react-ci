@@ -36,7 +36,10 @@ const TweetMenu = (props) => {
   }
 
   // ----
-
+  /**
+   * Клик по редактировать твит
+   * Открывает диалог для редактирование твита
+   */
   const handleDialogOpen = () => {
     popupsContext.openDialog({
       placeholder: 'Текст твита',
@@ -45,11 +48,19 @@ const TweetMenu = (props) => {
       callBack: handleDialogSave
     })
   }
+  /**
+   * Клик по сохранить отредактированный текст твита
+   * @param text
+   */
   const handleDialogSave = (text) => {
     const { tweet: { id }, onTweetEdit } = props
     onTweetEdit(id, text)
   }
-
+  /**
+   * Обработка клика по удалить твит
+   * Если это собственный твит пользователя, то удаляем его
+   * Если другого, то добавляем пользователя в ЧС
+   */
   const tweetRemoveOrIgnore = () => {
     if (isMyTweet) {
       onTweetRemove(tweet) // удаляем твит из базы и из списка твитов пользователя

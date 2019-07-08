@@ -21,6 +21,10 @@ class UserHead extends Component {
     //  this.props.onSubscribe(this.state.subscribe)
     //  this.setState({subscribe: false})
   }
+  /**
+   * Обработка клика по Добавить твит
+   * Открываем диалог для добавления нового твита
+   */
   handleAddTweet = () => {
     this.context.openDialog({
       placeholder: 'Текст нового твита',
@@ -30,7 +34,10 @@ class UserHead extends Component {
       callBack: this.addTweet
     })
   }
-
+  /**
+   * Создаем новый твит пользователя
+   * @param text - текст твитта
+   */
   addTweet = (text) => {
     this.props.onAddTweet({
       id: Math.floor(Math.random() * 10000),

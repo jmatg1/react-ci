@@ -2,12 +2,12 @@ import * as actionTypes from './actionTypes'
 
 export const signupUser = payload => {
   return {
-    type: actionTypes.SINGUP_USER,
+    type: actionTypes.USER_SIGN,
     payload
   }
 }
 export const addUserIgnore = (tweet, profileId) => ({
-  type: actionTypes.ADD_USER_IGNORE,
+  type: actionTypes.USER_ADD_IGNORE,
   tweet,
   profileId
 })

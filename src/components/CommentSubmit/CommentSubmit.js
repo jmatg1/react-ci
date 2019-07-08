@@ -8,15 +8,6 @@ import { connect } from 'react-redux'
 
 import * as actions from '../../store/actions'
 
-const useStyles = makeStyles(theme => ({
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1)
-  },
-  dense: {
-    marginTop: 0
-  }
-}))
 const SubmitComment = (props) => {
   const classes = useStyles()
   const [value, setValue] = React.useState('')
@@ -55,6 +46,16 @@ const SubmitComment = (props) => {
     </form>
   )
 }
+
+const useStyles = makeStyles(theme => ({
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1)
+  },
+  dense: {
+    marginTop: 0
+  }
+}))
 
 const mapStateToProps = state => {
   return {

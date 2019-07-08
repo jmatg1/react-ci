@@ -1,4 +1,5 @@
 import { setItem } from '../shared/utility'
+// при любых обращениях  сохраняем все в localStorage
 export default (store) => (next) => (action) => {
   next(action)
   saveUsers(store)

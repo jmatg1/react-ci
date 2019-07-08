@@ -21,6 +21,12 @@ class App extends Component {
       isOpen: false
     }
   }
+
+  /**
+   * Для context
+   * Используется в UserHead, для добавления нового твита
+   * @return {{openDialog: App.handleDialogOpen}}
+   */
   getChildContext () {
     return { openDialog: this.handleDialogOpen }
   }
@@ -29,7 +35,6 @@ class App extends Component {
 
     for (let key in settings) {
       popup[key] = settings[key]
-
     }
 
     popup.isOpen = status
@@ -38,7 +43,7 @@ class App extends Component {
       { [type]: { ...popup } }
     )
   }
-
+  // -- Dialog Start
   handleDialogOpen = (settings) => {
     this.changePopup('dialog', true, settings)
   }
@@ -51,7 +56,7 @@ class App extends Component {
     this.handleDialogClose()
     this.state.dialog.callBack(text)
   }
-
+  // -- Dialog End
   render () {
     const { profileId } = this.props
     console.log('RENDER APP')
@@ -59,6 +64,7 @@ class App extends Component {
       <>
         <PopupsContext.Provider value={{ openDialog: this.handleDialogOpen }}>
           <Route path="/auth" component={Login}/>
+
           {profileId === null ? <Redirect to="/auth" component={Login}/> : <Wrapper/>}
 
           <Dialog

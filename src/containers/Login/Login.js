@@ -18,7 +18,12 @@ function SignIn (props) {
   const [signName, setSignName] = useState('')
   const [signPassword, setSignPassword] = useState('')
   const classes = useStyles()
-
+  /**
+   * Поиск юзера в бд, при регистрации и авторизации
+   * @param users - список юзеров
+   * @param error - текст ошибки, если при рег. логин занят
+   * @return {*}
+   */
   const findUser = (users, error) => {
     return users.find(user => {
       if (user.name === signName) {
@@ -83,7 +88,7 @@ function SignIn (props) {
       const { password, ...profile } = foundUser
       setProfile(profile)
     }
-    history.push('/')
+    history.replace('/') // редирект происходит, только вслучаи успешной рег. или автор.
   }
 
   return (

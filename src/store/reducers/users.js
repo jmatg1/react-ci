@@ -12,11 +12,11 @@ if (!contactsStor) {
 
 const initialStore = fromJS(contactsStor)
 // ----------------------------------------
-
+// Добавление нового пользователя в БД
 const signupUser = (state, { payload: newUser }) => {
   return state.set(newUser.id, fromJS(newUser))
 }
-
+// Удалить твит
 const tweetRemove = (state, { tweet }) => {
   return state
     .updateIn(
@@ -24,6 +24,7 @@ const tweetRemove = (state, { tweet }) => {
       tweets => tweets.filter(twId => twId !== tweet.id)
     )
 }
+// Добавить твит
 const tweetAdd = (state, { tweet }) => {
   return state
     .updateIn(
@@ -31,6 +32,7 @@ const tweetAdd = (state, { tweet }) => {
       tweets => tweets.push(tweet.id)
     )
 }
+// Добавить пользователя в ЧС, по клику на твит
 const addUserIgnore = (state, { tweet, profileId }) => {
   const uptState = unsubscribe(state, { id: tweet.createUserId, profileId })
   return uptState
@@ -39,6 +41,7 @@ const addUserIgnore = (state, { tweet, profileId }) => {
       ignoreList => ignoreList.push(tweet.createUserId)
     )
 }
+// Удалить пользоваетдя из ЧС
 const removeUserIgnore = (state, { tweet, profileId }) => {
   return state
     .updateIn(
@@ -46,9 +49,11 @@ const removeUserIgnore = (state, { tweet, profileId }) => {
       ignoreList => ignoreList.filter(igId => igId !== tweet.createUserId)
     )
 }
+// Подписаться на пользователя
 // const subscribeUser = (state, action) => {
 //
 // }
+// Отписаться от пользователя
 const unsubscribe = (state, { id, profileId }) => {
   return state.updateIn(
     [profileId, 'following'],
@@ -58,11 +63,11 @@ const unsubscribe = (state, { id, profileId }) => {
 
 const usersStore = (state = initialStore, action) => {
   switch (action.type) {
-  case actionTypes.SINGUP_USER: return signupUser(state, action)
+  case actionTypes.USER_SIGN: return signupUser(state, action)
   case actionTypes.TWEET_REMOVE: return tweetRemove(state, action)
-  case actionTypes.ADD_TWEET: return tweetAdd(state, action)
-  case actionTypes.ADD_USER_IGNORE: return addUserIgnore(state, action)
-  case actionTypes.REMOVE_USER_IGNORE: return removeUserIgnore(state, action)
+  case actionTypes.TWEET_ADD: return tweetAdd(state, action)
+  case actionTypes.USER_ADD_IGNORE: return addUserIgnore(state, action)
+  case actionTypes.USER_REMOVE_IGNORE: return removeUserIgnore(state, action)
   default: return state
   }
 }

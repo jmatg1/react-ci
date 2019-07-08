@@ -51,8 +51,6 @@ const CommentList = (props) => {
     )
   })
 
-  console.log('conm -->', comments)
-
   return (
     <>
       <SubmitComment tweetId={tweetId}/>

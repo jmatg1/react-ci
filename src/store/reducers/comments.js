@@ -21,7 +21,7 @@ const addComment = (state, action) => {
 
 const commentsReducer = (state = initialStore, action) => {
   switch (action.type) {
-  case actionTypes.ADD_COMMENT: return addComment(state, action)
+  case actionTypes.COMMENT_ADD: return addComment(state, action)
   default:
     return state
   }
