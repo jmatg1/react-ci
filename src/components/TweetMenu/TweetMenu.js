@@ -54,7 +54,6 @@ const TweetMenu = (props) => {
     if (isMyTweet) {
       onTweetRemove(tweet) // удаляем твит из базы и из списка твитов пользователя
     } else { // добавляем в игнор пользователя
-      console.log('ignore -->', tweet)
       onAddUserIgnore(tweet, profileId)
     }
   }

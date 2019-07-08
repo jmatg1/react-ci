@@ -1,5 +1,5 @@
-import React, { Component, useContext } from 'react'
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
@@ -32,7 +32,7 @@ class UserHead extends Component {
   }
 
   addTweet = (text) => {
-    this.props.onAddTweet(  {
+    this.props.onAddTweet({
       id: Math.floor(Math.random() * 10000),
       createUserId: this.props.profileId,
       text: text,
@@ -83,14 +83,13 @@ class UserHead extends Component {
               {followers.length}
             </Grid>
 
-            {isMe ?
-              <Grid item xs={3}>
+            {isMe
+              ? <Grid item xs={3}>
                 <Button variant="contained" color="primary" className={classes.button} onClick={this.handleAddTweet}>
                   Добавить твит
                 </Button>
               </Grid>
-              :
-              <Grid item xs={3}>
+              : <Grid item xs={3}>
                 <Button variant="contained" color="primary" className={classes.button} onClick={this.handleSubscribe}>
                   {subscribe ? 'Отписаться' : 'Подписаться'}
                 </Button>
@@ -119,4 +118,4 @@ const mapDispatchToProps = dispatch => {
 UserHead.contextTypes = ({
   openDialog: PropTypes.func
 })
-export default connect(mapStateToProps,mapDispatchToProps)(UserHead)
+export default connect(mapStateToProps, mapDispatchToProps)(UserHead)

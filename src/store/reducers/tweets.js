@@ -46,14 +46,12 @@ const addComment = (state, action) => {
     commentsId => updComments
   )
 }
-const addTweet = (state, {tweet}) => {
+const addTweet = (state, { tweet }) => {
   return state.set(tweet.id, tweet)
 }
 
 const tweetEdit = (state, action) => {
   const { tweetId, text: tweetText } = action
-  console.log('tweetEdit', action)
-
   return state
     .updateIn(
       [tweetId, 'text'],

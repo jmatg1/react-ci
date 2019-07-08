@@ -46,13 +46,10 @@ const removeUserIgnore = (state, { tweet, profileId }) => {
       ignoreList => ignoreList.filter(igId => igId !== tweet.createUserId)
     )
 }
-const subscribeUser = (state, action) => {
-
-}
+// const subscribeUser = (state, action) => {
+//
+// }
 const unsubscribe = (state, { id, profileId }) => {
-
-  console.log(id,profileId)
-
   return state.updateIn(
     [profileId, 'following'],
     following => following.filter(flId => flId !== id)

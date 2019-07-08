@@ -7,13 +7,13 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 
 const FormDialog = (props) => {
-  const {handleSave, handleClose, open } = props
+  const { handleSave, handleClose, open } = props
   const { placeholder, title, inputValue } = props.dialog
   const [value, setValue] = useState(inputValue)
 
   useEffect(() => {
     setValue(inputValue)
-  },[inputValue])
+  }, [inputValue])
 
   const handleChangeValue = (ev) => {
     setValue(ev.target.value)

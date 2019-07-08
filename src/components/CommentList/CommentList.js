@@ -15,16 +15,15 @@ const CommentList = (props) => {
   const { comments, tweetId } = props
 
   const classes = useStyles()
-  let commentArray = []
 
-  comments.map((cm, i) => {
+  const commentArray = comments.map((cm, i) => {
     const author = <>
       {cm.user.name}
       <span className={classes.mark}>
         id{cm.user.id}
       </span>
     </>
-    commentArray.push(
+    return (
       <ListItem key={i} alignItems="flex-start">
         <ListItemText
           primary={author}
@@ -52,10 +51,12 @@ const CommentList = (props) => {
     )
   })
 
+  console.log('conm -->', comments)
+
   return (
     <>
       <SubmitComment tweetId={tweetId}/>
-      <List className={classes.root}>
+      <List component='ul' className={classes.root}>
         {commentArray}
       </List>
     </>

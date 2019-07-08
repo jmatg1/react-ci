@@ -11,8 +11,6 @@ import Drawer from '../../components/Drawer/Drawer'
 import Feed from '../../containers/Pages/Feed'
 import MyPage from '../../containers/Pages/MyPage'
 import UserPage from '../../containers/Pages/UserPage'
-import Dialog  from '../../components/Dialog/Dialog'
-
 
 export default function Wrapper () {
   const classes = useStyles()
@@ -46,7 +44,6 @@ export default function Wrapper () {
     </div>
   )
 }
-
 
 const drawerWidth = 240
 

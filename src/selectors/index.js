@@ -10,6 +10,7 @@ export const fetchTweetsMain = (state) => {
         tweet.isFavorite = tweet.likes.find(lkId => lkId === id) !== undefined // лакнут ли этот пост
         return tweet
       }
+      return null
     })
     .sort((a, b) => {
       const dateA = new Date(a.dateCreate).getTime()
@@ -28,8 +29,6 @@ export const fetchComments = (tweetId, users, comments, tweets) => {
 }
 
 export const getUser = (state, { userPageId }) => {
-  console.log('state.users.get(userPageId)', state.users.get(userPageId))
-
   return state.users.get(userPageId).toJS()
 }
 

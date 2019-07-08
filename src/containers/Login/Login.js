@@ -13,33 +13,6 @@ import Container from '@material-ui/core/Container'
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions/index'
 
-
-const useStyles = makeStyles(theme => ({
-  '@global': {
-    body: {
-      backgroundColor: theme.palette.common.white
-    }
-  },
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1)
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2)
-  }
-}))
-
-
 function SignIn (props) {
   const [isSignUp, setIsSignUp] = useState(false)
   const [signName, setSignName] = useState('')
@@ -47,7 +20,7 @@ function SignIn (props) {
   const classes = useStyles()
 
   const findUser = (users, error) => {
-    const foundUser = users.find(user => {
+    return users.find(user => {
       if (user.name === signName) {
         if (error) {
           alert(error)
@@ -56,8 +29,8 @@ function SignIn (props) {
 
         return user.password === signPassword
       }
+      return false
     })
-    return foundUser
   }
   /**
    * Обработка инпутов в форме
@@ -71,12 +44,14 @@ function SignIn (props) {
     case 'password':
       setSignPassword(ev.target.value)
       break
+    default:
     }
   }
   /**
    * Обработка Checkbox
    * Выбор между авторизацией и регистрацией
-   * @param ev, checked
+   * @param ev
+   * @param checked
    */
   const handleRadio = (ev, checked) => setIsSignUp(checked)
   /**
@@ -99,9 +74,6 @@ function SignIn (props) {
         following: [],
         followers: []
       }
-
-      console.log('newUser',newUser)
-
       signupUser(newUser)
       const { password, ...profile } = newUser
       setProfile(profile)
@@ -166,16 +138,41 @@ function SignIn (props) {
   )
 }
 
+const useStyles = makeStyles(theme => ({
+  '@global': {
+    body: {
+      backgroundColor: theme.palette.common.white
+    }
+  },
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1)
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2)
+  }
+}))
+
 const mapStateToProps = state => {
   return {
     users: state.users.valueSeq().toJS()
   }
 }
-const mapDispathToProps = dispath => {
+const mapDispatchToProps = dispatch => {
   return {
-    signupUser: (newUser) => dispath(actions.signupUser(newUser)),
-    setProfile: (profile) => dispath(actions.setProfile(profile))
+    signupUser: (newUser) => dispatch(actions.signupUser(newUser)),
+    setProfile: (profile) => dispatch(actions.setProfile(profile))
   }
 }
 
-export default connect(mapStateToProps, mapDispathToProps)(SignIn)
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn)
