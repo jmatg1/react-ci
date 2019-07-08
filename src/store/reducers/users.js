@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable'
 import * as actionTypes from '../actions/actionTypes'
 import contactsDate from '../data/users'
-import { getItem, setItem } from '../../shared/utility'
+import { arrToMap, getItem, setItem } from '../../shared/utility'
 
 let contactsStor = getItem('users')
 
@@ -10,7 +10,9 @@ if (!contactsStor) {
   contactsStor = contactsDate
 }
 
-const initialStore = fromJS(contactsStor)
+const initialStore = fromJS(arrToMap(contactsStor, fromJS))
+console.log(initialStore)
+
 // ----------------------------------------
 // Добавление нового пользователя в БД
 const signupUser = (state, { payload: newUser }) => {
