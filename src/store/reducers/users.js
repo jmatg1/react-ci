@@ -50,15 +50,15 @@ const removeUserIgnore = (state, { tweet, profileId }) => {
     )
 }
 // Подписаться на пользователя
-const subscribeUser = (state, {payload}) => {
-  const  {
+const subscribeUser = (state, { payload }) => {
+  const {
     profileId,
     subscribeId,
     isSubscribed
   } = payload
 
   if (isSubscribed) {
-    return unsubscribe(state, {id: subscribeId, profileId })
+    return unsubscribe(state, { id: subscribeId, profileId })
   }
   return state.updateIn(
     [profileId, 'following'],

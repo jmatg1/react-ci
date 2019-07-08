@@ -31,13 +31,13 @@ export const fetchComments = (tweetId, users, comments, tweets) => {
 }
 // Получаем пользователя
 export const getUser = (state, id) => {
-  if (state.profile.id === id )  return state.users.get(id).toJS()
+  if (state.profile.id === id) return state.users.get(id).toJS()
 
   // получаем чужую страницу
   // добавляем isSubscribed если мы на него подписаны
-  const   profileId = state.profile.id,
-          userPageId = id,
-          user = state.users.get(id).toJS()
+  const profileId = state.profile.id
+  const userPageId = id
+  const user = state.users.get(id).toJS()
 
   user.isSubscribed = false
 
@@ -46,7 +46,6 @@ export const getUser = (state, id) => {
   if (following.find(usId => usId === userPageId)) { // пользователь подписан на него
     user.isSubscribed = true
   }
-
 
   return user
 }
@@ -62,6 +61,16 @@ export const fetchTweetsUser = (state, pageId) => {
       }
       return null
     })
+    .sort((a, b) => { // сортируем от самых новых
+      const dateA = new Date(a.dateCreate).getTime()
+      const dateB = new Date(b.dateCreate).getTime()
+
+      return dateB - dateA
+    })
+}
+
+export const fetchAllTweets = state => {
+  return state.tweets
     .sort((a, b) => { // сортируем от самых новых
       const dateA = new Date(a.dateCreate).getTime()
       const dateB = new Date(b.dateCreate).getTime()

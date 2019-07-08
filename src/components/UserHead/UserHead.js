@@ -10,18 +10,17 @@ import { getUser } from '../../selectors/index'
 import * as actions from '../../store/actions/index'
 
 class UserHead extends Component {
-
   /**
    * Обработка кнопки Подписаться/Отписаться
    */
   handleSubscribe = () => {
-    const {user: {id, isSubscribed}, profileId,  } = this.props
+    const { user: { id, isSubscribed }, profileId } = this.props
     const data = {
       profileId,
       subscribeId: id,
       isSubscribed
     }
-     this.props.onSubscribe(data)
+    this.props.onSubscribe(data)
   }
   /**
    * Обработка клика по Добавить твит
@@ -66,7 +65,6 @@ class UserHead extends Component {
         flexDirection: 'column'
       }
     }
-
 
     return (
       <Grid item xs={12}>
