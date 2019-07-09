@@ -10,20 +10,43 @@ const FormDialog = (props) => {
   const { handleSave, handleClose, open } = props
   const { placeholder, title, inputValue } = props.dialog
   const [value, setValue] = useState(inputValue)
+  const [error, setError] = useState({error: true, text: null})
   /**
    * Установить в поле ввода текст
    */
   useEffect(() => {
     setValue(inputValue)
+    setError({
+      error: false,
+      text: null
+    })
   }, [inputValue])
 
   const handleChangeValue = (ev) => {
-    setValue(ev.target.value)
+    const text = String(ev.target.value)
+
+    if (text.length > 280){
+      setError({
+        error: true,
+        text: 'Многа букв'
+      })
+    } else {
+      setError({
+        error: false,
+        text: null
+      })
+      setValue(ev.target.value)
+    }
+
   }
 
   const handleSubmit = () => {
     handleSave(value)
     setValue('')
+    setError({
+      error: false,
+      text: null
+    })
   }
 
   return (
@@ -32,6 +55,8 @@ const FormDialog = (props) => {
         <DialogTitle id="form-dialog-title">{title}</DialogTitle>
         <DialogContent>
           <TextField
+            helperText={error.text}
+            error={error.error}
             style={{ width: '400px' }}
             autoFocus
             margin="dense"
