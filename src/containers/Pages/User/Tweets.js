@@ -24,9 +24,7 @@ const Tweets = (props) => {
 
 const mapStateToProps = (state,prevProps) => {
   const profileId = state.profile.id
-  const routeId = Number(prevProps.match.params.id)
-
-  const id = isNaN(routeId) ? profileId : routeId
+  const id  =  prevProps.pageId ? prevProps.pageId : profileId
 
   return {
     tweets: fetchTweetsUser(state,id)

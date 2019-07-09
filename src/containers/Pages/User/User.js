@@ -11,6 +11,7 @@ import Tweet from '../../../components/Tweet/Tweet'
 import TweetsPage from './Tweets'
 import FollowingPage from './Following'
 import FollowersPage from './Followers'
+import FollowPage from './Follow'
 
 class User extends Component {
   render () {
@@ -35,12 +36,12 @@ class User extends Component {
         <UserHead userPageId={pageId}/>
         <Switch>
           <Route path={`/tweets`} component={TweetsPage}/>
-          <Route path={`/following`} component={FollowingPage}/>
-          <Route path={`/followers`} component={FollowersPage}/>
+          <Route path={`/following`} render={()=><FollowPage type='following' pageId={pageId}/>}/>
+          <Route path={`/followers`} render={()=><FollowPage type='followers' pageId={pageId}/>}/>
 
-          <Route path={`/${pageId}/tweets`} component={TweetsPage}/>
-          <Route path={`/${pageId}/following`} component={FollowingPage}/>
-          <Route path={`/${pageId}/followers`} component={FollowersPage}/>
+          <Route path={`/${pageId}/tweets`}    render={()=><TweetsPage    pageId={pageId}/>}/>
+          <Route path={`/${pageId}/following`} render={()=><FollowPage type='following' pageId={pageId}/>}/>
+          <Route path={`/${pageId}/followers`} render={()=><FollowPage type='followers' pageId={pageId}/>}/>
           <Route path={`/`} render={()=>renderTwits}/>
         </Switch>
       </>
