@@ -1,6 +1,7 @@
 export {
   signupUser,
   addUserIgnore,
+  removeUserIgnore,
   subscribe
 } from './users'
 

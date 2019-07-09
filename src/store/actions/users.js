@@ -6,10 +6,15 @@ export const signupUser = payload => {
     payload
   }
 }
-export const addUserIgnore = (tweet, profileId) => ({
+export const addUserIgnore = (profileId, userId) => ({
   type: actionTypes.USER_ADD_IGNORE,
-  tweet,
-  profileId
+  profileId,
+  userId
+})
+export const removeUserIgnore = (profileId, userId) => ({
+  type: actionTypes.USER_REMOVE_IGNORE,
+  profileId,
+  userId
 })
 
 export const subscribe = payload => ({

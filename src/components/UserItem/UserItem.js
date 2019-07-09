@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -9,10 +8,17 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-export default function UserItem(props) {
-  const classes = useStyles();
-  const { user: { id, name, nickName, avatar} } = props
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
+import * as actions from '../../store/actions/index'
+
+function UserItem(props) {
+  const classes = useStyles();
+  const { user: { id, name, nickName, avatar}, onRemoveUserIgnore, profileId } = props
+  const handleRemoveUser = () => {
+    onRemoveUserIgnore(profileId, id)
+  }
   return (
     <Card className={classes.card}>
       <CardActionArea>
@@ -27,7 +33,7 @@ export default function UserItem(props) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" onClick={handleRemoveUser}>
           Удалить из ЧС
         </Button>
       </CardActions>
@@ -43,3 +49,16 @@ const useStyles = makeStyles({
     height: 300,
   },
 });
+
+const mapStateToProps = state => {
+  return {
+    profileId: state.profile.id
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onRemoveUserIgnore: (profileId, userId) => dispatch(actions.removeUserIgnore(profileId, userId))
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(UserItem)

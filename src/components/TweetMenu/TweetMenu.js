@@ -65,7 +65,7 @@ const TweetMenu = (props) => {
     if (isMyTweet) {
       onTweetRemove(tweet) // удаляем твит из базы и из списка твитов пользователя
     } else { // добавляем в игнор пользователя
-      onAddUserIgnore(tweet, profileId)
+      onAddUserIgnore(profileId, tweet.createUserId )
     }
   }
   return (
@@ -91,7 +91,7 @@ const TweetMenu = (props) => {
 const mapDispatchToProps = dispatch => {
   return {
     onTweetRemove: (tweet) => dispatch(actions.tweetRemove(tweet)),
-    onAddUserIgnore: (tweet, profileId) => dispatch(actions.addUserIgnore(tweet, profileId)),
+    onAddUserIgnore: (profileId, userId) => dispatch(actions.addUserIgnore(profileId, userId)),
     onTweetEdit: (id, text) => dispatch(actions.tweetEdit(id, text))
   }
 }

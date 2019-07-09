@@ -35,20 +35,20 @@ const tweetAdd = (state, { tweet }) => {
     )
 }
 // Добавить пользователя в ЧС, по клику на твит
-const addUserIgnore = (state, { tweet, profileId }) => {
-  const uptState = unsubscribe(state, { id: tweet.createUserId, profileId })
+const addUserIgnore = (state, { profileId, userId }) => {
+  const uptState = unsubscribe(state, { id: userId, profileId })
   return uptState
     .updateIn(
       [profileId, 'ignoreList'],
-      ignoreList => ignoreList.push(tweet.createUserId)
+      ignoreList => ignoreList.push(userId)
     )
 }
 // Удалить пользоваетдя из ЧС
-const removeUserIgnore = (state, { tweet, profileId }) => {
+const removeUserIgnore = (state, { profileId, userId }) => {
   return state
     .updateIn(
       [profileId, 'ignoreList'],
-      ignoreList => ignoreList.filter(igId => igId !== tweet.createUserId)
+      ignoreList => ignoreList.filter(igId => igId !== userId)
     )
 }
 // Подписаться на пользователя
