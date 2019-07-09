@@ -8,6 +8,9 @@ import * as actions from '../../../store/actions/index'
 import { fetchTweetsMain, fetchTweetsUser } from '../../../selectors/index'
 import UserHead from '../../../components/UserHead/UserHead'
 import Tweet from '../../../components/Tweet/Tweet'
+import TweetsPage from './Tweets'
+import FollowingPage from './Following'
+import FollowersPage from './Followers'
 
 class User extends Component {
   render () {
@@ -31,13 +34,13 @@ class User extends Component {
       <>
         <UserHead userPageId={pageId}/>
         <Switch>
-          <Route path={`/tweets`} render={()=><h1>Твиты</h1>}/>
-          <Route path={`/following`} render={()=><h1>Читаемые</h1>}/>
-          <Route path={`/followers`} render={()=><h1>Читатели</h1>}/>
+          <Route path={`/tweets`} component={TweetsPage}/>
+          <Route path={`/following`} component={FollowingPage}/>
+          <Route path={`/followers`} component={FollowersPage}/>
 
-          <Route path={`/${pageId}/tweets`} render={()=><h1>Твиты</h1>}/>
-          <Route path={`/${pageId}/following`} render={()=><h1>Читаемые</h1>}/>
-          <Route path={`/${pageId}/followers`} render={()=><h1>Читатели</h1>}/>
+          <Route path={`/${pageId}/tweets`} component={TweetsPage}/>
+          <Route path={`/${pageId}/following`} component={FollowingPage}/>
+          <Route path={`/${pageId}/followers`} component={FollowersPage}/>
           <Route path={`/`} render={()=>renderTwits}/>
         </Switch>
       </>
