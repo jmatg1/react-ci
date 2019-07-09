@@ -1,14 +1,23 @@
+import {createSelector} from 'reselect'
+
+export const profileIdSelector = state => state.profile.id
+export const tweetsSelector = state => state.tweets
+export const usersSelector = state => state.users
+export const userIdSelector = (_,prevProps) => prevProps
 // Ищем все твиты как свои так и твиты подписок
 // Добавляем isFavorite к каждому твиту, true - пост лайкнут
-export const fetchTweetsMain = (state) => {
-  const { profile: { id }, tweets } = state
+export const fetchTweetsMain = createSelector(
+  profileIdSelector,
+  tweetsSelector,
+  usersSelector,
+  (profileId, tweets, users) => {
 
-  const following = state.users.getIn([id, 'following']).toJS() // список подписок
+  const following = users.getIn([profileId, 'following']).toJS() // список подписок
   return tweets
     .filter(tweet => {
-      if (tweet.createUserId === id || // собственные твиты
+      if (tweet.createUserId === profileId || // собственные твиты
         following.find(folId => (folId === tweet.createUserId))) { // твиты подписок
-        tweet.isFavorite = tweet.likes.find(lkId => lkId === id) !== undefined // лакнут ли этот пост
+        tweet.isFavorite = tweet.likes.find(lkId => lkId === profileId) !== undefined // лакнут ли этот пост
         return tweet
       }
       return null
@@ -19,7 +28,32 @@ export const fetchTweetsMain = (state) => {
 
       return dateB - dateA
     })
-}
+})
+
+export const fetchTweetsUser = createSelector(
+  profileIdSelector,
+  tweetsSelector,
+  usersSelector,
+  userIdSelector,
+  (profileId, tweets, users, userId) => {
+
+  return tweets
+    .filter(tweet => {
+      if (tweet.createUserId === userId) { // твиты пользователя
+        tweet.isFavorite = tweet.likes.find(lkId => lkId === profileId) !== undefined // лакнут ли этот пост
+        return tweet
+      }
+      return null
+    })
+    .sort((a, b) => { // сортируем от самых новых
+      const dateA = new Date(a.dateCreate).getTime()
+      const dateB = new Date(b.dateCreate).getTime()
+
+      return dateB - dateA
+    })
+})
+
+
 // Получаем комментарии твита
 export const fetchComments = (tweetId, users, comments, tweets) => {
   return tweets.get(tweetId).commentsId.map(cmId =>
@@ -29,6 +63,7 @@ export const fetchComments = (tweetId, users, comments, tweets) => {
     })
   )
 }
+
 // Получаем пользователя
 export const getUser = (state, id) => {
   if (state.profile.id === id) return state.users.get(id).toJS()
@@ -50,27 +85,12 @@ export const getUser = (state, id) => {
   return user
 }
 
-export const fetchTweetsUser = (state, pageId) => {
-  const { profile: { id: profileId }, tweets } = state
 
+export const fetchAllTweets = createSelector(
+  profileIdSelector,
+  tweetsSelector
+  , (profileId,tweets) => {
   return tweets
-    .filter(tweet => {
-      if (tweet.createUserId === pageId) { // твиты пользователя
-        tweet.isFavorite = tweet.likes.find(lkId => lkId === profileId) !== undefined // лакнут ли этот пост
-        return tweet
-      }
-      return null
-    })
-    .sort((a, b) => { // сортируем от самых новых
-      const dateA = new Date(a.dateCreate).getTime()
-      const dateB = new Date(b.dateCreate).getTime()
-
-      return dateB - dateA
-    })
-}
-
-export const fetchAllTweets = (state, profileId) => {
-  return state.tweets
     .map(tweet => {
       tweet.isFavorite = tweet.likes.find(lkId => lkId === profileId) !== undefined // лакнут ли этот пост
       return tweet
@@ -81,7 +101,7 @@ export const fetchAllTweets = (state, profileId) => {
 
       return dateB - dateA
     })
-}
+})
 
 export const fetchIgnoreUsers = state => {
   const { users, profile: { id: profileId } } = state

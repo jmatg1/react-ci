@@ -22,6 +22,7 @@ import 'moment/locale/ru'
 import * as actions from '../../store/actions/index'
 
 import CommentList from '../../components/CommentList/CommentList'
+import TweetMenu from '../TweetMenu/TweetMenu'
 import PropTypes from 'prop-types'
 
 export class Tweet extends Component {
