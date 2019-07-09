@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { getUser } from '../../selectors/index'
 import * as actions from '../../store/actions/index'
 
@@ -98,16 +99,22 @@ class UserHead extends Component {
             </Grid>
 
             <Grid item xs={2}>
-              <Typography paragraph>Твитов</Typography>
-              {tweets.length}
+              <Link to={`/${userPageId}/tweets`}>
+                <Typography paragraph>Твитов</Typography>
+                {tweets.length}
+              </Link>
             </Grid>
             <Grid item xs={2}>
-              <Typography paragraph>Читаемые</Typography>
-              {following.length}
+              <Link to={`/${userPageId}/following`}>
+                <Typography paragraph>Читаемые</Typography>
+                {following.length}
+              </Link>
             </Grid>
             <Grid item xs={2}>
-              <Typography paragraph>Читатели</Typography>
-              {followers.length}
+              <Link to={`/${userPageId}/followers`}>
+                <Typography paragraph>Читатели</Typography>
+                {followers.length}
+              </Link>
             </Grid>
 
             {isMe

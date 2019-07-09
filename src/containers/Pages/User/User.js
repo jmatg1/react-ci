@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import Grid from '@material-ui/core/Grid'
 
 import { connect } from 'react-redux'
+import { Switch, Route } from 'react-router-dom'
 
-import * as actions from '../../store/actions/index'
-import { fetchTweetsMain, fetchTweetsUser } from '../../selectors/index'
-import UserHead from '../../components/UserHead/UserHead'
-import Tweet from '../../components/Tweet/Tweet'
+import * as actions from '../../../store/actions/index'
+import { fetchTweetsMain, fetchTweetsUser } from '../../../selectors/index'
+import UserHead from '../../../components/UserHead/UserHead'
+import Tweet from '../../../components/Tweet/Tweet'
 
 class User extends Component {
   render () {
@@ -29,7 +30,16 @@ class User extends Component {
     return (
       <>
         <UserHead userPageId={pageId}/>
-        {renderTwits}
+        <Switch>
+          <Route path={`/tweets`} render={()=><h1>Твиты</h1>}/>
+          <Route path={`/following`} render={()=><h1>Читаемые</h1>}/>
+          <Route path={`/followers`} render={()=><h1>Читатели</h1>}/>
+
+          <Route path={`/${pageId}/tweets`} render={()=><h1>Твиты</h1>}/>
+          <Route path={`/${pageId}/following`} render={()=><h1>Читаемые</h1>}/>
+          <Route path={`/${pageId}/followers`} render={()=><h1>Читатели</h1>}/>
+          <Route path={`/`} render={()=>renderTwits}/>
+        </Switch>
       </>
     )
   }

@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid'
 import Header from '../../components/Header/Header'
 import Drawer from '../../components/Drawer/Drawer'
 import Feed from '../../containers/Pages/Feed'
-import User from '../../containers/Pages/User'
+import User from '../../containers/Pages/User/User'
 import Blacklist from '../../containers/Pages/Blacklist'
 
 export default function Wrapper () {
