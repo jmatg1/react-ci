@@ -10,7 +10,7 @@ const FormDialog = (props) => {
   const { handleSave, handleClose, open } = props
   const { placeholder, title, inputValue } = props.dialog
   const [value, setValue] = useState(inputValue)
-  const [error, setError] = useState({error: true, text: null})
+  const [error, setError] = useState({ error: true, text: null })
   /**
    * Установить в поле ввода текст
    */
@@ -25,7 +25,7 @@ const FormDialog = (props) => {
   const handleChangeValue = (ev) => {
     const text = String(ev.target.value)
 
-    if (text.length > 280){
+    if (text.length > 280) {
       setError({
         error: true,
         text: 'Многа букв'
@@ -37,7 +37,6 @@ const FormDialog = (props) => {
       })
       setValue(ev.target.value)
     }
-
   }
 
   const handleSubmit = () => {

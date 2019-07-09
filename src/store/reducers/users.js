@@ -63,7 +63,7 @@ const subscribeUser = (state, { payload }) => {
     return unsubscribe(state, { id: subscribeId, profileId })
   }
 
-  const uptState = state.updateIn(  // подписываемся
+  const uptState = state.updateIn( // подписываемся
     [profileId, 'following'],
     following => following.push(subscribeId)
   )
@@ -75,7 +75,7 @@ const subscribeUser = (state, { payload }) => {
 }
 // Отписаться от пользователя
 const unsubscribe = (state, { id, profileId }) => {
-    const uptState = state.updateIn(
+  const uptState = state.updateIn(
     [profileId, 'following'],
     following => following.filter(flId => flId !== id)
   )

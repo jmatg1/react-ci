@@ -22,14 +22,13 @@ const Tweets = (props) => {
   )
 }
 
-const mapStateToProps = (state,prevProps) => {
+const mapStateToProps = (state, prevProps) => {
   const profileId = state.profile.id
-  const id  =  prevProps.pageId ? prevProps.pageId : profileId
+  const id = prevProps.pageId ? prevProps.pageId : profileId
 
   return {
-    tweets: fetchTweetsUser(state,id)
+    tweets: fetchTweetsUser(state, id)
   }
 }
-
 
 export default connect(mapStateToProps)(Tweets)

@@ -33,8 +33,8 @@ function UserItem (props) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        {ignore ?
-          <Button size="small" color="primary" onClick={handleRemoveUser}>
+        {ignore
+          ? <Button size="small" color="primary" onClick={handleRemoveUser}>
             Удалить из ЧС
           </Button>
           : null

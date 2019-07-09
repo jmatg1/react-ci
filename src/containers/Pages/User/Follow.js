@@ -11,7 +11,7 @@ const Follow = (props) => {
   users.flatMap(us => {
     renderUsers.push(
       <Grid key={us.id} item xs={3}>
-        <UserItem  user={us} />
+        <UserItem user={us} />
       </Grid>
     )
   })
@@ -26,11 +26,10 @@ const Follow = (props) => {
 const mapStateToProps = (state, prevProps) => {
   const { pageId, type } = prevProps
   const profileId = state.profile.id
-  const id  =  pageId ? pageId : profileId
+  const id = pageId || profileId
 
-
-  return{
-    users: type === 'followers' ? fetchFollowers(state,id) : fetchFollowing(state,id)
+  return {
+    users: type === 'followers' ? fetchFollowers(state, id) : fetchFollowing(state, id)
   }
 }
 

@@ -94,7 +94,7 @@ export const fetchIgnoreUsers = state => {
 
 export const fetchFollowing = (state, id) => {
   const usersId = state.users.getIn(
-    [id,'following']
+    [id, 'following']
   )
 
   let users = []
@@ -104,12 +104,11 @@ export const fetchFollowing = (state, id) => {
   })
 
   return users
-
 }
 
 export const fetchFollowers = (state, id) => {
   const usersId = state.users.getIn(
-    [id,'followers']
+    [id, 'followers']
   )
 
   console.log('selector', id)
@@ -119,7 +118,5 @@ export const fetchFollowers = (state, id) => {
     users.push(state.users.get(usId).toJS())
   })
 
-
   return users
-
 }

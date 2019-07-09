@@ -12,7 +12,7 @@ const Following = (props) => {
     console.log(us)
     renderUsers.push(
       <Grid key={us.id} item xs={3}>
-        <UserItem  user={us} />
+        <UserItem user={us} />
       </Grid>
     )
   })
@@ -26,11 +26,10 @@ const Following = (props) => {
 
 const mapStateToProps = (state, prevProps) => {
   const profileId = state.profile.id
-  const id  =  prevProps.pageId ? prevProps.pageId : profileId
+  const id = prevProps.pageId ? prevProps.pageId : profileId
 
-
-  return{
-    users: fetchFollowing(state,id)
+  return {
+    users: fetchFollowing(state, id)
   }
 }
 

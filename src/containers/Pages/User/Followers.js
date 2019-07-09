@@ -9,10 +9,10 @@ const Followers = (props) => {
 
   let renderUsers = []
   users.flatMap(us => {
-    console.log('ollowers',us)
+    console.log('ollowers', us)
     renderUsers.push(
       <Grid key={us.id} item xs={3}>
-        <UserItem  user={us} />
+        <UserItem user={us} />
       </Grid>
     )
   })
@@ -28,11 +28,10 @@ const mapStateToProps = (state, prevProps) => {
   console.log('connect followers')
 
   const profileId = state.profile.id
-  const id  =  prevProps.pageId ? prevProps.pageId : profileId
+  const id = prevProps.pageId ? prevProps.pageId : profileId
 
-
-  return{
-    users: fetchFollowers(state,id)
+  return {
+    users: fetchFollowers(state, id)
   }
 }
 
