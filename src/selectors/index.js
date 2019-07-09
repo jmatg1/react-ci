@@ -91,3 +91,35 @@ export const fetchIgnoreUsers = state => {
   return users
     .filter((_, i) => ignoreList.find(igId => igId === i)).toJS()
 }
+
+export const fetchFollowing = (state, id) => {
+  const usersId = state.users.getIn(
+    [id,'following']
+  )
+
+  let users = []
+
+  usersId.map(usId => {
+    users.push(state.users.get(usId).toJS())
+  })
+
+  return users
+
+}
+
+export const fetchFollowers = (state, id) => {
+  const usersId = state.users.getIn(
+    [id,'followers']
+  )
+
+  console.log('selector', id)
+  let users = []
+
+  usersId.map(usId => {
+    users.push(state.users.get(usId).toJS())
+  })
+
+
+  return users
+
+}
