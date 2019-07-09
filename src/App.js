@@ -19,19 +19,19 @@ class App extends Component {
       callBack: null
     },
     tweetMenu: {
-      tweet:null,
+      tweet: null,
       tweetMenuEl: null,
       funcClose: null,
-      funcOpen: null,
+      funcOpen: null
     }
   }
 
   componentDidMount () {
-    const uptTweetMenu = {... this.state.tweetMenu}
+    const uptTweetMenu = { ...this.state.tweetMenu }
     uptTweetMenu.funcClose = this.handleTweetMenuClose
     uptTweetMenu.funcOpen = this.handleTweetMenuOpen
 
-    this.setState({tweetMenu: uptTweetMenu})
+    this.setState({ tweetMenu: uptTweetMenu })
   }
 
   /**
@@ -75,7 +75,7 @@ class App extends Component {
 
   // -- Tweet Menu Start
   handleTweetMenuOpen = (settings) => {
-    const uptTweetMenu = {...this.state.tweetMenu}
+    const uptTweetMenu = { ...this.state.tweetMenu }
     uptTweetMenu.tweetMenuEl = settings.tweetMenuEl
     uptTweetMenu.tweet = settings.tweet
 
@@ -83,7 +83,7 @@ class App extends Component {
   }
 
   handleTweetMenuClose = () => {
-    const uptTweetMenu = {...this.state.tweetMenu}
+    const uptTweetMenu = { ...this.state.tweetMenu }
     uptTweetMenu.tweetMenuEl = null
 
     this.setState({ tweetMenu: uptTweetMenu })

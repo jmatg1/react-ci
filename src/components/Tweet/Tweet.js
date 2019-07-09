@@ -22,7 +22,6 @@ import 'moment/locale/ru'
 import * as actions from '../../store/actions/index'
 
 import CommentList from '../../components/CommentList/CommentList'
-import TweetMenu from '../TweetMenu/TweetMenu'
 import PropTypes from 'prop-types'
 
 export class Tweet extends Component {
@@ -54,7 +53,7 @@ export class Tweet extends Component {
   handleTweetMenuOpen = (event) => {
     this.context.openTweetMenu({
       tweet: this.props.tweet,
-      tweetMenuEl: event.currentTarget,
+      tweetMenuEl: event.currentTarget
     })
   }
   render () {
@@ -66,7 +65,7 @@ export class Tweet extends Component {
       <Card className={classes.card}>
         <CardHeader
           avatar={
-            <Avatar src={avatar}  alt="Remy Sharp" className={classes.avatar}>name[0]</Avatar>
+            <Avatar src={avatar} alt="Remy Sharp" className={classes.avatar}>name[0]</Avatar>
           }
           action={
             <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleTweetMenuOpen}>
@@ -119,7 +118,6 @@ Tweet.contextTypes = ({
 })
 
 const mapStateToProps = (state, prevProps) => {
-
   return {
     profileId: state.profile.id,
     user: state.users.get(prevProps.tweet.createUserId).toJS()

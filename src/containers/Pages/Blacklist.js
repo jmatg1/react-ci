@@ -6,15 +6,14 @@ import { fetchIgnoreUsers } from '../../selectors/index'
 import UserItem from '../../components/UserItem/UserItem'
 
 const Blacklist = (props) => {
-  const {users} = props
+  const { users } = props
 
   let usersRender = []
   for (let k in users) {
     usersRender.push(<Grid key={k} item xs={3}>
-      <UserItem  user={users[k]} />
+      <UserItem user={users[k]} />
     </Grid>)
   }
-
 
   return (
 

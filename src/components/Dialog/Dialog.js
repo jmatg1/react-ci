@@ -32,7 +32,7 @@ const FormDialog = (props) => {
         <DialogTitle id="form-dialog-title">{title}</DialogTitle>
         <DialogContent>
           <TextField
-            style={{width: '400px'}}
+            style={{ width: '400px' }}
             autoFocus
             margin="dense"
             id="name"

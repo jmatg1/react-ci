@@ -1,13 +1,10 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
-import IconButton from '@material-ui/core/IconButton'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
 
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions/index'
-import PopupsContext from '../../contexts'
-import PropTypes from 'prop-types'
 import { getUser } from '../../selectors'
 
 class TweetMenu extends Component {
@@ -16,18 +13,18 @@ class TweetMenu extends Component {
       isMyTweet: [
         {
           text: 'Удалить',
-          type: 'remove',
+          type: 'remove'
         },
         {
           text: 'Редактировать',
-          type: 'edit',
-        },
+          type: 'edit'
+        }
       ],
       isUserTweet: [
         {
           text: ' Удалить пользователя из ЧС',
           type: 'removeIgnore',
-          isIgnore: true,
+          isIgnore: true
         },
         {
           text: 'Добавить пользователя в ЧС',
@@ -55,16 +52,16 @@ class TweetMenu extends Component {
     this.props.menu.funcClose()
 
     switch (type) {
-      case 'remove':
-        return onTweetRemove(tweet) // удаляем твит из базы и из списка твитов пользователя()
-      case 'edit':
-        return this.handleDialogOpen()
-      case 'addIgnore':
-        return onAddUserIgnore(profileId, createUserId)
-      case 'removeIgnore':
-        return onRemoveUserIgnore(profileId, createUserId)
-      default:
-        return null
+    case 'remove':
+      return onTweetRemove(tweet) // удаляем твит из базы и из списка твитов пользователя()
+    case 'edit':
+      return this.handleDialogOpen()
+    case 'addIgnore':
+      return onAddUserIgnore(profileId, createUserId)
+    case 'removeIgnore':
+      return onRemoveUserIgnore(profileId, createUserId)
+    default:
+      return null
     }
   }
   // ----
@@ -92,7 +89,6 @@ class TweetMenu extends Component {
   }
 
   render () {
-
     const {
       profileId,
       profile,
@@ -156,7 +152,7 @@ const mapDispatchToProps = dispatch => {
     onTweetRemove: (tweet) => dispatch(actions.tweetRemove(tweet)),
     onTweetEdit: (id, text) => dispatch(actions.tweetEdit(id, text)),
     onAddUserIgnore: (profileId, userId) => dispatch(actions.addUserIgnore(profileId, userId)),
-    onRemoveUserIgnore: (profileId, userId) => dispatch(actions.removeUserIgnore(profileId, userId)),
+    onRemoveUserIgnore: (profileId, userId) => dispatch(actions.removeUserIgnore(profileId, userId))
   }
 }
 

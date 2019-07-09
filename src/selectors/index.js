@@ -72,9 +72,8 @@ export const fetchTweetsUser = (state, pageId) => {
 export const fetchAllTweets = (state, profileId) => {
   return state.tweets
     .map(tweet => {
-        tweet.isFavorite = tweet.likes.find(lkId => lkId === profileId) !== undefined // лакнут ли этот пост
-        return tweet
-
+      tweet.isFavorite = tweet.likes.find(lkId => lkId === profileId) !== undefined // лакнут ли этот пост
+      return tweet
     })
     .sort((a, b) => { // сортируем от самых новых
       const dateA = new Date(a.dateCreate).getTime()
@@ -87,9 +86,8 @@ export const fetchAllTweets = (state, profileId) => {
 export const fetchIgnoreUsers = state => {
   const { users, profile: { id: profileId } } = state
 
-  const ignoreList = users.getIn([profileId, "ignoreList"])
+  const ignoreList = users.getIn([profileId, 'ignoreList'])
 
   return users
     .filter((_, i) => ignoreList.find(igId => igId === i)).toJS()
-
 }

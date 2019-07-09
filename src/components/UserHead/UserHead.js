@@ -56,19 +56,19 @@ class UserHead extends Component {
    */
   handleIgnoreList = (type) => {
     const {
-      user: {id: userId},
+      user: { id: userId },
       profileId,
       onAddUserIgnore,
       onRemoveUserIgnore } = this.props
 
     switch (type) {
-      case "add": return onAddUserIgnore(profileId,userId)
-      case "remove": return onRemoveUserIgnore(profileId,userId)
+    case 'add': return onAddUserIgnore(profileId, userId)
+    case 'remove': return onRemoveUserIgnore(profileId, userId)
     }
   }
   render () {
     const {
-      user: { id: userId, name, nickName, following, tweets, followers, isSubscribed, avatar },
+      user: { name, nickName, following, tweets, followers, isSubscribed, avatar },
       profile: { id: profileId, ignoreList },
       userPageId
     } = this.props
@@ -116,23 +116,21 @@ class UserHead extends Component {
                   Добавить твит
                 </Button>
               </Grid>
-              :
-              <>
+              : <>
                 <Grid item xs={3}>
                   <Button disabled={isUserIgnore} variant="contained" color="primary" className={classes.button}
-                          onClick={this.handleSubscribe}>
+                    onClick={this.handleSubscribe}>
                     {isSubscribed ? 'Отписаться' : 'Подписаться'}
                   </Button>
                 </Grid>
-                { isUserIgnore  ?
-                  <Grid item xs={3}>
-                    <Button variant="contained" color="secondary" className={classes.button} onClick={()=>this.handleIgnoreList('remove')}>
+                { isUserIgnore
+                  ? <Grid item xs={3}>
+                    <Button variant="contained" color="secondary" className={classes.button} onClick={() => this.handleIgnoreList('remove')}>
                       Удалить из ЧС
                     </Button>
                   </Grid>
-                  :
-                  <Grid item xs={3}>
-                    <Button variant="contained" color="secondary" className={classes.button} onClick={()=>this.handleIgnoreList('add')}>
+                  : <Grid item xs={3}>
+                    <Button variant="contained" color="secondary" className={classes.button} onClick={() => this.handleIgnoreList('add')}>
                       Добавить в чс
                     </Button>
                   </Grid>
