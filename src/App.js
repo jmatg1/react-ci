@@ -7,6 +7,7 @@ import Login from './containers/Login/Login'
 import Wrapper from './containers/Wrapper/Wrapper'
 import Dialog from './components/Dialog/Dialog'
 import PopupsContext from './contexts'
+import TweetMenu from './components/TweetMenu/TweetMenu'
 class App extends Component {
   state = {
     dialog: {
@@ -18,8 +19,19 @@ class App extends Component {
       callBack: null
     },
     tweetMenu: {
-      isOpen: false
+      tweet:null,
+      tweetMenuEl: null,
+      funcClose: null,
+      funcOpen: null,
     }
+  }
+
+  componentDidMount () {
+    const uptTweetMenu = {... this.state.tweetMenu}
+    uptTweetMenu.funcClose = this.handleTweetMenuClose
+    uptTweetMenu.funcOpen = this.handleTweetMenuOpen
+
+    this.setState({tweetMenu: uptTweetMenu})
   }
 
   /**
@@ -28,7 +40,10 @@ class App extends Component {
    * @return {{openDialog: App.handleDialogOpen}}
    */
   getChildContext () {
-    return { openDialog: this.handleDialogOpen }
+    return {
+      openDialog: this.handleDialogOpen,
+      openTweetMenu: this.handleTweetMenuOpen
+    }
   }
   changePopup = (type, status, settings) => {
     const popup = { ...this.state[type] }
@@ -57,7 +72,26 @@ class App extends Component {
     this.state.dialog.callBack(text)
   }
   // -- Dialog End
+
+  // -- Tweet Menu Start
+  handleTweetMenuOpen = (settings) => {
+    const uptTweetMenu = {...this.state.tweetMenu}
+    uptTweetMenu.tweetMenuEl = settings.tweetMenuEl
+    uptTweetMenu.tweet = settings.tweet
+
+    this.setState({ tweetMenu: uptTweetMenu })
+  }
+
+  handleTweetMenuClose = () => {
+    const uptTweetMenu = {...this.state.tweetMenu}
+    uptTweetMenu.tweetMenuEl = null
+
+    this.setState({ tweetMenu: uptTweetMenu })
+  }
+  // -- Tweet Menu End
   render () {
+    console.log(this.state.tweetMenu)
+
     const { profileId } = this.props
     console.log('RENDER APP')
     return (
@@ -72,6 +106,7 @@ class App extends Component {
             open={this.state.dialog.isOpen}
             handleSave={this.handleDialogSave}
             handleClose={this.handleDialogClose}/>
+          {this.state.tweetMenu.tweetMenuEl ? <TweetMenu menu={this.state.tweetMenu}/> : null }
         </PopupsContext.Provider>
       </>
 
@@ -80,7 +115,8 @@ class App extends Component {
 }
 
 App.childContextTypes = {
-  openDialog: PropTypes.func
+  openDialog: PropTypes.func,
+  openTweetMenu: PropTypes.func
 }
 
 const mapStateToProps = state => {

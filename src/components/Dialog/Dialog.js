@@ -32,6 +32,7 @@ const FormDialog = (props) => {
         <DialogTitle id="form-dialog-title">{title}</DialogTitle>
         <DialogContent>
           <TextField
+            style={{width: '400px'}}
             autoFocus
             margin="dense"
             id="name"
@@ -39,7 +40,8 @@ const FormDialog = (props) => {
             type="text"
             value={value}
             onChange={handleChangeValue}
-            fullWidth
+            multiline
+            rowsMax="4"
           />
         </DialogContent>
         <DialogActions>

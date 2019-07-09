@@ -6,13 +6,14 @@ import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
 import Collapse from '@material-ui/core/Collapse'
 import Avatar from '@material-ui/core/Avatar'
-import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import { red } from '@material-ui/core/colors'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import ShareIcon from '@material-ui/icons/Share'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { withStyles } from '@material-ui/styles'
+import IconButton from '@material-ui/core/IconButton'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
 
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -22,6 +23,7 @@ import * as actions from '../../store/actions/index'
 
 import CommentList from '../../components/CommentList/CommentList'
 import TweetMenu from '../TweetMenu/TweetMenu'
+import PropTypes from 'prop-types'
 
 export class Tweet extends Component {
   state = {
@@ -49,6 +51,12 @@ export class Tweet extends Component {
       profileId: this.props.profileId
     })
   }
+  handleTweetMenuOpen = (event) => {
+    this.context.openTweetMenu({
+      tweet: this.props.tweet,
+      tweetMenuEl: event.currentTarget,
+    })
+  }
   render () {
     console.log('render tweet')
     const { tweet: { id: tweetId, text, dateCreate, likes, isFavorite, createUserId }, user: { name, avatar }, classes } = this.props
@@ -61,8 +69,9 @@ export class Tweet extends Component {
             <Avatar src={avatar}  alt="Remy Sharp" className={classes.avatar}>name[0]</Avatar>
           }
           action={
-            <TweetMenu tweet={this.props.tweet}/>
-
+            <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleTweetMenuOpen}>
+              <MoreVertIcon/>
+            </IconButton>
           }
           title=<Link to={`/${createUserId}`}>{name}</Link>
           subheader={<Moment locale="ru" fromNow>{dateCreate}</Moment>}
@@ -104,6 +113,10 @@ export class Tweet extends Component {
     )
   }
 }
+
+Tweet.contextTypes = ({
+  openTweetMenu: PropTypes.func
+})
 
 const mapStateToProps = (state, prevProps) => {
 

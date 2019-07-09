@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { Component } from 'react'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import IconButton from '@material-ui/core/IconButton'
@@ -7,96 +7,163 @@ import MoreVertIcon from '@material-ui/icons/MoreVert'
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions/index'
 import PopupsContext from '../../contexts'
+import PropTypes from 'prop-types'
+import { getUser } from '../../selectors'
 
-const TweetMenu = (props) => {
-  const { tweet, tweet: { createUserId, text }, profileId, onTweetRemove, onAddUserIgnore } = props
-  const [tweetMenuEl, setAnchorEl] = React.useState(null)
-  const popupsContext = useContext(PopupsContext)
-
-  const isMyTweet = createUserId === profileId
-
-  const handleTweetMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
-
-  const handleTweetMenuSelect = (type) => {
-    setAnchorEl(null)
-    switch (type) {
-    case 'remove':
-      return tweetRemoveOrIgnore()
-    case 'edit':
-      return handleDialogOpen()
-    default:
-      return null
+class TweetMenu extends Component {
+  state = {
+    menuList: {
+      isMyTweet: [
+        {
+          text: 'Удалить',
+          type: 'remove',
+        },
+        {
+          text: 'Редактировать',
+          type: 'edit',
+        },
+      ],
+      isUserTweet: [
+        {
+          text: ' Удалить пользователя из ЧС',
+          type: 'removeIgnore',
+          isIgnore: true,
+        },
+        {
+          text: 'Добавить пользователя в ЧС',
+          type: 'addIgnore',
+          isIgnore: false
+        }
+      ]
     }
   }
 
-  const handleTweetMenuClose = () => {
-    setAnchorEl(null)
-  }
+  handleTweetMenuSelect = (type) => {
+    console.log('SELECT', this)
 
+    const {
+      onTweetRemove,
+      onAddUserIgnore,
+      onRemoveUserIgnore,
+      profileId,
+      menu: {
+        tweet,
+        tweet: { createUserId }
+      }
+    } = this.props
+
+    this.props.menu.funcClose()
+
+    switch (type) {
+      case 'remove':
+        return onTweetRemove(tweet) // удаляем твит из базы и из списка твитов пользователя()
+      case 'edit':
+        return this.handleDialogOpen()
+      case 'addIgnore':
+        return onAddUserIgnore(profileId, createUserId)
+      case 'removeIgnore':
+        return onRemoveUserIgnore(profileId, createUserId)
+      default:
+        return null
+    }
+  }
   // ----
   /**
    * Клик по редактировать твит
    * Открывает диалог для редактирование твита
    */
-  const handleDialogOpen = () => {
-    popupsContext.openDialog({
+  handleDialogOpen = () => {
+    const { tweet: { text } } = this.props.menu
+
+    this.context.openDialog({
       placeholder: 'Текст твита',
       title: 'Изменить твит',
       inputValue: text,
-      callBack: handleDialogSave
+      callBack: this.handleDialogSave
     })
   }
   /**
    * Клик по сохранить отредактированный текст твита
    * @param text
    */
-  const handleDialogSave = (text) => {
-    const { tweet: { id }, onTweetEdit } = props
+  handleDialogSave = (text) => {
+    const { menu: { tweet: { id } }, onTweetEdit } = this.props
     onTweetEdit(id, text)
   }
-  /**
-   * Обработка клика по удалить твит
-   * Если это собственный твит пользователя, то удаляем его
-   * Если другого, то добавляем пользователя в ЧС
-   */
-  const tweetRemoveOrIgnore = () => {
+
+  render () {
+
+    const {
+      profileId,
+      profile,
+      menu: {
+        tweet: { createUserId },
+        tweetMenuEl,
+        funcClose
+      }
+    } = this.props
+
+    const isMyTweet = createUserId === profileId
+    const isUserIgnore = profile.ignoreList.find(igId => igId === createUserId) !== undefined
+
+    // Выпадающее меню твита
+    let menu = []
     if (isMyTweet) {
-      onTweetRemove(tweet) // удаляем твит из базы и из списка твитов пользователя
-    } else { // добавляем в игнор пользователя
-      onAddUserIgnore(profileId, tweet.createUserId )
+      menu = this.state.menuList.isMyTweet.map((el) => (
+        <MenuItem
+          key={el.type}
+          onClick={() => this.handleTweetMenuSelect(el.type)}>
+          {el.text}
+        </MenuItem>
+      ))
+    } else {
+      menu.push(
+        this.state.menuList.isUserTweet.map((el) => {
+          if (isUserIgnore === el.isIgnore) {
+            return (
+              <MenuItem
+                key={el.type}
+                onClick={() => this.handleTweetMenuSelect(el.type)}>
+                {el.text}
+              </MenuItem>
+            )
+          }
+          return null
+        })
+      )
     }
-  }
-  return (
-    <>
-      <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleTweetMenuOpen}>
-        <MoreVertIcon/>
-      </IconButton>
+
+    return (
       <Menu
         id="simple-menu"
         anchorEl={tweetMenuEl}
         keepMounted
         open={Boolean(tweetMenuEl)}
-        onClose={handleTweetMenuClose}
+        onClose={funcClose}
       >
-        <MenuItem
-          onClick={() => handleTweetMenuSelect('remove')}>{isMyTweet ? 'Удалить' : 'Игнорировать пользователя'}</MenuItem>
-        {isMyTweet ? <MenuItem onClick={() => handleTweetMenuSelect('edit')}>Редактировать</MenuItem> : null }
+        {menu}
       </Menu>
-    </>
-  )
+    )
+  }
 }
+
+TweetMenu.contextTypes = ({
+  openDialog: PropTypes.func
+})
 
 const mapDispatchToProps = dispatch => {
   return {
     onTweetRemove: (tweet) => dispatch(actions.tweetRemove(tweet)),
+    onTweetEdit: (id, text) => dispatch(actions.tweetEdit(id, text)),
     onAddUserIgnore: (profileId, userId) => dispatch(actions.addUserIgnore(profileId, userId)),
-    onTweetEdit: (id, text) => dispatch(actions.tweetEdit(id, text))
+    onRemoveUserIgnore: (profileId, userId) => dispatch(actions.removeUserIgnore(profileId, userId)),
   }
 }
 
 export default connect(
-  (state) => ({ profileId: state.profile.id })
+  (state) => ({
+    profileId: state.profile.id,
+    profile: getUser(state, state.profile.id)
+  })
   , mapDispatchToProps
 )(TweetMenu)

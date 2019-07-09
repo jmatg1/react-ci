@@ -49,13 +49,32 @@ class UserHead extends Component {
       dateCreate: new Date().toJSON()
     })
   }
+
+  /**
+   * Доавления/Удаления из чс
+   * @return {*}
+   */
+  handleIgnoreList = (type) => {
+    const {
+      user: {id: userId},
+      profileId,
+      onAddUserIgnore,
+      onRemoveUserIgnore } = this.props
+
+    switch (type) {
+      case "add": return onAddUserIgnore(profileId,userId)
+      case "remove": return onRemoveUserIgnore(profileId,userId)
+    }
+  }
   render () {
     const {
-      user: { name, following, tweets, followers, isSubscribed, avatar },
-      profileId,
-      userPageId } = this.props
+      user: { id: userId, name, nickName, following, tweets, followers, isSubscribed, avatar },
+      profile: { id: profileId, ignoreList },
+      userPageId
+    } = this.props
 
     const isMe = userPageId === profileId
+    const isUserIgnore = ignoreList.find(igId => igId === userPageId) !== undefined
 
     const classes = {
       paper: {
@@ -70,20 +89,23 @@ class UserHead extends Component {
       <Grid item xs={12}>
         <Paper style={classes.paper}>
           <Grid container spacing={3}>
-            <Grid item xs={12} style={{display: 'flex'}}>
+            <Grid item xs={12} style={{ display: 'flex' }}>
               <img src={avatar} alt="Avatar"/>
-              <Typography style={{marginLeft: '25px'}} variant="h3" gutterBottom>{name}</Typography>
+              <Typography style={{ marginLeft: '25px' }} variant="h3" gutterBottom>
+                {name}
+                <Typography style={{ fontSize: '20px' }} gutterBottom>@{nickName}</Typography>
+              </Typography>
             </Grid>
 
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               <Typography paragraph>Твитов</Typography>
               {tweets.length}
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               <Typography paragraph>Читаемые</Typography>
               {following.length}
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               <Typography paragraph>Читатели</Typography>
               {followers.length}
             </Grid>
@@ -94,11 +116,28 @@ class UserHead extends Component {
                   Добавить твит
                 </Button>
               </Grid>
-              : <Grid item xs={3}>
-                <Button variant="contained" color="primary" className={classes.button} onClick={this.handleSubscribe}>
-                  {isSubscribed ? 'Отписаться' : 'Подписаться'}
-                </Button>
-              </Grid>
+              :
+              <>
+                <Grid item xs={3}>
+                  <Button disabled={isUserIgnore} variant="contained" color="primary" className={classes.button}
+                          onClick={this.handleSubscribe}>
+                    {isSubscribed ? 'Отписаться' : 'Подписаться'}
+                  </Button>
+                </Grid>
+                { isUserIgnore  ?
+                  <Grid item xs={3}>
+                    <Button variant="contained" color="secondary" className={classes.button} onClick={()=>this.handleIgnoreList('remove')}>
+                      Удалить из ЧС
+                    </Button>
+                  </Grid>
+                  :
+                  <Grid item xs={3}>
+                    <Button variant="contained" color="secondary" className={classes.button} onClick={()=>this.handleIgnoreList('add')}>
+                      Добавить в чс
+                    </Button>
+                  </Grid>
+                }
+              </>
             }
 
           </Grid>
@@ -111,6 +150,7 @@ class UserHead extends Component {
 const mapStateToProps = (state, prevProps) => {
   return {
     user: getUser(state, prevProps.userPageId),
+    profile: getUser(state, state.profile.id),
     profileId: state.profile.id
   }
 }
@@ -118,7 +158,9 @@ const mapStateToProps = (state, prevProps) => {
 const mapDispatchToProps = dispatch => {
   return {
     onAddTweet: (tweet) => dispatch(actions.addTweet(tweet)),
-    onSubscribe: (payload) => dispatch(actions.subscribe(payload))
+    onSubscribe: (payload) => dispatch(actions.subscribe(payload)),
+    onAddUserIgnore: (profileId, userId) => dispatch(actions.addUserIgnore(profileId, userId)),
+    onRemoveUserIgnore: (profileId, userId) => dispatch(actions.removeUserIgnore(profileId, userId))
   }
 }
 UserHead.contextTypes = ({
