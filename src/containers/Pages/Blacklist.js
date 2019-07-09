@@ -18,7 +18,7 @@ const Blacklist = (props) => {
   let usersRender = []
   for (let k in users) {
     usersRender.push(<Grid key={k} item xs={3}>
-      <UserItem user={users[k]} />
+      <UserItem user={users[k]} ignore />
     </Grid>)
   }
 
