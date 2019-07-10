@@ -21,7 +21,7 @@ class User extends Component {
 
     let renderTwits = []
 
-    tweets.flatMap(tw => {
+    tweets.map(tw => {
       renderTwits.push(
         <Grid key={tw.id} item xs={4}>
           <Tweet tweet={tw}/>
@@ -61,10 +61,4 @@ const mapStateToProps = (state, prevProps) => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onFetchTweetsMain: (payload) => dispatch(actions.fetchTweetsMain(payload))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(User)
+export default connect(mapStateToProps)(User)

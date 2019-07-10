@@ -6,15 +6,12 @@ import { fetchAllTweets } from '../../selectors/index'
 import Tweet from '../../components/Tweet/Tweet'
 
 const Feed = (props) => {
-  let renderTwits = []
 
-  props.tweets.flatMap(tw => {
-    renderTwits.push(
+  const renderTwits = props.tweets.map(tw => (
       <Grid key={tw.id} item xs={4}>
         <Tweet tweet={tw}/>
       </Grid>
-    )
-  })
+  ))
 
   return (
 

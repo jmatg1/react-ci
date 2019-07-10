@@ -11,7 +11,6 @@ if (!contactsStor) {
 }
 
 const initialStore = fromJS(arrToMap(contactsStor, fromJS))
-console.log(initialStore)
 
 // ----------------------------------------
 // Добавление нового пользователя в БД
