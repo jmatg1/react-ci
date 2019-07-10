@@ -7,7 +7,6 @@ import Tweet from '../../components/Tweet/Tweet'
 
 const Feed = (props) => {
   let renderTwits = []
-  console.log(props.tweets)
 
   props.tweets.flatMap(tw => {
     renderTwits.push(

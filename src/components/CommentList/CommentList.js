@@ -23,9 +23,18 @@ const CommentList = (props) => {
     const author = <>
       {cm.user.name}
       <span className={classes.mark}>
-        id{cm.user.id}
+        @{cm.user.nickName}
       </span>
     </>
+
+    if (cm.isIgnore) { // если пользоваетль игнорируется
+      return (
+        <span key={i} className={classes.mark}>
+          {cm.user.name} @{cm.user.nickName} заблокирован
+        </span>
+      )
+    }
+
     return (
       <ListItem key={i} alignItems="flex-start">
         <ListItemAvatar>

@@ -5,7 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions/index'
-import { getUser } from '../../selectors'
+import { getProfileId, getUser } from '../../selectors'
 
 class TweetMenu extends Component {
   state = {
@@ -36,8 +36,6 @@ class TweetMenu extends Component {
   }
 
   handleTweetMenuSelect = (type) => {
-    console.log('SELECT', this)
-
     const {
       onTweetRemove,
       onAddUserIgnore,
@@ -158,7 +156,7 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(
   (state) => ({
-    profileId: state.profile.id,
+    profileId: getProfileId(state),
     profile: getUser(state, state.profile.id)
   })
   , mapDispatchToProps

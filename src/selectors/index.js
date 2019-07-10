@@ -20,7 +20,7 @@ export const fetchTweetsMain = createSelector(
     return tweets
       .filter(tweet => {
         if (tweet.createUserId === profileId || // собственные твиты
-        following.find(folId => (folId === tweet.createUserId))) { // твиты подписок
+          following.find(folId => (folId === tweet.createUserId))) { // твиты подписок
           tweet.isFavorite = tweet.likes.find(lkId => lkId === profileId) !== undefined // лакнут ли этот пост
           return tweet
         }
@@ -58,16 +58,23 @@ export const fetchTweetsUser = createSelector(
 
 // Получаем комментарии твита
 export const fetchComments = createSelector(
+  profileIdSelector,
   tweetIdSelector,
   usersSelector,
   commentsSelector,
   tweetsSelector,
-  (tweetId, users, comments, tweets) => {
-    return tweets.get(tweetId).commentsId.map(cmId =>
-      ({
+  (profileId, tweetId, users, comments, tweets) => {
+    return tweets.get(tweetId).commentsId.map(cmId => {
+      const user = users.get(comments.get(cmId).createUserId).toJS()
+      const isIgnore = users.getIn([profileId, 'ignoreList']).find(igId => igId === user.id) !== undefined
+      console.log(isIgnore)
+
+      return ({
         comment: comments.get(cmId),
-        user: users.get(comments.get(cmId).createUserId).toJS()
+        user: user,
+        isIgnore
       })
+    }
     )
   })
 

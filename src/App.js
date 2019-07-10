@@ -90,10 +90,8 @@ class App extends Component {
   }
   // -- Tweet Menu End
   render () {
-    console.log(this.state.tweetMenu)
-
-    const { profileId } = this.props
     console.log('RENDER APP')
+    const { profileId } = this.props
     return (
       <>
         <PopupsContext.Provider value={{ openDialog: this.handleDialogOpen }}>
