@@ -34,7 +34,7 @@ export class Tweet extends Component {
     const { tweet: { text, likes } } = this.props
     const { text: prText, likes: prLikes } = nextProps.tweet
 
-    if (likes === prLikes & text === prText & this.state.expanded === nextState.expanded) return false
+    if (likes.length === prLikes.length & text === prText & this.state.expanded === nextState.expanded) return false
     return true
   }
 
