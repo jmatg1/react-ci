@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import Link from '../Link/Link'
 import { getUser } from '../../selectors/index'
 import * as actions from '../../store/actions/index'
 

@@ -24,27 +24,6 @@ export const mainListItems = (
       <ListItemText primary="Рекомендации"/>
     </ListItem>
 
-    <ListItem button component={Link} to="/tweets/:id">
-      <ListItemIcon>
-        <PeopleIcon/>
-      </ListItemIcon>
-      <ListItemText primary="Твиты"/>
-    </ListItem>
-
-    <ListItem button component={Link} to="/following">
-      <ListItemIcon>
-        <PeopleIcon/>
-      </ListItemIcon>
-      <ListItemText primary="Читаемые"/>
-    </ListItem>
-
-    <ListItem button component={Link} to="/followers">
-      <ListItemIcon>
-        <PeopleIcon/>
-      </ListItemIcon>
-      <ListItemText primary="Читатели"/>
-    </ListItem>
-
     <ListItem button component={Link} to="/blacklist">
       <ListItemIcon>
         <PeopleIcon/>
