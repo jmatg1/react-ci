@@ -31,10 +31,10 @@ export class Tweet extends Component {
     expanded: false
   }
   shouldComponentUpdate (nextProps, nextState) {
-    const { tweet: {text, likes} } = this.props
+    const { tweet: { text, likes } } = this.props
     const { text: prText, likes: prLikes } = nextProps.tweet
 
-    if (likes === prLikes & text === prText & this.state.expanded === nextState.expanded ) return false
+    if (likes === prLikes & text === prText & this.state.expanded === nextState.expanded) return false
     return true
   }
 

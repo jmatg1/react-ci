@@ -14,41 +14,39 @@ import { Link } from 'react-router-dom'
 import * as actions from '../../store/actions/index'
 import { getProfileId } from '../../selectors'
 
-class UserItem extends PureComponent  {
-
+class UserItem extends PureComponent {
  handleRemoveUser = () => {
-   const { onRemoveUserIgnore, profileId, user:{id}} = this.props
-  onRemoveUserIgnore(profileId, id)
-}
+   const { onRemoveUserIgnore, profileId, user: { id } } = this.props
+   onRemoveUserIgnore(profileId, id)
+ }
 
-render(){
-  console.log('userItem render')
-  const { user: { id, name, nickName, avatar }, ignore = false, classes } = this.props
-    return (
-      <Card className={classes.card}>
-        <CardActionArea>
-          <CardMedia
-            className={classes.media}
-            image={avatar}
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              {name} <br/> <Link to={`/${id}`}>@{nickName}</Link>
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          {ignore
-            ? <Button size="small" color="primary" onClick={this.handleRemoveUser}>
+ render () {
+   console.log('userItem render')
+   const { user: { id, name, nickName, avatar }, ignore = false, classes } = this.props
+   return (
+     <Card className={classes.card}>
+       <CardActionArea>
+         <CardMedia
+           className={classes.media}
+           image={avatar}
+         />
+         <CardContent>
+           <Typography gutterBottom variant="h5" component="h2">
+             {name} <br/> <Link to={`/${id}`}>@{nickName}</Link>
+           </Typography>
+         </CardContent>
+       </CardActionArea>
+       <CardActions>
+         {ignore
+           ? <Button size="small" color="primary" onClick={this.handleRemoveUser}>
               Удалить из ЧС
-            </Button>
-            : null
-          }
-        </CardActions>
-      </Card>
-    )
-  }
-
+           </Button>
+           : null
+         }
+       </CardActions>
+     </Card>
+   )
+ }
 }
 
 const classes = {
