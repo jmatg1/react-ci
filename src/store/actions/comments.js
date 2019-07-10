@@ -13,3 +13,11 @@ export const editComment = payload => {
     payload
   }
 }
+
+export const deleteComment = (commentId,tweetId) => {
+  return {
+    type: actionTypes.COMMENT_REMOVE,
+    commentId,
+    tweetId
+  }
+}

@@ -1,17 +1,12 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import Typography from '@material-ui/core/Typography'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-import Avatar from '@material-ui/core/Avatar'
 
 import { connect } from 'react-redux'
 
 import { fetchComments } from '../../selectors/index'
 import SubmitComment from '../CommentSubmit/CommentSubmit'
-import Moment from 'react-moment'
+import CommentItem from '../CommentItem/CommentItem'
 
 const CommentList = (props) => {
   console.log('CommentList render')
@@ -20,12 +15,6 @@ const CommentList = (props) => {
   const classes = useStyles()
 
   const commentArray = comments.map((cm, i) => {
-    const author = <>
-      {cm.user.name}
-      <span className={classes.mark}>
-        @{cm.user.nickName}
-      </span>
-    </>
 
     if (cm.isIgnore) { // если пользоваетль игнорируется
       return (
@@ -34,36 +23,7 @@ const CommentList = (props) => {
         </span>
       )
     }
-
-    return (
-      <ListItem key={i} alignItems="flex-start">
-        <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src={cm.user.avatar} />
-        </ListItemAvatar>
-        <ListItemText
-          primary={author}
-          secondary={
-            <>
-              <Typography
-                component="span"
-                variant="body2"
-                className={classes.inline}
-                color="textPrimary"
-              >
-                {cm.comment.text}
-              </Typography>
-              <Typography
-                component={'br'}/>
-              <Typography
-                component={'span'}
-                variant={'body2'}>
-                <Moment locale="ru" fromNow>{cm.comment.dateCreate}</Moment>
-              </Typography>
-            </>
-          }
-        />
-      </ListItem>
-    )
+     return <CommentItem key={i} tweetId={tweetId} isMy={cm.isMy} user={cm.user} comment={cm.comment}/>
   })
 
   return (
@@ -81,13 +41,6 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     maxWidth: 400,
     backgroundColor: theme.palette.background.paper
-  },
-  inline: {
-    display: 'inline'
-  },
-  mark: {
-    fontSize: '12px',
-    color: 'rgba(0, 0, 0, 0.54)'
   }
 }))
 

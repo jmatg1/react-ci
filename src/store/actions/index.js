@@ -20,5 +20,6 @@ export {
 
 export {
   addComment,
-  editComment
+  editComment,
+  deleteComment
 } from './comments'

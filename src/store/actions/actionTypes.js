@@ -16,3 +16,4 @@ export const TWEETS_FETCH_USER = 'TWEETS_FETCH_USER' // твиты пользо�
 
 export const COMMENT_ADD = 'COMMENT_ADD'
 export const COMMENT_EDIT = 'COMMENT_EDIT'
+export const COMMENT_REMOVE = 'COMMENT_REMOVE'

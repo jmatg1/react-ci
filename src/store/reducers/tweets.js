@@ -46,6 +46,16 @@ const addComment = (state, action) => {
     commentsId => updComments
   )
 }
+const commentRemove = (state, { commentId, tweetId }) => {
+
+  let updComments = [...state.get(tweetId).commentsId]
+  updComments = updComments.filter(cmId => cmId !== commentId)
+
+  return state.updateIn(
+    [tweetId, 'commentsId'],
+    commentsId => updComments
+  )
+}
 const addTweet = (state, { tweet }) => {
   return state.set(tweet.id, tweet)
 }
@@ -72,11 +82,15 @@ const tweetStore = (state = initialStore, action) => {
 
   case actionTypes.TWEET_EDIT:
     return tweetEdit(state, action)
+
   case actionTypes.TWEET_REMOVE:
     return tweetRemove(state, action)
 
   case actionTypes.COMMENT_ADD:
     return addComment(state, action)
+
+  case actionTypes.COMMENT_REMOVE:
+    return commentRemove(state, action)
 
   case actionTypes.TWEET_ADD:
     return addTweet(state, action)

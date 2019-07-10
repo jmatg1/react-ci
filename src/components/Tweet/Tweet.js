@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
@@ -23,7 +24,6 @@ import * as actions from '../../store/actions/index'
 
 import CommentList from '../../components/CommentList/CommentList'
 import TweetMenu from '../TweetMenu/TweetMenu'
-import PropTypes from 'prop-types'
 import { getProfileId, getUser } from '../../selectors'
 
 export class Tweet extends Component {

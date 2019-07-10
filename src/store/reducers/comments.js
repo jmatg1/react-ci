@@ -19,9 +19,14 @@ const addComment = (state, action) => {
   return state.set(comment.id, comment)
 }
 
+const removeComment = (state, { commentId }) => {
+  return state.delete(commentId)
+}
+
 const commentsReducer = (state = initialStore, action) => {
   switch (action.type) {
   case actionTypes.COMMENT_ADD: return addComment(state, action)
+  case actionTypes.COMMENT_REMOVE: return removeComment(state, action)
   default:
     return state
   }
