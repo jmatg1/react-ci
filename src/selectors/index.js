@@ -3,7 +3,12 @@ import {createSelector} from 'reselect'
 export const profileIdSelector = state => state.profile.id
 export const tweetsSelector = state => state.tweets
 export const usersSelector = state => state.users
+export const commentsSelector = state => state.comments
 export const userIdSelector = (_,prevProps) => prevProps
+export const tweetIdSelector = (_,prevProps) => prevProps.tweetId
+
+export const getProfileId = createSelector(profileIdSelector,(profileId) => profileId)
+
 // Ищем все твиты как свои так и твиты подписок
 // Добавляем isFavorite к каждому твиту, true - пост лайкнут
 export const fetchTweetsMain = createSelector(
@@ -55,14 +60,19 @@ export const fetchTweetsUser = createSelector(
 
 
 // Получаем комментарии твита
-export const fetchComments = (tweetId, users, comments, tweets) => {
+export const fetchComments = createSelector(
+  tweetIdSelector,
+  usersSelector,
+  commentsSelector,
+  tweetsSelector,
+  (tweetId, users, comments, tweets) => {
   return tweets.get(tweetId).commentsId.map(cmId =>
     ({
       comment: comments.get(cmId),
       user: users.get(comments.get(cmId).createUserId).toJS()
     })
   )
-}
+})
 
 // Получаем пользователя
 export const getUser = (state, id) => {

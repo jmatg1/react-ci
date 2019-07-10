@@ -14,6 +14,7 @@ import SubmitComment from '../CommentSubmit/CommentSubmit'
 import Moment from 'react-moment'
 
 const CommentList = (props) => {
+  console.log('CommentList render')
   const { comments, tweetId } = props
 
   const classes = useStyles()
@@ -82,11 +83,10 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const mapStateToProps = (state, prevProps) => {
-  const { users, comments, tweets } = state
-  const { tweetId } = prevProps
+  console.log('CommentList connect')
 
   return {
-    comments: fetchComments(tweetId, users, comments, tweets)
+    comments: fetchComments(state, prevProps)
   }
 }
 

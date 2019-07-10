@@ -99,7 +99,7 @@ class UserHead extends Component {
             </Grid>
 
             <Grid item xs={2}>
-              <Link to={`/${userPageId}/tweets`}>
+              <Link to={`/${userPageId}/tweets`} >
                 <Typography paragraph>Твитов</Typography>
                 {tweets.length}
               </Link>

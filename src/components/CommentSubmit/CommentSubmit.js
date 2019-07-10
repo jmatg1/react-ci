@@ -7,8 +7,11 @@ import Button from '@material-ui/core/Button/index'
 import { connect } from 'react-redux'
 
 import * as actions from '../../store/actions'
+import { getProfileId } from '../../selectors/index'
 
 const SubmitComment = (props) => {
+  console.log('CommentSubmit render')
+
   const classes = useStyles()
   const [value, setValue] = React.useState('')
   const handleChange = event => {
@@ -58,8 +61,10 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const mapStateToProps = state => {
+  console.log('CommentSubmit connect')
+
   return {
-    profileId: state.profile.id
+    profileId: getProfileId(state)
   }
 }
 

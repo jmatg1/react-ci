@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
 
 import * as actions from '../../../store/actions/index'
-import { fetchTweetsMain, fetchTweetsUser } from '../../../selectors/index'
+import { fetchTweetsMain, fetchTweetsUser, getProfileId } from '../../../selectors/index'
 import UserHead from '../../../components/UserHead/UserHead'
 import Tweet from '../../../components/Tweet/Tweet'
 import TweetsPage from './Tweets'
@@ -13,7 +13,7 @@ import FollowPage from './Follow'
 
 class User extends Component {
   render () {
-    console.log('render MyPage')
+    console.log('User render')
 
     const { tweets } = this.props
     const routeId = Number(this.props.match.params.id)
@@ -48,7 +48,7 @@ class User extends Component {
 }
 
 const mapStateToProps = (state, prevProps) => {
-  console.log('connect MyPage')
+  console.log('User connect')
   const profileId = state.profile.id
   const routeId = Number(prevProps.match.params.id)
   const pageId = routeId || profileId
@@ -56,7 +56,7 @@ const mapStateToProps = (state, prevProps) => {
   if (pageId === profileId) isMyPage = true
 
   return {
-    profileId: profileId,
+    profileId: getProfileId(state),
     tweets: isMyPage ? fetchTweetsMain(state, prevProps) : fetchTweetsUser(state, pageId)
   }
 }

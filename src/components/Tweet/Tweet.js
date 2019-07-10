@@ -24,10 +24,18 @@ import * as actions from '../../store/actions/index'
 import CommentList from '../../components/CommentList/CommentList'
 import TweetMenu from '../TweetMenu/TweetMenu'
 import PropTypes from 'prop-types'
+import { getProfileId, getUser } from '../../selectors'
 
 export class Tweet extends Component {
   state = {
     expanded: false
+  }
+  shouldComponentUpdate (nextProps, nextState) {
+    const { tweet: {text, likes} } = this.props
+    const { text: prText, likes: prLikes } = nextProps.tweet
+
+    if (likes === prLikes & text === prText & this.state.expanded === nextState.expanded ) return false
+    return true
   }
 
   /**
@@ -51,6 +59,7 @@ export class Tweet extends Component {
       profileId: this.props.profileId
     })
   }
+
   handleTweetMenuOpen = (event) => {
     this.context.openTweetMenu({
       tweet: this.props.tweet,
@@ -119,9 +128,11 @@ Tweet.contextTypes = ({
 })
 
 const mapStateToProps = (state, prevProps) => {
+  console.log('Tweet connect')
+
   return {
-    profileId: state.profile.id,
-    user: state.users.get(prevProps.tweet.createUserId).toJS()
+    profileId: getProfileId(state),
+    user: getUser(state, prevProps.tweet.createUserId)
   }
 }
 
