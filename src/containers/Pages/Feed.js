@@ -2,7 +2,7 @@ import React from 'react'
 import Grid from '@material-ui/core/Grid'
 
 import { connect } from 'react-redux'
-import { fetchAllTweets } from '../../selectors/index'
+import { fetchTweetFeed } from '../../selectors/index'
 import Tweet from '../../components/Tweet/Tweet'
 
 const Feed = (props) => {
@@ -23,7 +23,7 @@ const Feed = (props) => {
 
 const mapStateToProps = state => {
   return {
-    tweets: fetchAllTweets(state, state.profile.id)
+    tweets: fetchTweetFeed(state)
   }
 }
 

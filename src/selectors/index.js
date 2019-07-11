@@ -11,6 +11,7 @@ export const tweetIdSelector = (_, prevProps) => prevProps.tweetId
 export const getProfileId = createSelector(profileIdSelector, (profileId) => profileId)
 
 // Добавляем isFavorite к каждому твиту, true - пост лайкнут
+// Сортируем по свежим твитам
 const sortFavoriteTweets = (tweetsFilter, profileId) => {
   return tweetsFilter.map(tw => {
     const isFavorite = tw.get('likes').find(lkId => lkId === profileId) !== undefined // лакнут ли этот пост
@@ -44,6 +45,19 @@ export const fetchTweetsMain = createSelector(
         }
         return null
       })
+
+    return sortFavoriteTweets(tweetsFilter, profileId)
+  })
+
+export const fetchTweetFeed = createSelector(
+  profileIdSelector,
+  tweetsSelector,
+  usersSelector,
+  (profileId, tweets, users) => {
+    const ignoreList = users.getIn([profileId, 'ignoreList'])
+    console.log(ignoreList)
+
+    const tweetsFilter = tweets.filter(tweet => !ignoreList.find((igId) => ( igId === tweet.get('createUserId')))) // отбрасываем игнорированные твиты
 
     return sortFavoriteTweets(tweetsFilter, profileId)
   })
