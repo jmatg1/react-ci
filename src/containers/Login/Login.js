@@ -16,6 +16,7 @@ import * as actions from '../../store/actions/index'
 function SignIn (props) {
   const [isSignUp, setIsSignUp] = useState(false)
   const [signName, setSignName] = useState('')
+  const [signNickName, setSignNickName] = useState('')
   const [signPassword, setSignPassword] = useState('')
   const classes = useStyles()
   /**
@@ -26,7 +27,7 @@ function SignIn (props) {
    */
   const findUser = (users, error) => {
     return users.find(user => {
-      if (user.name === signName) {
+      if (user.nickName === signNickName) {
         if (error) {
           alert(error)
           return true
@@ -49,6 +50,9 @@ function SignIn (props) {
     case 'password':
       setSignPassword(ev.target.value)
       break
+    case 'nick':
+      setSignNickName(ev.target.value)
+      break
     default:
     }
   }
@@ -67,27 +71,30 @@ function SignIn (props) {
    */
   const handleFormSubmit = (ev) => {
     ev.preventDefault()
-    const { users, signupUser, setProfile, history } = props
+    const { users, onSignupUser, onSetProfile, history } = props
     let profileId = null
     if (isSignUp) { // регистрация
       if (findUser(users, 'Логин занят')) return
       const newUser = {
         id: users.length,
         name: signName,
+        nickName: signNickName,
         password: signPassword,
+        avatar: 'https://avatarfiles.alphacoders.com/161/161918.png',
         tweets: [],
         following: [],
-        followers: []
+        followers: [],
+        ignoreList: []
       }
-      signupUser(newUser)
+      onSignupUser(newUser)
       const { password, ...profile } = newUser
-      setProfile(profile)
+      onSetProfile(profile)
       profileId = newUser.id
     } else { // авторизация
       const foundUser = findUser(users)
       if (!foundUser) return alert('Неверный логин или пароль')
       const { password, ...profile } = foundUser
-      setProfile(profile)
+      onSetProfile(profile)
       profileId = profile.id
     }
     history.replace(`/${profileId}`) // редирект происходит, только вслучаи успешной рег. или автор.
@@ -110,11 +117,23 @@ function SignIn (props) {
             margin="normal"
             required
             fullWidth
-            label="Имя"
-            name="name"
-            autoComplete="email"
-            autoFocus
+            label="Никнейм"
+            name="nick"
           />
+          { isSignUp
+            ? <TextField
+              onChange={handleFormInput}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              label={isSignUp ? 'Имя Фамилия' : 'Никнейм'}
+              name="name"
+              autoComplete="email"
+              autoFocus
+            />
+            : null }
+
           <TextField
             onChange={handleFormInput}
             variant="outlined"
@@ -177,8 +196,8 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    signupUser: (newUser) => dispatch(actions.signupUser(newUser)),
-    setProfile: (profile) => dispatch(actions.setProfile(profile))
+    onSignupUser: (newUser) => dispatch(actions.signupUser(newUser)),
+    onSetProfile: (profile) => dispatch(actions.setProfile(profile))
   }
 }
 
