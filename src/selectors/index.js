@@ -54,7 +54,6 @@ export const fetchTweetFeed = createSelector(
   usersSelector,
   (profileId, tweets, users) => {
     const ignoreList = users.getIn([profileId, 'ignoreList'])
-    console.log(ignoreList)
 
     const tweetsFilter = tweets.filter(tweet => !ignoreList.find((igId) => (igId === tweet.get('createUserId')))) // отбрасываем игнорированные твиты
 

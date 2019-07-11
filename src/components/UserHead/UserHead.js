@@ -6,7 +6,6 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions/index'
 import Link from '../Link/Link'
@@ -68,6 +67,7 @@ class UserHead extends Component {
     switch (type) {
       case 'add': return onAddUserIgnore({ profileId, userId })
       case 'remove': return onDeleteUserIgnore({ profileId, userId })
+      default: return false
     }
   }
   render () {

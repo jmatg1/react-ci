@@ -9,7 +9,6 @@ import SubmitComment from '../CommentSubmit/CommentSubmit'
 import CommentItem from '../CommentItem/CommentItem'
 
 const CommentList = (props) => {
-  console.log('CommentList render')
   const { comments, tweetId } = props
 
   const classes = useStyles()
@@ -50,8 +49,6 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const mapStateToProps = (state, prevProps) => {
-  console.log('CommentList connect')
-
   return {
     comments: fetchComments(state, prevProps)
   }

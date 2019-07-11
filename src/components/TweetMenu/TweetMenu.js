@@ -88,8 +88,6 @@ class TweetMenu extends Component {
   }
 
   render () {
-    console.log('render menuItem')
-
     const {
       profileId,
       profile,

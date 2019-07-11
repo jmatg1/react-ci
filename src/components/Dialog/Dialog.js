@@ -12,7 +12,6 @@ const FormDialog = (props) => {
   const { placeholder, title, inputValue } = props.dialog
   const [value, setValue] = useState(inputValue)
   const [error, setError] = useState({ error: true, text: null })
-  console.log('FORM', props)
 
   /**
    * Установить в поле ввода текст
@@ -47,7 +46,7 @@ const FormDialog = (props) => {
 
   const handleChangeValue = (ev) => {
     const text = String(ev.target.value)
-    if (validation(text) === true || 1) {
+    if (validation(text)) {
       setValue(text)
     }
   }

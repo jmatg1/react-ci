@@ -11,21 +11,17 @@ import FollowPage from './Follow'
 
 class User extends Component {
   render () {
-    console.log('User render')
-
     const { tweets } = this.props
     const routeId = Number(this.props.match.params.id)
     const pageId = routeId || this.props.profileId
 
     let renderTwits = []
 
-    tweets.map(tw => {
-      renderTwits.push(
-        <Grid key={tw.id} item xs={4}>
-          <Tweet tweet={tw}/>
-        </Grid>
-      )
-    })
+    renderTwits = tweets.map(tw => (
+      <Grid key={tw.id} item xs={4}>
+        <Tweet tweet={tw}/>
+      </Grid>
+    ))
 
     return (
       <>
@@ -46,7 +42,6 @@ class User extends Component {
 }
 
 const mapStateToProps = (state, prevProps) => {
-  console.log('User connect')
   const profileId = state.profile.id
   const routeId = Number(prevProps.match.params.id)
   const pageId = routeId || profileId

@@ -91,7 +91,6 @@ class App extends Component {
   }
   // -- Tweet Menu End
   render () {
-    console.log('RENDER APP')
     const { profileId } = this.props
     return (
       <>
