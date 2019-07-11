@@ -67,7 +67,8 @@ export class Tweet extends Component {
   }
   render () {
     console.log('render tweet')
-    const { tweet: { id: tweetId, text, dateCreate, likes, isFavorite, createUserId }, user: { name, avatar }, classes } = this.props
+    const { tweet: { id: tweetId, text, dateCreate, likes, isFavorite, createUserId }, user: { name, avatar }, classes, profileId } = this.props
+    const isMyTweet = createUserId === profileId
     const { expanded } = this.state
 
     return (
@@ -81,7 +82,7 @@ export class Tweet extends Component {
               <MoreVertIcon/>
             </IconButton>
           }
-          title=<Link to={`/${createUserId}`}>{name}</Link>
+          title={ isMyTweet ? name :  <Link to={`/${createUserId}`}>{name}</Link>}
           subheader={<Moment locale="ru" fromNow>{dateCreate}</Moment>}
         />
         <CardContent>
