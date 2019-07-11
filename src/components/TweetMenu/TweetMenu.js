@@ -39,7 +39,7 @@ class TweetMenu extends Component {
     const {
       onTweetRemove,
       onAddUserIgnore,
-      onRemoveUserIgnore,
+      onDeleteUserIgnore,
       profileId,
       menu: {
         tweet,
@@ -57,7 +57,7 @@ class TweetMenu extends Component {
     case 'addIgnore':
       return onAddUserIgnore(profileId, createUserId)
     case 'removeIgnore':
-      return onRemoveUserIgnore(profileId, createUserId)
+      return onDeleteUserIgnore(profileId, createUserId)
     default:
       return null
     }
@@ -147,10 +147,10 @@ TweetMenu.contextTypes = ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    onTweetRemove: (tweet) => dispatch(actions.tweetRemove(tweet)),
-    onTweetEdit: (id, text) => dispatch(actions.tweetEdit(id, text)),
+    onTweetRemove: (tweet) => dispatch(actions.deleteTweet(tweet)),
+    onTweetEdit: (id, text) => dispatch(actions.editTweet(id, text)),
     onAddUserIgnore: (profileId, userId) => dispatch(actions.addUserIgnore(profileId, userId)),
-    onRemoveUserIgnore: (profileId, userId) => dispatch(actions.removeUserIgnore(profileId, userId))
+    onDeleteUserIgnore: (profileId, userId) => dispatch(actions.deleteUserIgnore(profileId, userId))
   }
 }
 

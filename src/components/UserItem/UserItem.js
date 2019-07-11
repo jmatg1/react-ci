@@ -16,8 +16,8 @@ import { getProfileId } from '../../selectors'
 
 class UserItem extends PureComponent {
  handleRemoveUser = () => {
-   const { onRemoveUserIgnore, profileId, user: { id } } = this.props
-   onRemoveUserIgnore(profileId, id)
+   const { onDeleteUserIgnore, profileId, user: { id } } = this.props
+   onDeleteUserIgnore(profileId, id)
  }
 
  render () {
@@ -68,7 +68,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onRemoveUserIgnore: (profileId, userId) => dispatch(actions.removeUserIgnore(profileId, userId))
+    onDeleteUserIgnore: (profileId, userId) => dispatch(actions.deleteUserIgnore(profileId, userId))
   }
 }
 export default withStyles(classes)(connect(mapStateToProps, mapDispatchToProps)(UserItem))

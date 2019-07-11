@@ -11,7 +11,7 @@ export const addUserIgnore = (profileId, userId) => ({
   profileId,
   userId
 })
-export const removeUserIgnore = (profileId, userId) => ({
+export const deleteUserIgnore = (profileId, userId) => ({
   type: actionTypes.USER_REMOVE_IGNORE,
   profileId,
   userId

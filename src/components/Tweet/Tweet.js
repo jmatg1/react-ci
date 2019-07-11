@@ -23,7 +23,6 @@ import 'moment/locale/ru'
 import * as actions from '../../store/actions/index'
 
 import CommentList from '../../components/CommentList/CommentList'
-import TweetMenu from '../TweetMenu/TweetMenu'
 import { getProfileId, getUser } from '../../selectors'
 
 export class Tweet extends Component {

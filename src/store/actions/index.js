@@ -1,7 +1,7 @@
 export {
   signupUser,
   addUserIgnore,
-  removeUserIgnore,
+  deleteUserIgnore,
   subscribe
 } from './users'
 
@@ -12,10 +12,10 @@ export {
 
 export {
   addTweet,
+  editTweet,
+  deleteTweet,
   fetchTweetsMain,
-  changeFavoriteTweet,
-  tweetEdit,
-  tweetRemove
+  changeFavoriteTweet
 } from './tweets'
 
 export {

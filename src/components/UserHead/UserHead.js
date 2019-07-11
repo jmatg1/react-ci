@@ -60,11 +60,11 @@ class UserHead extends Component {
       user: { id: userId },
       profileId,
       onAddUserIgnore,
-      onRemoveUserIgnore } = this.props
+      onDeleteUserIgnore } = this.props
 
     switch (type) {
     case 'add': return onAddUserIgnore(profileId, userId)
-    case 'remove': return onRemoveUserIgnore(profileId, userId)
+    case 'remove': return onDeleteUserIgnore(profileId, userId)
     }
   }
   render () {
@@ -165,7 +165,7 @@ const mapDispatchToProps = dispatch => {
     onAddTweet: (tweet) => dispatch(actions.addTweet(tweet)),
     onSubscribe: (payload) => dispatch(actions.subscribe(payload)),
     onAddUserIgnore: (profileId, userId) => dispatch(actions.addUserIgnore(profileId, userId)),
-    onRemoveUserIgnore: (profileId, userId) => dispatch(actions.removeUserIgnore(profileId, userId))
+    onDeleteUserIgnore: (profileId, userId) => dispatch(actions.deleteUserIgnore(profileId, userId))
   }
 }
 UserHead.contextTypes = ({
