@@ -2,6 +2,10 @@
 
 ##### Запуск:
     npm run start
+    
+    Войти:
+    Lazaro74
+    wMwXti6aM14qm8m
 
 ###### Основной функционал:
 <ol>
