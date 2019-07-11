@@ -1,17 +1,16 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import * as typeProperty from '../../shared/typeProps'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles/index'
 import TextField from '@material-ui/core/TextField/index'
 import Button from '@material-ui/core/Button/index'
 
 import { connect } from 'react-redux'
-
 import * as actions from '../../store/actions'
 import { getProfileId } from '../../selectors/index'
 
 const SubmitComment = (props) => {
-  console.log('CommentSubmit render')
-
   const classes = useStyles()
   const [value, setValue] = React.useState('')
   const handleChange = event => {
@@ -19,6 +18,7 @@ const SubmitComment = (props) => {
   }
 
   const sendComment = ev => {
+    if (value.trim().length === 0) return
     const { tweetId, profileId } = props
     ev.preventDefault()
     const comment = {
@@ -28,6 +28,7 @@ const SubmitComment = (props) => {
       dateCreate: new Date().toJSON()
     }
     props.onAddComment({ tweetId, comment })
+    setValue('')
   }
 
   return (
@@ -48,6 +49,13 @@ const SubmitComment = (props) => {
       </Button>
     </form>
   )
+}
+
+SubmitComment.propTypes = {
+  tweetId: PropTypes.number.isRequired,
+  // redux
+  profileId: PropTypes.number.isRequired,
+  onAddComment: PropTypes.func.isRequired
 }
 
 const useStyles = makeStyles(theme => ({

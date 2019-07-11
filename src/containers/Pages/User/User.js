@@ -2,10 +2,8 @@ import React, { Component } from 'react'
 import Grid from '@material-ui/core/Grid'
 
 import { connect } from 'react-redux'
-import { Switch, Route } from 'react-router-dom'
-
-import * as actions from '../../../store/actions/index'
 import { fetchTweetsMain, fetchTweetsUser, getProfileId } from '../../../selectors/index'
+import { Switch, Route } from 'react-router-dom'
 import UserHead from '../../../components/UserHead/UserHead'
 import Tweet from '../../../components/Tweet/Tweet'
 import TweetsPage from './Tweets'

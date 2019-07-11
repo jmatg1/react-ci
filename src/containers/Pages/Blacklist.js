@@ -1,15 +1,16 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid'
+import { Typography } from '@material-ui/core'
 
 import { connect } from 'react-redux'
-import { fetchIgnoreUsers } from '../../selectors/index'
+import { fetchIgnoreUsers, getProfileId } from '../../selectors/index'
 import UserItem from '../../components/UserItem/UserItem'
-import { Typography } from '@material-ui/core'
 
 const Blacklist = (props) => {
   const { users } = props
 
-  if (Object.keys(users).length === 0) {
+  if (users.length === 0) { // если нет игнорируемых пользователей
     return (
       <Grid container spacing={4}>
         <Typography variant="h3">Пусто</Typography>
@@ -17,12 +18,11 @@ const Blacklist = (props) => {
     )
   }
 
-  let usersRender = []
-  for (let k in users) {
-    usersRender.push(<Grid key={k} item xs={3}>
-      <UserItem user={users[k]} ignore />
-    </Grid>)
-  }
+  const usersRender = users.map(us => (
+    <Grid key={us.id} item xs={3}>
+      <UserItem user={us} ignore />
+    </Grid>
+  ))
 
   return (
 
@@ -32,11 +32,16 @@ const Blacklist = (props) => {
   )
 }
 
+Blacklist.propTypes = {
+  // redux
+  users: PropTypes.array.isRequired,
+  profileId: PropTypes.number.isRequired
+}
+
 const mapStateToProps = state => {
-  const profileId = state.profile.id
   return {
     users: fetchIgnoreUsers(state),
-    profileId: profileId
+    profileId: getProfileId(state)
   }
 }
 

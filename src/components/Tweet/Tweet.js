@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import * as typeProperty from '../../shared/typeProps'
 import clsx from 'clsx'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
@@ -17,10 +18,10 @@ import IconButton from '@material-ui/core/IconButton'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 
 import { connect } from 'react-redux'
+import * as actions from '../../store/actions/index'
 import { Link } from 'react-router-dom'
 import Moment from 'react-moment'
 import 'moment/locale/ru'
-import * as actions from '../../store/actions/index'
 
 import CommentList from '../../components/CommentList/CommentList'
 import { getProfileId, getUser } from '../../selectors'
@@ -32,7 +33,7 @@ export class Tweet extends Component {
   shouldComponentUpdate (nextProps, nextState) {
     const { tweet: { text, likes } } = this.props
     const { text: prText, likes: prLikes } = nextProps.tweet
-
+    // обновляем только если лайкнули, изменили текст, открыли комментарии
     if (likes.length === prLikes.length & text === prText & this.state.expanded === nextState.expanded) return false
     return true
   }
@@ -58,7 +59,10 @@ export class Tweet extends Component {
       profileId: this.props.profileId
     })
   }
-
+  /**
+   * Открываем всплывающее меню
+   * @param event
+   */
   handleTweetMenuOpen = (event) => {
     this.context.openTweetMenu({
       tweet: this.props.tweet,
@@ -66,7 +70,7 @@ export class Tweet extends Component {
     })
   }
   render () {
-    console.log('render tweet')
+    console.log('render tweet', this.props)
     const { tweet: { id: tweetId, text, dateCreate, likes, isFavorite, createUserId }, user: { name, avatar }, classes, profileId } = this.props
     const isMyTweet = createUserId === profileId
     const { expanded } = this.state
@@ -75,14 +79,14 @@ export class Tweet extends Component {
       <Card className={classes.card}>
         <CardHeader
           avatar={
-            <Avatar src={avatar} alt="Remy Sharp" className={classes.avatar}>name[0]</Avatar>
+            <Avatar src={avatar} className={classes.avatar}>name[0]</Avatar>
           }
           action={
             <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleTweetMenuOpen}>
               <MoreVertIcon/>
             </IconButton>
           }
-          title={ isMyTweet ? name :  <Link to={`/${createUserId}`}>{name}</Link>}
+          title={ isMyTweet ? name : <Link to={`/${createUserId}`}>{name}</Link>}
           subheader={<Moment locale="ru" fromNow>{dateCreate}</Moment>}
         />
         <CardContent>
@@ -94,10 +98,6 @@ export class Tweet extends Component {
           <IconButton aria-label="Add to favorites" onClick={this.handleClickFavorite}>
             <FavoriteIcon color={isFavorite ? 'secondary' : 'primary'}/>
             <span className={classes.count}>{likes.length}</span>
-          </IconButton>
-
-          <IconButton aria-label="Share">
-            <ShareIcon/>
           </IconButton>
 
           <IconButton
@@ -126,6 +126,15 @@ export class Tweet extends Component {
 Tweet.contextTypes = ({
   openTweetMenu: PropTypes.func
 })
+
+Tweet.propTypes = {
+  tweet: typeProperty.tweet,
+  // redux
+  user: typeProperty.user,
+  profileId: PropTypes.number.isRequired,
+  onChangeFavoriteTweet: PropTypes.func.isRequired
+
+}
 
 const mapStateToProps = (state, prevProps) => {
   console.log('Tweet connect')

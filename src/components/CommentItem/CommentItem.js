@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import * as typeProperty from '../../shared/typeProps'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Typography from '@material-ui/core/Typography'
@@ -6,15 +8,14 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import Avatar from '@material-ui/core/Avatar'
 import { makeStyles } from '@material-ui/core'
 
+import { connect } from 'react-redux'
+import * as actions from '../../store/actions/index'
 import Moment from 'react-moment'
 import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
-import { connect } from 'react-redux'
-import * as actions from '../../store/actions/index'
 
 const CommentItem = (props) => {
   const { comment, user, isMy, tweetId } = props
-
   const classes = useStyles()
 
   const author = (
@@ -23,9 +24,11 @@ const CommentItem = (props) => {
       <span className={classes.mark}>@{user.nickName}</span>
     </>
   )
+
   const handleClickDeleteIcon = () => {
-    props.onDeleteComment(comment.id, tweetId)
+    props.onDeleteComment({ commentId: comment.id, tweetId })
   }
+
   return (
     <ListItem alignItems="flex-start">
       <ListItemAvatar>
@@ -64,6 +67,15 @@ const CommentItem = (props) => {
   )
 }
 
+CommentItem.propTypes = {
+  comment: typeProperty.comment,
+  user: typeProperty.user,
+  isMy: PropTypes.bool.isRequired,
+  tweetId: PropTypes.number.isRequired,
+  // redux
+  onDeleteComment: PropTypes.func.isRequired
+}
+
 const useStyles = makeStyles(theme => ({
   inline: {
     display: 'inline'
@@ -76,7 +88,7 @@ const useStyles = makeStyles(theme => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    onDeleteComment: (commentId, tweetId) => dispatch(actions.deleteComment(commentId, tweetId))
+    onDeleteComment: (payload) => dispatch(actions.deleteComment(payload))
   }
 }
 

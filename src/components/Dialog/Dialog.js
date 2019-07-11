@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Dialog from '@material-ui/core/Dialog'
@@ -11,6 +12,8 @@ const FormDialog = (props) => {
   const { placeholder, title, inputValue } = props.dialog
   const [value, setValue] = useState(inputValue)
   const [error, setError] = useState({ error: true, text: null })
+  console.log('FORM', props)
+
   /**
    * Установить в поле ввода текст
    */
@@ -22,35 +25,48 @@ const FormDialog = (props) => {
     })
   }, [inputValue])
 
+  const setEr = (status = false, textEr = null) => {
+    setError({
+      error: status,
+      text: textEr
+    })
+  }
+
+  const validation = (text = value) => {
+    if (text.length > 280) {
+      setEr(true, 'Многа букв')
+      return 0
+    } else if (text.trim().length === 0) {
+      setEr(true, 'Мало букв')
+      return 1
+    } else {
+      setEr(false, null)
+      return true
+    }
+  }
+
   const handleChangeValue = (ev) => {
     const text = String(ev.target.value)
-
-    if (text.length > 280) {
-      setError({
-        error: true,
-        text: 'Многа букв'
-      })
-    } else {
-      setError({
-        error: false,
-        text: null
-      })
-      setValue(ev.target.value)
+    if (validation(text) === true || 1) {
+      setValue(text)
     }
   }
 
   const handleSubmit = () => {
+    if (validation() !== true) return false
     handleSave(value)
     setValue('')
-    setError({
-      error: false,
-      text: null
-    })
+    setEr()
+  }
+  const handleCancel = () => {
+    handleClose()
+    setEr()
+    setValue(inputValue)
   }
 
   return (
     <div>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog open={open} onClose={handleCancel} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">{title}</DialogTitle>
         <DialogContent>
           <TextField
@@ -69,7 +85,7 @@ const FormDialog = (props) => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleCancel} color="primary">
             Отмена
           </Button>
           <Button onClick={handleSubmit} color="primary">
@@ -79,6 +95,20 @@ const FormDialog = (props) => {
       </Dialog>
     </div>
   )
+}
+
+FormDialog.propTypes = {
+  dialog: PropTypes.shape({
+    callBack: PropTypes.func,
+    data: PropTypes.object,
+    inputValue: PropTypes.string,
+    isOpen: PropTypes.bool,
+    placeholder: PropTypes.string,
+    title: PropTypes.string
+  }),
+  open: PropTypes.bool.isRequired,
+  handleSave: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired
 }
 
 export default FormDialog

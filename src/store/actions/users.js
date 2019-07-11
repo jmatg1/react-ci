@@ -6,15 +6,15 @@ export const signupUser = payload => {
     payload
   }
 }
-export const addUserIgnore = (profileId, userId) => ({
+// добавляет в чс и удаляет из подписки
+export const addUserIgnore = (payload) => ({
   type: actionTypes.USER_ADD_IGNORE,
-  profileId,
-  userId
+  payload
 })
-export const deleteUserIgnore = (profileId, userId) => ({
+
+export const deleteUserIgnore = (payload) => ({
   type: actionTypes.USER_REMOVE_IGNORE,
-  profileId,
-  userId
+  payload
 })
 
 export const subscribe = payload => ({

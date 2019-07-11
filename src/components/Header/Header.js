@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
@@ -29,6 +30,11 @@ const Header = (props) => {
       </Toolbar>
     </AppBar>
   )
+}
+
+Header.propTypes = {
+  open: PropTypes.bool.isRequired,
+  handleOpen: PropTypes.func.isRequired
 }
 
 const drawerWidth = 240

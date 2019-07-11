@@ -7,17 +7,9 @@ export const addComment = payload => {
   }
 }
 
-export const editComment = payload => {
-  return {
-    type: actionTypes.COMMENT_EDIT,
-    payload
-  }
-}
-
-export const deleteComment = (commentId,tweetId) => {
+export const deleteComment = (payload) => {
   return {
     type: actionTypes.COMMENT_REMOVE,
-    commentId,
-    tweetId
+    payload
   }
 }

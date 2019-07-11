@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import * as typeProperty from '../../shared/typeProps'
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import * as actions from '../../store/actions/index'
 import Link from '../Link/Link'
 import { getUser } from '../../selectors/index'
-import * as actions from '../../store/actions/index'
 
 class UserHead extends Component {
   /**
@@ -42,12 +44,14 @@ class UserHead extends Component {
    */
   addTweet = (text) => {
     this.props.onAddTweet({
-      id: Math.floor(Math.random() * 10000),
-      createUserId: this.props.profileId,
-      text: text,
-      likes: [],
-      commentsId: [],
-      dateCreate: new Date().toJSON()
+      tweet: {
+        id: Math.floor(Math.random() * 10000),
+        createUserId: this.props.profileId,
+        text: text,
+        likes: [],
+        commentsId: [],
+        dateCreate: new Date().toJSON()
+      }
     })
   }
 
@@ -61,10 +65,9 @@ class UserHead extends Component {
       profileId,
       onAddUserIgnore,
       onDeleteUserIgnore } = this.props
-
     switch (type) {
-    case 'add': return onAddUserIgnore(profileId, userId)
-    case 'remove': return onDeleteUserIgnore(profileId, userId)
+      case 'add': return onAddUserIgnore({ profileId, userId })
+      case 'remove': return onDeleteUserIgnore({ profileId, userId })
     }
   }
   render () {
@@ -152,6 +155,22 @@ class UserHead extends Component {
   }
 }
 
+UserHead.contextTypes = ({
+  openDialog: PropTypes.func
+})
+
+UserHead.propTypes = {
+  userPageId: PropTypes.number.isRequired,
+  // redux
+  user: typeProperty.user,
+  profile: typeProperty.user,
+  profileId: PropTypes.number.isRequired,
+  onAddTweet: PropTypes.func.isRequired,
+  onSubscribe: PropTypes.func.isRequired,
+  onAddUserIgnore: PropTypes.func.isRequired,
+  onDeleteUserIgnore: PropTypes.func.isRequired
+}
+
 const mapStateToProps = (state, prevProps) => {
   return {
     user: getUser(state, prevProps.userPageId),
@@ -162,13 +181,11 @@ const mapStateToProps = (state, prevProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAddTweet: (tweet) => dispatch(actions.addTweet(tweet)),
+    onAddTweet: (payload) => dispatch(actions.addTweet(payload)),
     onSubscribe: (payload) => dispatch(actions.subscribe(payload)),
-    onAddUserIgnore: (profileId, userId) => dispatch(actions.addUserIgnore(profileId, userId)),
-    onDeleteUserIgnore: (profileId, userId) => dispatch(actions.deleteUserIgnore(profileId, userId))
+    onAddUserIgnore: (payload) => dispatch(actions.addUserIgnore(payload)),
+    onDeleteUserIgnore: (payload) => dispatch(actions.deleteUserIgnore(payload))
   }
 }
-UserHead.contextTypes = ({
-  openDialog: PropTypes.func
-})
+
 export default connect(mapStateToProps, mapDispatchToProps)(UserHead)

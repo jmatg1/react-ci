@@ -37,6 +37,7 @@ class App extends Component {
   /**
    * Для context
    * Используется в UserHead, для добавления нового твита
+   * Используется в MenuItem, для редактирование твита
    * @return {{openDialog: App.handleDialogOpen}}
    */
   getChildContext () {
@@ -99,12 +100,17 @@ class App extends Component {
 
           {profileId === null ? <Redirect to="/auth" component={Login}/> : <Wrapper/>}
 
-          <Dialog
-            dialog={this.state.dialog}
-            open={this.state.dialog.isOpen}
-            handleSave={this.handleDialogSave}
-            handleClose={this.handleDialogClose}/>
-          {this.state.tweetMenu.tweetMenuEl ? <TweetMenu menu={this.state.tweetMenu}/> : null }
+          {this.state.dialog.isOpen
+            ? <Dialog
+              dialog={this.state.dialog}
+              open={this.state.dialog.isOpen}
+              handleSave={this.handleDialogSave}
+              handleClose={this.handleDialogClose}/>
+            : null}
+
+          {this.state.tweetMenu.tweetMenuEl
+            ? <TweetMenu menu={this.state.tweetMenu}/>
+            : null}
         </PopupsContext.Provider>
       </>
 
@@ -115,6 +121,11 @@ class App extends Component {
 App.childContextTypes = {
   openDialog: PropTypes.func,
   openTweetMenu: PropTypes.func
+}
+
+App.propTypes = {
+  // redux
+  profileId: PropTypes.number
 }
 
 const mapStateToProps = state => {

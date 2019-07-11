@@ -1,11 +1,10 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
-
 import { makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 
+import { Switch, Route } from 'react-router-dom'
 import Header from '../../components/Header/Header'
 import Drawer from '../../components/Drawer/Drawer'
 import Feed from '../../containers/Pages/Feed'

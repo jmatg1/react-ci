@@ -1,25 +1,25 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid'
-import Tweet from '../../../components/Tweet/Tweet'
+
+import { connect } from 'react-redux'
 import { fetchTweetsUser } from '../../../selectors'
+import Tweet from '../../../components/Tweet/Tweet'
 
 const Tweets = (props) => {
   const { tweets } = props
 
-  let renderTwits = []
-  tweets.flatMap(tw => {
-    renderTwits.push(
-      <Grid key={tw.id} item xs={4}>
-        <Tweet tweet={tw}/>
-      </Grid>
-    )
-  })
-  return (
-    <>
-      {renderTwits}
-    </>
-  )
+  return tweets.map(tw => (
+    <Grid key={tw.id} item xs={4}>
+      <Tweet tweet={tw}/>
+    </Grid>
+  ))
+}
+
+Tweets.propTypes = {
+  pageId: PropTypes.number.isRequired,
+  // redux
+  tweets: PropTypes.array.isRequired
 }
 
 const mapStateToProps = (state, prevProps) => {

@@ -6,11 +6,10 @@ import { fetchTweetFeed } from '../../selectors/index'
 import Tweet from '../../components/Tweet/Tweet'
 
 const Feed = (props) => {
-
   const renderTwits = props.tweets.map(tw => (
-      <Grid key={tw.id} item xs={4}>
-        <Tweet tweet={tw}/>
-      </Grid>
+    <Grid key={tw.id} item xs={4}>
+      <Tweet tweet={tw}/>
+    </Grid>
   ))
 
   return (

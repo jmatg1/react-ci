@@ -6,20 +6,17 @@ export {
 } from './users'
 
 export {
-  setProfile,
-  uptProfile
+  setProfile
 } from './profile'
 
 export {
   addTweet,
   editTweet,
   deleteTweet,
-  fetchTweetsMain,
   changeFavoriteTweet
 } from './tweets'
 
 export {
   addComment,
-  editComment,
   deleteComment
 } from './comments'

@@ -1,4 +1,6 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import * as typeProperty from '../../shared/typeProps'
 import { withStyles } from '@material-ui/styles'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
@@ -10,43 +12,55 @@ import Typography from '@material-ui/core/Typography'
 
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-
 import * as actions from '../../store/actions/index'
 import { getProfileId } from '../../selectors'
 
-class UserItem extends PureComponent {
- handleRemoveUser = () => {
-   const { onDeleteUserIgnore, profileId, user: { id } } = this.props
-   onDeleteUserIgnore(profileId, id)
- }
+class UserItem extends Component {
+  handleRemoveUser = () => {
+    const { onDeleteUserIgnore, profileId, user: { id } } = this.props
+    onDeleteUserIgnore({ profileId, userId: id })
+  }
 
- render () {
-   console.log('userItem render')
-   const { user: { id, name, nickName, avatar }, ignore = false, classes } = this.props
-   return (
-     <Card className={classes.card}>
-       <CardActionArea>
-         <CardMedia
-           className={classes.media}
-           image={avatar}
-         />
-         <CardContent>
-           <Typography gutterBottom variant="h5" component="h2">
-             {name} <br/> <Link to={`/${id}`}>@{nickName}</Link>
-           </Typography>
-         </CardContent>
-       </CardActionArea>
-       <CardActions>
-         {ignore
-           ? <Button size="small" color="primary" onClick={this.handleRemoveUser}>
+  shouldComponentUpdate (nextProps, nextState, nextContext) {
+    if (nextProps.user.id === this.props.user.id) return false
+    return true
+  }
+
+  render () {
+    console.log('userItem render')
+    const { user: { id, name, nickName, avatar }, ignore = false, classes } = this.props
+    return (
+      <Card className={classes.card}>
+        <CardActionArea>
+          <CardMedia
+            className={classes.media}
+            image={avatar}
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              {name} <br/> <Link to={`/${id}`}>@{nickName}</Link>
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+        <CardActions>
+          {ignore
+            ? <Button size="small" color="primary" onClick={this.handleRemoveUser}>
               Удалить из ЧС
-           </Button>
-           : null
-         }
-       </CardActions>
-     </Card>
-   )
- }
+            </Button>
+            : null
+          }
+        </CardActions>
+      </Card>
+    )
+  }
+}
+
+UserItem.propTypes = {
+  ignore: PropTypes.bool,
+  user: typeProperty.user,
+  // redux
+  profileId: PropTypes.number.isRequired,
+  onDeleteUserIgnore: PropTypes.func.isRequired
 }
 
 const classes = {
@@ -68,7 +82,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onDeleteUserIgnore: (profileId, userId) => dispatch(actions.deleteUserIgnore(profileId, userId))
+    onDeleteUserIgnore: (payload) => dispatch(actions.deleteUserIgnore(payload))
   }
 }
 export default withStyles(classes)(connect(mapStateToProps, mapDispatchToProps)(UserItem))

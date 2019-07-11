@@ -13,9 +13,7 @@ if (!commentsStore) {
 const initialStore = new Map(arrToMap(commentsStore))
 // ----------------------------------------
 
-const addComment = (state, action) => {
-  const { comment } = action.payload
-
+const addComment = (state, { comment }) => {
   return state.set(comment.id, comment)
 }
 
@@ -24,11 +22,11 @@ const removeComment = (state, { commentId }) => {
 }
 
 const commentsReducer = (state = initialStore, action) => {
+  const { payload } = action
   switch (action.type) {
-  case actionTypes.COMMENT_ADD: return addComment(state, action)
-  case actionTypes.COMMENT_REMOVE: return removeComment(state, action)
-  default:
-    return state
+    case actionTypes.COMMENT_ADD: return addComment(state, payload)
+    case actionTypes.COMMENT_REMOVE: return removeComment(state, payload)
+    default: return state
   }
 }
 

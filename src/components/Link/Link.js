@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import { NavLink, withRouter } from 'react-router-dom'
 
 const Link = (props) => {
@@ -10,13 +12,17 @@ const Link = (props) => {
     props.history.push(to)
   }
   return (
-    <NavLink to={to} onClick={handleClickLink}   activeStyle={{
-      fontWeight: "bold",
-      color: "red"
+    <NavLink to={to} onClick={handleClickLink} activeStyle={{
+      fontWeight: 'bold',
+      color: 'red'
     }}>
       {children}
     </NavLink>
   )
+}
+Link.propTypes = {
+  children: PropTypes.node.isRequired,
+  to: PropTypes.string.isRequired
 }
 
 export default withRouter(Link)

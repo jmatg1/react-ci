@@ -1,12 +1,14 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import Draw from '@material-ui/core/Drawer'
 import IconButton from '@material-ui/core/IconButton'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import Divider from '@material-ui/core/Divider'
 import List from '@material-ui/core/List'
-import { mainListItems } from '../listItems'
 import { makeStyles } from '@material-ui/core'
+
+import { mainListItems } from '../listItems'
 
 const Drawer = (props) => {
   const classes = useStyles()
@@ -28,6 +30,11 @@ const Drawer = (props) => {
       <List>{mainListItems}</List>
     </Draw>
   )
+}
+
+Drawer.propTypes = {
+  handleDrawerClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired
 }
 
 const drawerWidth = 240

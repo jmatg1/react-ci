@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import * as typeProperty from '../../shared/typeProps'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 
@@ -43,23 +44,23 @@ class TweetMenu extends Component {
       profileId,
       menu: {
         tweet,
-        tweet: { createUserId }
+        tweet: { createUserId: userId }
       }
     } = this.props
 
     this.props.menu.funcClose()
 
     switch (type) {
-    case 'remove':
-      return onTweetRemove(tweet) // удаляем твит из базы и из списка твитов пользователя()
-    case 'edit':
-      return this.handleDialogOpen()
-    case 'addIgnore':
-      return onAddUserIgnore(profileId, createUserId)
-    case 'removeIgnore':
-      return onDeleteUserIgnore(profileId, createUserId)
-    default:
-      return null
+      case 'remove':
+        return onTweetRemove({ tweet }) // удаляем твит из базы и из списка твитов пользователя()
+      case 'edit':
+        return this.handleDialogOpen()
+      case 'addIgnore':
+        return onAddUserIgnore({ profileId, userId })
+      case 'removeIgnore':
+        return onDeleteUserIgnore({ profileId, userId })
+      default:
+        return null
     }
   }
   // ----
@@ -81,12 +82,14 @@ class TweetMenu extends Component {
    * Клик по сохранить отредактированный текст твита
    * @param text
    */
-  handleDialogSave = (text) => {
+  handleDialogSave = (tweetText) => {
     const { menu: { tweet: { id } }, onTweetEdit } = this.props
-    onTweetEdit(id, text)
+    onTweetEdit({ tweetId: id, tweetText })
   }
 
   render () {
+    console.log('render menuItem')
+
     const {
       profileId,
       profile,
@@ -145,19 +148,33 @@ TweetMenu.contextTypes = ({
   openDialog: PropTypes.func
 })
 
-const mapDispatchToProps = dispatch => {
+TweetMenu.propTypes = {
+  menu: typeProperty.menu,
+  // redux
+  profileId: PropTypes.number.isRequired,
+  onAddUserIgnore: PropTypes.func.isRequired,
+  onDeleteUserIgnore: PropTypes.func.isRequired,
+  onTweetEdit: PropTypes.func.isRequired,
+  onTweetRemove: PropTypes.func.isRequired,
+  onChangeFavoriteTweet: PropTypes.func,
+  profile: typeProperty.user
+
+}
+
+const mapStateToProps = state => {
   return {
-    onTweetRemove: (tweet) => dispatch(actions.deleteTweet(tweet)),
-    onTweetEdit: (id, text) => dispatch(actions.editTweet(id, text)),
-    onAddUserIgnore: (profileId, userId) => dispatch(actions.addUserIgnore(profileId, userId)),
-    onDeleteUserIgnore: (profileId, userId) => dispatch(actions.deleteUserIgnore(profileId, userId))
+    profileId: getProfileId(state),
+    profile: getUser(state, state.profile.id)
   }
 }
 
-export default connect(
-  (state) => ({
-    profileId: getProfileId(state),
-    profile: getUser(state, state.profile.id)
-  })
-  , mapDispatchToProps
-)(TweetMenu)
+const mapDispatchToProps = dispatch => {
+  return {
+    onTweetRemove: (payload) => dispatch(actions.deleteTweet(payload)),
+    onTweetEdit: (payload) => dispatch(actions.editTweet(payload)),
+    onAddUserIgnore: (payload) => dispatch(actions.addUserIgnore(payload)),
+    onDeleteUserIgnore: (payload) => dispatch(actions.deleteUserIgnore(payload))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TweetMenu)

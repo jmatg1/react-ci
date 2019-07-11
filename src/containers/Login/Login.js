@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import * as typeProperty from '../../shared/typeProps'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -44,16 +46,16 @@ function SignIn (props) {
    */
   const handleFormInput = (ev) => {
     switch (ev.target.name) {
-    case 'name':
-      setSignName(ev.target.value)
-      break
-    case 'password':
-      setSignPassword(ev.target.value)
-      break
-    case 'nick':
-      setSignNickName(ev.target.value)
-      break
-    default:
+      case 'name':
+        setSignName(ev.target.value)
+        break
+      case 'password':
+        setSignPassword(ev.target.value)
+        break
+      case 'nick':
+        setSignNickName(ev.target.value)
+        break
+      default:
     }
   }
   /**
@@ -120,7 +122,7 @@ function SignIn (props) {
             label="Никнейм"
             name="nick"
           />
-          { isSignUp
+          {isSignUp
             ? <TextField
               onChange={handleFormInput}
               variant="outlined"
@@ -132,7 +134,7 @@ function SignIn (props) {
               autoComplete="email"
               autoFocus
             />
-            : null }
+            : null}
 
           <TextField
             onChange={handleFormInput}
@@ -162,6 +164,14 @@ function SignIn (props) {
       </div>
     </Container>
   )
+}
+
+SignIn.propTypes = {
+  // redux
+  users: PropTypes.array.isRequired,
+  onSignupUser: PropTypes.func.isRequired,
+  onSetProfile: PropTypes.func.isRequired
+
 }
 
 const useStyles = makeStyles(theme => ({

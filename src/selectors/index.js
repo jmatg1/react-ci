@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect'
-import { fromJS, Map } from 'immutable'
 
 export const profileIdSelector = state => state.profile.id
 export const tweetsSelector = state => state.tweets
@@ -57,7 +56,7 @@ export const fetchTweetFeed = createSelector(
     const ignoreList = users.getIn([profileId, 'ignoreList'])
     console.log(ignoreList)
 
-    const tweetsFilter = tweets.filter(tweet => !ignoreList.find((igId) => ( igId === tweet.get('createUserId')))) // отбрасываем игнорированные твиты
+    const tweetsFilter = tweets.filter(tweet => !ignoreList.find((igId) => (igId === tweet.get('createUserId')))) // отбрасываем игнорированные твиты
 
     return sortFavoriteTweets(tweetsFilter, profileId)
   })
@@ -70,7 +69,8 @@ export const fetchTweetsUser = createSelector(
     const tweetsFilter = tweets
       .filter(tweet => (tweet.get('createUserId') === pageId))
     return sortFavoriteTweets(tweetsFilter, profileId)
-  })
+  }
+)
 
 // Получаем комментарии твита
 export const fetchComments = createSelector(
@@ -91,7 +91,8 @@ export const fetchComments = createSelector(
         isMy: user.id === profileId
       })
     }).valueSeq().toJS()
-  })
+  }
+)
 
 // Получаем пользователя
 export const getUser = (state, id) => {
@@ -116,45 +117,35 @@ export const getUser = (state, id) => {
 
 export const fetchAllTweets = createSelector(
   profileIdSelector,
-  tweetsSelector
-  , (profileId, tweets) => {
+  tweetsSelector,
+  (profileId, tweets) => {
     return sortFavoriteTweets(tweets, profileId)
-  })
+  }
+)
 
-export const fetchIgnoreUsers = state => {
-  const { users, profile: { id: profileId } } = state
+export const fetchIgnoreUsers = createSelector(
+  profileIdSelector,
+  usersSelector,
+  (profileId, users) => {
+    const ignoreList = users.getIn([profileId, 'ignoreList'])
 
-  const ignoreList = users.getIn([profileId, 'ignoreList'])
-
-  return users
-    .filter((_, i) => ignoreList.find(igId => igId === i)).valueSeq().toJS()
-}
+    return users
+      .filter((_, i) => ignoreList.find(igId => igId === i)).valueSeq().toJS()
+  }
+)
 
 export const fetchFollowing = (state, id) => {
   const usersId = state.users.getIn(
     [id, 'following']
-  )
+  ).toJS()
 
-  let users = []
-
-  usersId.map(usId => {
-    users.push(state.users.get(usId).toJS())
-  })
-
-  return users
+  return usersId.map(usId => (state.users.get(usId).toJS()))
 }
 
 export const fetchFollowers = (state, id) => {
   const usersId = state.users.getIn(
     [id, 'followers']
-  )
+  ).toJS()
 
-  console.log('selector', id)
-  let users = []
-
-  usersId.map(usId => {
-    users.push(state.users.get(usId).toJS())
-  })
-
-  return users
+  return usersId.map(usId => (state.users.get(usId).toJS()))
 }

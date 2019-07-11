@@ -10,8 +10,8 @@ const initialState = {
 
 const profile = (state = initialState, action) => {
   switch (action.type) {
-  case actionTypes.PROFILE_SET: return action.payload
-  default: return state
+    case actionTypes.PROFILE_SET: return action.payload
+    default: return state
   }
 }
 

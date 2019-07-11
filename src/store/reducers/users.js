@@ -14,7 +14,7 @@ const initialStore = fromJS(arrToMap(contactsStor, fromJS))
 
 // ----------------------------------------
 // Добавление нового пользователя в БД
-const signupUser = (state, { payload: newUser }) => {
+const signupUser = (state, { newUser }) => {
   return state.set(newUser.id, fromJS(newUser))
 }
 // Удалить твит
@@ -36,6 +36,7 @@ const tweetAdd = (state, { tweet }) => {
 // Добавить пользователя в ЧС, по клику на твит
 const addUserIgnore = (state, { profileId, userId }) => {
   const uptState = unsubscribe(state, { id: userId, profileId })
+
   return uptState
     .updateIn(
       [profileId, 'ignoreList'],
@@ -51,7 +52,7 @@ const removeUserIgnore = (state, { profileId, userId }) => {
     )
 }
 // Подписаться на пользователя
-const subscribeUser = (state, { payload }) => {
+const subscribeUser = (state, payload) => {
   const {
     profileId,
     subscribeId,
@@ -85,14 +86,15 @@ const unsubscribe = (state, { id, profileId }) => {
 }
 
 const usersStore = (state = initialStore, action) => {
+  const { payload } = action
   switch (action.type) {
-  case actionTypes.USER_SIGN: return signupUser(state, action)
-  case actionTypes.TWEET_REMOVE: return tweetRemove(state, action)
-  case actionTypes.TWEET_ADD: return tweetAdd(state, action)
-  case actionTypes.USER_ADD_IGNORE: return addUserIgnore(state, action)
-  case actionTypes.USER_REMOVE_IGNORE: return removeUserIgnore(state, action)
-  case actionTypes.USER_SUBSCRIBE: return subscribeUser(state, action)
-  default: return state
+    case actionTypes.USER_SIGN: return signupUser(state, payload)
+    case actionTypes.TWEET_REMOVE: return tweetRemove(state, payload)
+    case actionTypes.TWEET_ADD: return tweetAdd(state, payload)
+    case actionTypes.USER_ADD_IGNORE: return addUserIgnore(state, payload)
+    case actionTypes.USER_REMOVE_IGNORE: return removeUserIgnore(state, payload)
+    case actionTypes.USER_SUBSCRIBE: return subscribeUser(state, payload)
+    default: return state
   }
 }
 

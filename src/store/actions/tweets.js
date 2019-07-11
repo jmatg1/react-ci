@@ -1,9 +1,9 @@
 import * as actionTypes from './actionTypes'
 // обрабатывает reducer tweets, users
-export const addTweet = tweet => {
+export const addTweet = payload => {
   return {
     type: actionTypes.TWEET_ADD,
-    tweet
+    payload
   }
 }// обрабатывает reducer tweets, users
 export const changeFavoriteTweet = payload => {
@@ -13,24 +13,16 @@ export const changeFavoriteTweet = payload => {
   }
 }
 
-export const fetchTweetsMain = payload => {
+export const editTweet = (payload) => {
   return {
-    type: actionTypes.TWEETS_FETCH_MAIN,
+    type: actionTypes.TWEET_EDIT,
     payload
   }
 }
-
-export const editTweet = (tweetId, text) => {
-  return {
-    type: actionTypes.TWEET_EDIT,
-    tweetId,
-    text
-  }
-}
 // обрабатывает reducer tweets, users
-export const deleteTweet = (tweet) => {
+export const deleteTweet = (payload) => {
   return {
     type: actionTypes.TWEET_REMOVE,
-    tweet
+    payload
   }
 }
