@@ -11,7 +11,6 @@ import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
 import { red } from '@material-ui/core/colors'
 import FavoriteIcon from '@material-ui/icons/Favorite'
-import ShareIcon from '@material-ui/icons/Share'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { withStyles } from '@material-ui/styles'
 import IconButton from '@material-ui/core/IconButton'
@@ -70,7 +69,7 @@ export class Tweet extends Component {
     })
   }
   render () {
-    console.log('render tweet', this.props)
+    console.log('render tweet')
     const { tweet: { id: tweetId, text, dateCreate, likes, isFavorite, createUserId }, user: { name, avatar }, classes, profileId } = this.props
     const isMyTweet = createUserId === profileId
     const { expanded } = this.state

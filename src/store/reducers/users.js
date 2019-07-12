@@ -10,7 +10,7 @@ if (!contactsStor) {
   contactsStor = contactsDate
 }
 
-const initialStore = fromJS(arrToMap(contactsStor, fromJS))
+export const initialStore = fromJS(arrToMap(contactsStor, fromJS))
 
 // ----------------------------------------
 // Добавление нового пользователя в БД
