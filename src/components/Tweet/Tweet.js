@@ -24,16 +24,24 @@ import 'moment/locale/ru'
 
 import CommentList from '../../components/CommentList/CommentList'
 import { getProfileId, getUser } from '../../selectors'
+import ImagesList from '../ImageList/ImageList'
+import VideoList from '../VideoList/VideoList'
 
 export class Tweet extends Component {
   state = {
     expanded: false
   }
   shouldComponentUpdate (nextProps, nextState) {
-    const { tweet: { text, likes } } = this.props
-    const { text: prText, likes: prLikes } = nextProps.tweet
+    const { tweet: { text, likes, img, idVideos } } = this.props
+    const { text: prText, likes: prLikes, img: prImg, idVideos: prIdVideos } = nextProps.tweet
     // обновляем только если лайкнули, изменили текст, открыли комментарии
-    if (likes.length === prLikes.length & text === prText & this.state.expanded === nextState.expanded) return false
+    if (
+      likes.length === prLikes.length &
+      text === prText &
+      this.state.expanded === nextState.expanded &
+      img.length === prImg.length &
+      idVideos.length === prIdVideos.length
+    ) return false
     return true
   }
 
@@ -70,7 +78,25 @@ export class Tweet extends Component {
   }
   render () {
     console.log('render tweet')
-    const { tweet: { id: tweetId, text, dateCreate, likes, isFavorite, createUserId }, user: { name, avatar }, classes, profileId } = this.props
+    const {
+      tweet: {
+        id: tweetId,
+        text,
+        dateCreate,
+        img,
+        idVideos,
+        likes,
+        isFavorite,
+        createUserId
+      },
+      user: {
+        name,
+        avatar
+      },
+      classes,
+      profileId
+    } = this.props
+
     const isMyTweet = createUserId === profileId
     const { expanded } = this.state
 
@@ -92,6 +118,9 @@ export class Tweet extends Component {
           <Typography variant="body2" color="textSecondary" component="p">
             {text}
           </Typography>
+          { img ? <ImagesList images={img}/> : null }
+          { idVideos ? <VideoList videos={idVideos}/> : null }
+
         </CardContent>
         <CardActions disableSpacing>
           <IconButton aria-label="Add to favorites" onClick={this.handleClickFavorite}>

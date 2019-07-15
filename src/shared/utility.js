@@ -6,6 +6,52 @@ export const updateObject = (oldObject, updatedProperties) => {
     ...updatedProperties
   }
 }
+export const urlify = (text) => {
+  const urlRegex = /(https?:\/\/[^\s]+)/g
+
+  const urlImgRegex = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g
+  const regExp = /(https?:\/\/[^\s]+(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11}))/g
+  let urls = {
+    img: [],
+    idVideos: []
+  }
+
+  text = text.replace(urlImgRegex, (url) => { urls.img.push(url); return '' })
+  text = text.replace(regExp, (url) => { urls.idVideos.push(extractVideoID(url)); return '' })
+
+  urls.img = unique(urls.img)
+  urls.idVideos = unique(urls.idVideos)
+
+  return { text, urls }
+}
+
+function extractVideoID (match) {
+  const video_id = match.split('v=')[1]
+  // const ampersandPosition = video_id.indexOf('&')
+  const ampersandPosition = 11
+  // if (ampersandPosition != -1) {
+  return video_id.substring(0, ampersandPosition)
+  // }
+  // return null
+}
+export const unique = (arr) => {
+  const obj = {}
+
+  for (let i = 0; i < arr.length; i++) {
+    let str = arr[i]
+    obj[str] = true // запомнить строку в виде свойства объекта
+  }
+
+  return Object.keys(obj) // или собрать ключи перебором для IE8-
+}
+
+export const removeFromArray = (arr, indexes) => {
+  // eslint-disable-next-line no-undef
+  let arrayOfIndexes = [].slice.call(arguments, 1)
+  return arr.filter((item, index) => {
+    return arrayOfIndexes.indexOf(index) === -1
+  })
+}
 
 export const checkValidity = (value, rules) => {
   let isValid = true

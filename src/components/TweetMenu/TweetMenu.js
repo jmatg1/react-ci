@@ -69,12 +69,16 @@ class TweetMenu extends Component {
    * Открывает диалог для редактирование твита
    */
   handleDialogOpen = () => {
-    const { tweet: { text } } = this.props.menu
+    const { tweet: { text, img, idVideos } } = this.props.menu
 
     this.context.openDialog({
       placeholder: 'Текст твита',
       title: 'Изменить твит',
       inputValue: text,
+      data: {
+        img,
+        idVideos
+      },
       callBack: this.handleDialogSave
     })
   }
@@ -82,9 +86,9 @@ class TweetMenu extends Component {
    * Клик по сохранить отредактированный текст твита
    * @param text
    */
-  handleDialogSave = (tweetText) => {
+  handleDialogSave = (payload) => {
     const { menu: { tweet: { id } }, onTweetEdit } = this.props
-    onTweetEdit({ tweetId: id, tweetText })
+    onTweetEdit({ tweetId: id, tweetText: payload.text, ...payload })
   }
 
   render () {

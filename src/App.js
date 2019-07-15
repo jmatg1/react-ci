@@ -15,7 +15,10 @@ class App extends Component {
       placeholder: null,
       title: null,
       inputValue: null,
-      data: {},
+      data: {
+        img: [],
+        idVideos: []
+      },
       callBack: null
     },
     tweetMenu: {
@@ -68,9 +71,9 @@ class App extends Component {
     this.changePopup('dialog', false)
   }
 
-  handleDialogSave = (text) => {
+  handleDialogSave = (payload) => {
     this.handleDialogClose()
-    this.state.dialog.callBack(text)
+    this.state.dialog.callBack(payload)
   }
   // -- Dialog End
 

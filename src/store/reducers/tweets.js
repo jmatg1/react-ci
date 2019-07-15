@@ -38,11 +38,19 @@ const addTweet = (state, { tweet }) => {
   return state.set(tweet.id, fromJS(tweet))
 }
 
-const tweetEdit = (state, { tweetId, tweetText }) => {
+const tweetEdit = (state, { tweetId, tweetText, img, idVideos }) => {
   return state
     .updateIn(
       [tweetId, 'text'],
       text => tweetText
+    )
+    .updateIn(
+      [tweetId, 'img'],
+      imgs => img
+    )
+    .updateIn(
+      [tweetId, 'idVideos'],
+      idVid => idVideos
     )
 }
 const tweetRemove = (state, { tweet }) => {

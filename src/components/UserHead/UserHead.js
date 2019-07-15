@@ -34,7 +34,6 @@ class UserHead extends Component {
       placeholder: 'Текст нового твита',
       title: 'Добавить новый твит',
       inputValue: '',
-      data: {},
       callBack: this.addTweet
     })
   }
@@ -42,12 +41,14 @@ class UserHead extends Component {
    * Создаем новый твит пользователя
    * @param text - текст твитта
    */
-  addTweet = (text) => {
+  addTweet = (payload) => {
     this.props.onAddTweet({
       tweet: {
         id: Math.floor(Math.random() * 10000),
         createUserId: this.props.profileId,
-        text: text,
+        text: payload.text,
+        img: payload.img,
+        idVideos: payload.idVideos,
         likes: [],
         commentsId: [],
         dateCreate: new Date().toJSON()
@@ -69,6 +70,22 @@ class UserHead extends Component {
       case 'add': return onAddUserIgnore({ profileId, userId })
       case 'remove': return onDeleteUserIgnore({ profileId, userId })
     }
+  }
+
+  /**
+   * Клик по аватарке пол
+   * @return {*}
+   */
+  handleChangeAvatar = () => {
+    this.context.openDialog({
+      placeholder: 'Ссылка на картинку',
+      title: 'Изменить аватарку',
+      inputValue: '',
+      callBack: this.changeAvatar
+    })
+  }
+  changeAvatar = (data) => {
+    console.log(data.img)
   }
   render () {
     const {
@@ -94,7 +111,7 @@ class UserHead extends Component {
         <Paper style={classes.paper}>
           <Grid container spacing={3}>
             <Grid item xs={12} style={{ display: 'flex' }}>
-              <img src={avatar} alt="Avatar"/>
+              <img src={avatar} alt="Avatar" onClick={ isMe ? this.handleChangeAvatar : null}/>
               <Typography style={{ marginLeft: '25px' }} variant="h3" gutterBottom>
                 {name}
                 <Typography style={{ fontSize: '20px' }} gutterBottom>@{nickName}</Typography>

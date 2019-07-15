@@ -19,13 +19,11 @@ class User extends Component {
 
     let renderTwits = []
 
-    tweets.map(tw => {
-      renderTwits.push(
-        <Grid key={tw.id} item xs={4}>
-          <Tweet tweet={tw}/>
-        </Grid>
-      )
-    })
+    renderTwits = tweets.map(tw => (
+      <Grid key={tw.id} item xs={4}>
+        <Tweet tweet={tw}/>
+      </Grid>
+    ))
 
     return (
       <>
