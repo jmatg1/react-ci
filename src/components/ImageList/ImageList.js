@@ -8,6 +8,10 @@ import IconButton from '@material-ui/core/IconButton'
 
 const ImagesList = (props) => {
   const { images, handleDelete, classes } = props
+  const uploadImageFail = (i) => {
+    alert('Неудалось загрузить картинку')
+    handleDelete(i, 'img')
+  }
   return (
     <GridList cellHeight={160} className={classes.gridList} cols={2}>
       {images.map((url, i) => (
@@ -18,7 +22,7 @@ const ImagesList = (props) => {
             </IconButton>
             : null
           }
-          <img src={url} />
+          <img src={url} onError={() => uploadImageFail(i)} alt="Картинка"/>
         </GridListTile>
       ))}
     </GridList>

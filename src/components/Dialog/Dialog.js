@@ -7,10 +7,13 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 
-import { urlify, unique, removeFromArray } from '../../shared/utility'
+import { urlify, unique, getImage } from '../../shared/utility'
 import ImagesList from '../ImageList/ImageList'
 import VideoList from '../VideoList/VideoList'
 import CardContent from '@material-ui/core/CardContent'
+import ImagesUploader from 'react-images-uploader'
+import 'react-images-uploader/styles.css'
+import 'react-images-uploader/font.css'
 
 // TODO: вынести функции наверх
 class FormDialog extends Component {
@@ -23,7 +26,8 @@ class FormDialog extends Component {
     data: {
       img: [],
       idVideos: []
-    }
+    },
+    uploadImg: ''
   }
 
   /**
@@ -68,66 +72,86 @@ class FormDialog extends Component {
     })
   }
 
-  handleUpload = (ev) => {
-    console.log(ev.target)
+  handleUpload = (err, response) => {
+    if (err) {
+      console.error(err)
+      return
+    }
+    this.setState({ uploadImg: response })
   }
+
+  handleSubmit = () => {
+    if (this.validation() !== true) return false
+    const { handleSave } = this.props
+
+    let uptImg = [...this.state.data.img]
+    console.log('this.state.data  ', this.state)
+
+    if (this.state.uploadImg.length) {
+      const uptUploadImg = this.state.uploadImg
+      uptImg.push(uptUploadImg)
+    }
+    const payload = {
+      text: this.state.value,
+      img: uptImg,
+      idVideos: this.state.data.idVideos
+    }
+    console.log(payload)
+
+    handleSave(payload)
+    this.setState({ value: '' })
+    this.setEr()
+  }
+
+  validation = (text = this.state.value) => {
+    const { uploadImg, data: { img, idVideos } } = this.state
+    if (text.length > 280) {
+      this.setEr(true, 'Многа букв')
+      return 0
+    } else if (text.trim().length === 0 && !img.length && !idVideos.length && !uploadImg.length) {
+      this.setEr(true, 'Мало букв')
+      return 1
+    } else {
+      this.setEr(false, null)
+      return true
+    }
+  }
+
+  handleChangeValue = (ev) => {
+    const text = String(ev.target.value)
+
+    if (this.validation(text)) {
+      const withoutUrl = urlify(text)
+
+      this.setState((prevState) => {
+        const newImg = unique([...prevState.data.img].concat(withoutUrl.urls.img))
+        const newVideos = unique([...prevState.data.idVideos].concat(withoutUrl.urls.idVideos))
+        return ({
+          value: withoutUrl.text,
+          data: {
+            img: newImg,
+            idVideos: newVideos
+          }
+        })
+      })
+    }
+  }
+
+  handleCancel = () => {
+    this.props.handleClose()
+    this.setEr()
+    this.setState({ value: this.props.inputValue })
+  }
+
   render () {
     const { value, error, data: { img, idVideos } } = this.state
     const { handleSave, handleClose, open, classes } = this.props
     const { placeholder, title, inputValue } = this.props.dialog
     console.log('FORM')
 
-    const validation = (text = this.state.value) => {
-      if (text.length > 280) {
-        this.setEr(true, 'Многа букв')
-        return 0
-      } else if (text.trim().length === 0 && this.state.data.img.length === 0 && this.state.data.idVideos.length === 0) {
-        this.setEr(true, 'Мало букв')
-        return 1
-      } else {
-        this.setEr(false, null)
-        return true
-      }
-    }
-
-    const handleChangeValue = (ev) => {
-      const text = String(ev.target.value)
-
-      if (validation(text)) {
-        const withoutUrl = urlify(text)
-        this.setState((prevState) => {
-          const newImg = unique([...prevState.data.img].concat(withoutUrl.urls.img))
-          const newVideos = unique([...prevState.data.idVideos].concat(withoutUrl.urls.idVideos))
-          return ({
-            value: withoutUrl.text,
-            data: {
-              img: newImg,
-              idVideos: newVideos
-            }
-          })
-        })
-      }
-    }
-
-    const handleSubmit = () => {
-      if (validation() !== true) return false
-      const payload = {
-        text: this.state.value,
-        ...this.state.data
-      }
-      handleSave(payload)
-      this.setState({ value: '' })
-      this.setEr()
-    }
-    const handleCancel = () => {
-      handleClose()
-      this.setEr()
-      this.setState({ value: inputValue })
-    }
-
     return (
       <div>
-        <Dialog open={open} onClose={handleCancel} aria-labelledby="form-dialog-title">
+        <Dialog open={open} onClose={this.handleCancel} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">{title}</DialogTitle>
           <DialogContent>
             <TextField
@@ -140,19 +164,26 @@ class FormDialog extends Component {
               label={placeholder}
               type="text"
               value={value}
-              onChange={handleChangeValue}
+              onChange={this.handleChangeValue}
               multiline
               rowsMax="6"
             />
             { img ? <ImagesList images={img} handleDelete={this.handleDelete}/> : null }
             { idVideos ? <VideoList videos={idVideos} handleDelete={this.handleDelete}/> : null }
+            <ImagesUploader
+              url="http://localhost:9090/notmultiple"
+              optimisticPreviews
+              multiple={false}
+              onLoadEnd={this.handleUpload}
+              label="Upload a picture"
+            />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCancel} color="primary">
+            <Button onClick={this.handleCancel} color="primary">
               Отмена
             </Button>
             {/* <input type="file" onChange={this.handleUpload}/> */}
-            <Button onClick={handleSubmit} color="primary">
+            <Button onClick={this.handleSubmit} color="primary">
               Сохранить
             </Button>
           </DialogActions>
