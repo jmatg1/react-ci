@@ -31,6 +31,7 @@ export class Tweet extends Component {
   state = {
     expanded: false
   }
+
   shouldComponentUpdate (nextProps, nextState) {
     const { tweet: { text, likes, img, idVideos } } = this.props
     const { text: prText, likes: prLikes, img: prImg, idVideos: prIdVideos } = nextProps.tweet
@@ -41,7 +42,9 @@ export class Tweet extends Component {
       this.state.expanded === nextState.expanded &
       img.length === prImg.length &
       idVideos.length === prIdVideos.length
-    ) return false
+    ) {
+      return false
+    }
     return true
   }
 
@@ -76,6 +79,7 @@ export class Tweet extends Component {
       tweetMenuEl: event.currentTarget
     })
   }
+
   render () {
     console.log('render tweet')
     const {
@@ -104,22 +108,22 @@ export class Tweet extends Component {
       <Card className={classes.card}>
         <CardHeader
           avatar={
-            <Avatar src={avatar} className={classes.avatar}>name[0]</Avatar>
+            <Avatar src={avatar} className={classes.avatar}>{name[0]}</Avatar>
           }
           action={
             <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleTweetMenuOpen}>
               <MoreVertIcon/>
             </IconButton>
           }
-          title={ isMyTweet ? name : <Link to={`/${createUserId}`}>{name}</Link>}
+          title={isMyTweet ? name : <Link to={`/${createUserId}`}>{name}</Link>}
           subheader={<Moment locale="ru" fromNow>{dateCreate}</Moment>}
         />
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
             {text}
           </Typography>
-          { img ? <ImagesList images={img}/> : null }
-          { idVideos ? <VideoList videos={idVideos}/> : null }
+          {img.length ? <ImagesList images={img}/> : null}
+          {idVideos.length ? <VideoList videos={idVideos}/> : null}
 
         </CardContent>
         <CardActions disableSpacing>
@@ -143,7 +147,7 @@ export class Tweet extends Component {
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
             <Typography paragraph>Комментарии:</Typography>
-            <CommentList tweetId={tweetId} />
+            <CommentList tweetId={tweetId}/>
           </CardContent>
         </Collapse>
       </Card>
