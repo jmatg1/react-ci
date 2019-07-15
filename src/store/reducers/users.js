@@ -83,6 +83,14 @@ const unsubscribe = (state, { id, profileId }) => {
     [id, 'followers'],
     following => following.filter(flId => flId !== profileId)
   )
+}// Изменить аватарку пользователя
+const changeAvatar = (state, { profileId, url }) => {
+  console.log(profileId, url)
+
+  return state.updateIn(
+    [profileId, 'avatar'],
+    avatar => url
+  )
 }
 
 const usersStore = (state = initialStore, action) => {
@@ -94,6 +102,7 @@ const usersStore = (state = initialStore, action) => {
     case actionTypes.USER_ADD_IGNORE: return addUserIgnore(state, payload)
     case actionTypes.USER_REMOVE_IGNORE: return removeUserIgnore(state, payload)
     case actionTypes.USER_SUBSCRIBE: return subscribeUser(state, payload)
+    case actionTypes.USER_CHANGE_AVATAR: return changeAvatar(state, payload)
     default: return state
   }
 }

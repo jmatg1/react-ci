@@ -5,8 +5,8 @@ import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
+import { withStyles } from '@material-ui/styles'
 
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions/index'
 import Link from '../Link/Link'
@@ -39,7 +39,7 @@ class UserHead extends Component {
   }
   /**
    * Создаем новый твит пользователя
-   * @param text - текст твитта
+   * @param payload {Object}
    */
   addTweet = (payload) => {
     this.props.onAddTweet({
@@ -73,8 +73,7 @@ class UserHead extends Component {
   }
 
   /**
-   * Клик по аватарке пол
-   * @return {*}
+   * Клик по своей аватарке
    */
   handleChangeAvatar = () => {
     this.context.openDialog({
@@ -84,34 +83,34 @@ class UserHead extends Component {
       callBack: this.changeAvatar
     })
   }
-  changeAvatar = (data) => {
-    console.log(data.img)
+  /**
+   * Принимаем ссылку на картинку, если она есть то изменяем её
+   * @param payload {Object}
+   */
+  changeAvatar = (payload) => {
+    const { img } = payload
+    const { profileId } = this.props
+    if (img.length === 0) return
+
+    this.props.onChangeAvatar({ profileId, url: img[0] })
   }
   render () {
     const {
       user: { name, nickName, following, tweets, followers, isSubscribed, avatar },
       profile: { id: profileId, ignoreList },
-      userPageId
+      userPageId,
+      classes
     } = this.props
 
     const isMe = userPageId === profileId
     const isUserIgnore = ignoreList.find(igId => igId === userPageId) !== undefined
 
-    const classes = {
-      paper: {
-        padding: '20px',
-        display: 'flex',
-        overflow: 'auto',
-        flexDirection: 'column'
-      }
-    }
-
     return (
       <Grid item xs={12}>
-        <Paper style={classes.paper}>
+        <Paper className={classes.paper}>
           <Grid container spacing={3}>
             <Grid item xs={12} style={{ display: 'flex' }}>
-              <img src={avatar} alt="Avatar" onClick={ isMe ? this.handleChangeAvatar : null}/>
+              <img className={classes.avatar} src={avatar} alt="Avatar" onClick={ isMe ? this.handleChangeAvatar : null}/>
               <Typography style={{ marginLeft: '25px' }} variant="h3" gutterBottom>
                 {name}
                 <Typography style={{ fontSize: '20px' }} gutterBottom>@{nickName}</Typography>
@@ -183,6 +182,7 @@ UserHead.propTypes = {
   profile: typeProperty.user,
   profileId: PropTypes.number.isRequired,
   onAddTweet: PropTypes.func.isRequired,
+  onChangeAvatar: PropTypes.func.isRequired,
   onSubscribe: PropTypes.func.isRequired,
   onAddUserIgnore: PropTypes.func.isRequired,
   onDeleteUserIgnore: PropTypes.func.isRequired
@@ -200,9 +200,26 @@ const mapDispatchToProps = dispatch => {
   return {
     onAddTweet: (payload) => dispatch(actions.addTweet(payload)),
     onSubscribe: (payload) => dispatch(actions.subscribe(payload)),
+    onChangeAvatar: (payload) => dispatch(actions.changeAvatar(payload)),
     onAddUserIgnore: (payload) => dispatch(actions.addUserIgnore(payload)),
     onDeleteUserIgnore: (payload) => dispatch(actions.deleteUserIgnore(payload))
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserHead)
+const styles = {
+  paper: {
+    padding: '20px',
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column'
+  },
+  avatar: {
+    width: '128px',
+    height: '128px',
+    '&:hover': {
+      cursor: 'pointer'
+    }
+  }
+}
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(UserHead))
