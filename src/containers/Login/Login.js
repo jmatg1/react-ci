@@ -88,7 +88,7 @@ function SignIn (props) {
         followers: [],
         ignoreList: []
       }
-      onSignupUser(newUser)
+      onSignupUser({ newUser })
       const { password, ...profile } = newUser
       onSetProfile(profile)
       profileId = newUser.id
@@ -206,7 +206,7 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    onSignupUser: (newUser) => dispatch(actions.signupUser(newUser)),
+    onSignupUser: (payload) => dispatch(actions.signupUser(payload)),
     onSetProfile: (profile) => dispatch(actions.setProfile(profile))
   }
 }
