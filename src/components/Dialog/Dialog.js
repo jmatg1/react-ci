@@ -81,7 +81,7 @@ class FormDialog extends Component {
       if (text.length > 280) {
         this.setEr(true, 'Многа букв')
         return 0
-      } else if (text.trim().length === 0) {
+      } else if (text.trim().length === 0 && this.state.data.img.length === 0 && this.state.data.idVideos.length === 0) {
         this.setEr(true, 'Мало букв')
         return 1
       } else {

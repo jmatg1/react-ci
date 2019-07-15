@@ -21,3 +21,8 @@ export const subscribe = payload => ({
   type: actionTypes.USER_SUBSCRIBE,
   payload
 })
+
+export const changeAvatar = payload => ({
+  type: actionTypes.USER_CHANGE_AVATAR,
+  payload
+})
