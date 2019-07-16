@@ -5,24 +5,34 @@ import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
 import DeleteIcon from '@material-ui/icons/Delete'
 import IconButton from '@material-ui/core/IconButton'
+import ImageLoader from 'react-loading-image'
+import Spinner from '../Spinner/Spinner'
 
 const ImagesList = (props) => {
-  const { images, handleDelete, classes } = props
+  const { images, handleDelete = null, classes } = props
   const uploadImageFail = (i) => {
-    alert('Неудалось загрузить картинку')
-    handleDelete(i, 'img')
+    if (handleDelete) {
+      alert('Неудалось загрузить картинку')
+      handleDelete(i, 'img')
+    }
+    return null
   }
   return (
-    <GridList cellHeight={160} className={classes.gridList} cols={2}>
+    <GridList cellHeight={200} className={classes.gridList} cols={2}>
       {images.map((url, i) => (
         <GridListTile key={i} cols={1}>
-          { handleDelete
-            ? <IconButton style={{ zIndex: 999 }} onClick={() => handleDelete(i, 'img')} >
+          {handleDelete
+            ? <IconButton className={classes.btn} onClick={() => handleDelete(i, 'img')}>
               <DeleteIcon color="secondary"/>
             </IconButton>
             : null
           }
-          <img src={url} onError={() => uploadImageFail(i)} alt="Картинка"/>
+          <ImageLoader
+            className={classes.img}
+            src={url}
+            loading={() => <Spinner/>}
+            error={() => uploadImageFail(i)}
+          />
         </GridListTile>
       ))}
     </GridList>
@@ -43,6 +53,10 @@ const styles = {
   },
   btn: {
     zIndex: 999
+  },
+  img: {
+    width: 'auto',
+    height: '100%'
   }
 }
 

@@ -9,7 +9,7 @@ const VideoList = (props) => {
   return (
     <div>
       {videos.map((url, i) => (
-        <Grid>
+        <Grid key={i}>
           { handleDelete
             ? <IconButton style={{ zIndex: 999, top: '-105px' }} onClick={() => handleDelete(i, 'video')} >
               <DeleteIcon color="secondary"/>
@@ -26,7 +26,7 @@ const VideoList = (props) => {
   )
 }
 VideoList.propTypes = {
-  images: PropTypes.array.isRequired,
+  videos: PropTypes.array.isRequired,
   handleDelete: PropTypes.func
 }
 

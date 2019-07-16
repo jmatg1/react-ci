@@ -7,6 +7,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 
+import _ from 'lodash'
 import { urlify, unique, getImage } from '../../shared/utility'
 import ImagesList from '../ImageList/ImageList'
 import VideoList from '../VideoList/VideoList'
@@ -62,11 +63,12 @@ class FormDialog extends Component {
       const newImg = [...prevState.data.img]
       const newVideo = [...prevState.data.idVideos]
 
-      console.log(newImg)
+      console.log(newImg, id)
+
       return ({
         data: {
-          img: type === 'img' ? newImg.filter((_, i) => i !== id) : newImg,
-          idVideos: type === 'video' ? newVideo.filter((_, i) => i !== id) : newVideo
+          img: type === 'img' ? _.reject(newImg, (__, i) => i === id) : newImg,
+          idVideos: type === 'video' ? _.reject(newVideo, (__, i) => i === id) : newVideo
         }
       })
     })
@@ -121,13 +123,13 @@ class FormDialog extends Component {
     const text = String(ev.target.value)
 
     if (this.validation(text)) {
-      const withoutUrl = urlify(text)
+      const message = urlify(text)
 
       this.setState((prevState) => {
-        const newImg = unique([...prevState.data.img].concat(withoutUrl.urls.img))
-        const newVideos = unique([...prevState.data.idVideos].concat(withoutUrl.urls.idVideos))
+        const newImg = _.union(prevState.data.img, message.urls.img)
+        const newVideos = _.union(prevState.data.idVideos, message.urls.idVideos)
         return ({
-          value: withoutUrl.text,
+          value: message.text,
           data: {
             img: newImg,
             idVideos: newVideos

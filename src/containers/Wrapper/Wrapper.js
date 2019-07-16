@@ -10,6 +10,7 @@ import Drawer from '../../components/Drawer/Drawer'
 import Feed from '../../containers/Pages/Feed'
 import User from '../../containers/Pages/User/User'
 import Blacklist from '../../containers/Pages/Blacklist'
+import Search from '../../containers/Pages/Search'
 
 export default function Wrapper () {
   const classes = useStyles()
@@ -32,6 +33,7 @@ export default function Wrapper () {
           <Grid container spacing={3}>
 
             <Switch>
+              <Route path="/search" component={Search}/>
               <Route path="/feed" component={Feed}/>
               <Route path="/blacklist" component={Blacklist}/>
               <Route path="/:id" component={User}/>

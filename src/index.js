@@ -6,13 +6,12 @@ import App from './App'
 import configureStore from './store/index'
 
 const store = configureStore()
-
 const app = (
-  <Provider store={store}>
-    <BrowserRouter>
-      <App/>
-    </BrowserRouter>
-  </Provider>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App/>
+      </BrowserRouter>
+    </Provider>
 
 )
 
