@@ -1,19 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Grid from '@material-ui/core/Grid'
 
 import { connect } from 'react-redux'
 import { fetchFollowers, fetchFollowing } from '../../../selectors'
-import UserItem from '../../../components/UserItem/UserItem'
+import Content from '../../Content/Content'
 
 const Follow = (props) => {
   const { users } = props
 
-  return users.map(us => (
-    <Grid key={us.id} item xs={3}>
-      <UserItem user={us} />
-    </Grid>
-  ))
+  return (<Content users={users}/>)
 }
 
 Follow.propTypes = {

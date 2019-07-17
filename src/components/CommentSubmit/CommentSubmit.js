@@ -69,8 +69,6 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const mapStateToProps = state => {
-  console.log('CommentSubmit connect')
-
   return {
     profileId: getProfileId(state)
   }

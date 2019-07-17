@@ -40,6 +40,7 @@ const Header = (props) => {
     for (let param of url.entries()) {
       if (param[0] === 'query' && param[1] !== queryText) {
         props.onQuerySet({ query: queryText })
+        props.history.push(`search?query=${queryText}`)
         return
       }
     }

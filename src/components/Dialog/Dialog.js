@@ -45,11 +45,6 @@ class FormDialog extends Component {
    *
    */
   setEr = (status = false, textEr = null) => {
-    console.log({
-      error: status,
-      text: textEr
-    })
-
     this.setState({
       error: {
         isShow: status,
@@ -62,8 +57,6 @@ class FormDialog extends Component {
     this.setState((prevState) => {
       const newImg = [...prevState.data.img]
       const newVideo = [...prevState.data.idVideos]
-
-      console.log(newImg, id)
 
       return ({
         data: {
@@ -87,7 +80,6 @@ class FormDialog extends Component {
     const { handleSave } = this.props
 
     let uptImg = [...this.state.data.img]
-    console.log('this.state.data  ', this.state)
 
     if (this.state.uploadImg.length) {
       const uptUploadImg = this.state.uploadImg
@@ -98,7 +90,6 @@ class FormDialog extends Component {
       img: uptImg,
       idVideos: this.state.data.idVideos
     }
-    console.log(payload)
 
     handleSave(payload)
     this.setState({ value: '' })
@@ -149,7 +140,6 @@ class FormDialog extends Component {
     const { value, error, data: { img, idVideos } } = this.state
     const { handleSave, handleClose, open, classes } = this.props
     const { placeholder, title, inputValue } = this.props.dialog
-    console.log('FORM')
 
     return (
       <div>

@@ -85,7 +85,6 @@ const unsubscribe = (state, { id, profileId }) => {
   )
 }// Изменить аватарку пользователя
 const changeAvatar = (state, { profileId, url }) => {
-  console.log(profileId, url)
 
   return state.updateIn(
     [profileId, 'avatar'],

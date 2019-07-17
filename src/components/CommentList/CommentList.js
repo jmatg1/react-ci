@@ -50,7 +50,6 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const mapStateToProps = (state, prevProps) => {
-  console.log('CommentList connect')
 
   return {
     comments: fetchComments(state, prevProps)

@@ -8,22 +8,14 @@ import UserHead from '../../../components/UserHead/UserHead'
 import Tweet from '../../../components/Tweet/Tweet'
 import TweetsPage from './Tweets'
 import FollowPage from './Follow'
+import Content from '../../Content/Content'
 
 class User extends Component {
   render () {
-    console.log('User render')
 
     const { tweets } = this.props
     const routeId = Number(this.props.match.params.id)
     const pageId = routeId || this.props.profileId
-
-    let renderTwits = []
-
-    renderTwits = tweets.map(tw => (
-      <Grid key={tw.id} item xs={4}>
-        <Tweet tweet={tw}/>
-      </Grid>
-    ))
 
     return (
       <>
@@ -36,7 +28,7 @@ class User extends Component {
           <Route path={`/${pageId}/tweets`} render={() => <TweetsPage pageId={pageId}/>}/>
           <Route path={`/${pageId}/following`} render={() => <FollowPage type='following' pageId={pageId}/>}/>
           <Route path={`/${pageId}/followers`} render={() => <FollowPage type='followers' pageId={pageId}/>}/>
-          <Route path={`/`} render={() => renderTwits}/>
+          <Route path={`/`} render={() => <Content tweets={tweets}/>}/>
         </Switch>
       </>
     )
@@ -44,7 +36,6 @@ class User extends Component {
 }
 
 const mapStateToProps = (state, prevProps) => {
-  console.log('User connect')
   const profileId = state.profile.id
   const routeId = Number(prevProps.match.params.id)
   const pageId = routeId || profileId

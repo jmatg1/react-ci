@@ -27,8 +27,9 @@ class UserItem extends Component {
   }
 
   render () {
-    console.log('userItem render')
     const { user: { id, name, nickName, avatar }, ignore = false, classes } = this.props
+    console.log('ignore', ignore)
+    
     return (
       <Card className={classes.card}>
         <CardActionArea>
@@ -73,8 +74,6 @@ const classes = {
 }
 
 const mapStateToProps = state => {
-  console.log('userItem connect')
-
   return {
     profileId: getProfileId(state)
   }

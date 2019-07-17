@@ -81,7 +81,6 @@ export class Tweet extends Component {
   }
 
   render () {
-    console.log('render tweet')
     const {
       tweet: {
         id: tweetId,
@@ -169,7 +168,6 @@ Tweet.propTypes = {
 }
 
 const mapStateToProps = (state, prevProps) => {
-  console.log('Tweet connect')
 
   return {
     profileId: getProfileId(state),

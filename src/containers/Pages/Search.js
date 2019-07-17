@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import * as actions from '../../store/actions/index'
 import { fetchSearchUsersTweet, test } from '../../selectors/index'
 import Grid from '@material-ui/core/Grid'
-import Tweet from '../../components/Tweet/Tweet'
+import Content from '../Content/Content'
 
 class Search extends Component {
   componentDidMount () {
@@ -19,20 +19,12 @@ class Search extends Component {
      }
    }
    render () {
-     console.log('render seach')
-
-     const renderTwits = this.props.tweets.map(tw => (
-       <Grid key={tw.id} item xs={4}>
-         <Tweet tweet={tw}/>
-       </Grid>
-     ))
+    const { tweets } = this.props
      return (<>
        <Grid>
          <h1>Search: {this.props.query}</h1>
        </Grid>
-       <Grid container spacing={4}>
-         {renderTwits}
-       </Grid>
+        <Content tweets={tweets}/>
      </>
      )
    }
@@ -43,7 +35,6 @@ Search.propTypes = {
 }
 
 const mapStateToProps = (state, prevProps) => {
-  console.log(prevProps)
   return {
     tweets: fetchSearchUsersTweet(state, prevProps),
     query: state.profile.query,

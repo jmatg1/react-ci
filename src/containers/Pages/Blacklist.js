@@ -6,9 +6,11 @@ import { Typography } from '@material-ui/core'
 import { connect } from 'react-redux'
 import { fetchIgnoreUsers, getProfileId } from '../../selectors/index'
 import UserItem from '../../components/UserItem/UserItem'
+import Content from '../Content/Content'
 
 const Blacklist = (props) => {
   const { users } = props
+  console.log('blackList')
 
   if (users.length === 0) { // если нет игнорируемых пользователей
     return (
@@ -17,19 +19,7 @@ const Blacklist = (props) => {
       </Grid>
     )
   }
-
-  const usersRender = users.map(us => (
-    <Grid key={us.id} item xs={3}>
-      <UserItem user={us} ignore />
-    </Grid>
-  ))
-
-  return (
-
-    <Grid container spacing={4}>
-      {usersRender}
-    </Grid>
-  )
+  return (<Content users={users} ignore={true}/>)
 }
 
 Blacklist.propTypes = {
