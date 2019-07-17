@@ -1,6 +1,9 @@
 import { createSelector } from 'reselect'
 
 export const profileIdSelector = state => state.profile.id
+export const querySelector = state => state.profile.query
+export const dateFromSelector = state => state.profile.dateFrom
+export const dateToSelector = state => state.profile.dateTo
 export const tweetsSelector = state => state.tweets
 export const usersSelector = state => state.users
 export const commentsSelector = state => state.comments
@@ -149,3 +152,21 @@ export const fetchFollowers = (state, id) => {
 
   return usersId.map(usId => (state.users.get(usId).toJS()))
 }
+
+export const fetchSearchUsersTweet = createSelector(
+  profileIdSelector,
+  querySelector,
+  usersSelector,
+  fetchTweetFeed,(profileId, query, users, tweets) => {
+  // .toJS().include(query)
+    const filterUsers = users
+      .filter((user) => user.get('name').includes(query))
+      .map(user => user.get('id')).valueSeq().toJS()
+
+    const searchTweets = tweets
+      .filter(tweet => {
+        return filterUsers.find(fu => fu === tweet.createUserId)
+      })
+    return searchTweets
+  }
+)

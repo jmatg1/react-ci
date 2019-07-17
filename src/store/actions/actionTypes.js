@@ -5,6 +5,7 @@ export const USER_SUBSCRIBE = 'USER_SUBSCRIBE'
 export const USER_CHANGE_AVATAR = 'USER_CHANGE_AVATAR'
 
 export const PROFILE_SET = 'PROFILE_SET'
+export const QUERY_SET = 'QUERY_SET'
 
 export const TWEET_ADD = 'TWEET_ADD'
 export const TWEET_EDIT = 'TWEET_EDIT'

@@ -7,7 +7,8 @@ export {
 } from './users'
 
 export {
-  setProfile
+  setProfile,
+  setQuery
 } from './profile'
 
 export {

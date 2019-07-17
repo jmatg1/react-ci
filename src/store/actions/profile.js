@@ -6,3 +6,10 @@ export const setProfile = payload => {
     payload
   }
 }
+
+export const setQuery = payload => {
+  return {
+    type: actionTypes.QUERY_SET,
+    payload
+  }
+}

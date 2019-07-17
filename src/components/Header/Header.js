@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -14,22 +14,35 @@ import { withRouter } from 'react-router-dom'
 import 'react-date-range/dist/styles.css' // main style file
 import 'react-date-range/dist/theme/default.css' // theme css file
 import { DateRange } from 'react-date-range'
+import { connect } from 'react-redux'
+import * as actions from '../../store/actions/index'
 
 const Header = (props) => {
   const classes = useStyles()
   const { open, handleOpen } = props
-  const getQuery = () => {
-    const query = new URLSearchParams(props.location.search)
-    for (let param of query.entries()) {
-      console.log(param)
-    }
-  }
+  const [query, setQuery] = useState('')
+
   const handleSubmitSearch = (ev) => {
     ev.preventDefault()
-    const dateFrom = 0; const dateTo = 0; const query = 0
-    props.history.push(`search?query=${query}&dateFrom=${dateFrom}&dateTo=${dateTo}`)
-    console.log(props)
-    getQuery()
+    sendQuery()
+  }
+  const handleChangeQuery = (ev) => {
+    setQuery(ev.target.value)
+    sendQuery(ev.target.value)
+  }
+  const sendQuery = (queryText = query) => {
+    if (props.location.search === '') {
+      props.history.push(`search?query=${queryText}`)
+      return
+    }
+    const url = new URLSearchParams(props.location.search)
+
+    for (let param of url.entries()) {
+      if (param[0] === 'query' && param[1] !== queryText) {
+        props.onQuerySet({ query: queryText })
+        return
+      }
+    }
   }
   const selectionRange = {
     startDate: new Date(),
@@ -62,6 +75,8 @@ const Header = (props) => {
               input: classes.inputInput
             }}
             inputProps={{ 'aria-label': 'Search' }}
+            onChange={handleChangeQuery}
+            value={query}
           />
           {/* <DateRange */}
           {/*  ranges={[selectionRange]} */}
@@ -152,4 +167,10 @@ const useStyles = makeStyles(theme => ({
 
 }))
 
-export default withRouter(Header)
+const mapDispatchToProps = dispatch => {
+  return {
+    onQuerySet: (payload) => dispatch(actions.setQuery(payload))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(withRouter(Header))
