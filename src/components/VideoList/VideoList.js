@@ -16,9 +16,15 @@ const VideoList = (props) => {
             </IconButton>
             : null
           }
-          <iframe width="355" height="200" src={`https://www.youtube.com/embed/${url}`}
-            frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen/>
+          <iframe
+            width="355"
+            height="200"
+            src={`https://www.youtube.com/embed/${url}`}
+            frameBorder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            title={i}
+          />
 
         </Grid>
       ))}

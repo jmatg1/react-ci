@@ -28,8 +28,7 @@ class UserItem extends Component {
 
   render () {
     const { user: { id, name, nickName, avatar }, ignore = false, classes } = this.props
-    console.log('ignore', ignore)
-    
+
     return (
       <Card className={classes.card}>
         <CardActionArea>

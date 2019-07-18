@@ -1,18 +1,16 @@
 import React, { Component } from 'react'
-import Grid from '@material-ui/core/Grid'
+import PropTypes from 'prop-types'
 
 import { connect } from 'react-redux'
 import { fetchTweetsMain, fetchTweetsUser, getProfileId } from '../../../selectors/index'
 import { Switch, Route } from 'react-router-dom'
 import UserHead from '../../../components/UserHead/UserHead'
-import Tweet from '../../../components/Tweet/Tweet'
 import TweetsPage from './Tweets'
 import FollowPage from './Follow'
 import Content from '../../Content/Content'
 
 class User extends Component {
   render () {
-
     const { tweets } = this.props
     const routeId = Number(this.props.match.params.id)
     const pageId = routeId || this.props.profileId
@@ -33,6 +31,12 @@ class User extends Component {
       </>
     )
   }
+}
+
+User.propTypes = {
+  // redux
+  profileId: PropTypes.number,
+  tweets: PropTypes.array
 }
 
 const mapStateToProps = (state, prevProps) => {

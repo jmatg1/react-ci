@@ -7,9 +7,8 @@ export const updateObject = (oldObject, updatedProperties) => {
   }
 }
 export const urlify = (text) => {
-  const urlRegex = /(https?:\/\/[^\s]+)/g
-
   const urlImgRegex = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g
+  // eslint-disable-next-line no-useless-escape
   const regExp = /(https?:\/\/[^\s]+(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11}))/g
   let urls = {
     img: [],
@@ -26,11 +25,11 @@ export const urlify = (text) => {
 }
 
 function extractVideoID (match) {
-  const video_id = match.split('v=')[1]
+  const videoId = match.split('v=')[1]
   // const ampersandPosition = video_id.indexOf('&')
   const ampersandPosition = 11
   // if (ampersandPosition != -1) {
-  return video_id.substring(0, ampersandPosition)
+  return videoId.substring(0, ampersandPosition)
   // }
   // return null
 }

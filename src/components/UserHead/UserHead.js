@@ -69,6 +69,7 @@ class UserHead extends Component {
     switch (type) {
       case 'add': return onAddUserIgnore({ profileId, userId })
       case 'remove': return onDeleteUserIgnore({ profileId, userId })
+      default: return null
     }
   }
 

@@ -156,7 +156,7 @@ export const fetchSearchUsersTweet = createSelector(
   profileIdSelector,
   querySelector,
   usersSelector,
-  fetchTweetFeed,(profileId, query, users, tweets) => {
+  fetchTweetFeed, (profileId, query, users, tweets) => {
   // .toJS().include(query)
     const filterUsers = users
       .filter((user) => user.get('name').includes(query))

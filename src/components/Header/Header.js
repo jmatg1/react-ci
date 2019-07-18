@@ -11,9 +11,6 @@ import { fade, makeStyles } from '@material-ui/core/styles'
 import SearchIcon from '@material-ui/icons/Search'
 
 import { withRouter } from 'react-router-dom'
-import 'react-date-range/dist/styles.css' // main style file
-import 'react-date-range/dist/theme/default.css' // theme css file
-import { DateRange } from 'react-date-range'
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions/index'
 
@@ -45,11 +42,6 @@ const Header = (props) => {
       }
     }
   }
-  const selectionRange = {
-    startDate: new Date(),
-    endDate: new Date(),
-    key: 'selection'
-  }
   return (
     <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
       <Toolbar className={classes.toolbar}>
@@ -79,10 +71,6 @@ const Header = (props) => {
             onChange={handleChangeQuery}
             value={query}
           />
-          {/* <DateRange */}
-          {/*  ranges={[selectionRange]} */}
-          {/*  onChange={(ev) => console.log(ev)} */}
-          {/* /> */}
         </form>
       </Toolbar>
     </AppBar>

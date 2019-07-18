@@ -6,9 +6,8 @@ import UserItem from '../../components/UserItem/UserItem'
 import ReactPaginate from 'react-paginate'
 import _ from 'lodash'
 import './styles.css'
-import * as typeProperty from '../../shared/typeProps'
 /**
- * ignore - если ложь, то  не нет возможности удалить из ЧС
+ * ignore - если ложь, то нет возможности удалить из ЧС
  */
 class Content extends Component {
   state = {
@@ -20,14 +19,11 @@ class Content extends Component {
   }
 
   componentDidMount () {
-    console.log('DIDMOUNT')
     this.filterItems()
   }
   componentDidUpdate (prevProps, prevState, snapshot) {
     if (!_.isEqual(prevProps.tweets, this.props.tweets) || !_.isEqual(prevProps.users, this.props.users)) {
       this.filterItems()
-
-      console.log('upt')
     }
   }
 
@@ -39,13 +35,11 @@ class Content extends Component {
     if (tweets) {
       pageCount = Math.ceil(tweets.length / showItem) // кол-во страниц
       tweetsPag = this.subArray(tweets, showItem) // массив из массив разделенных по страницам
-      console.log(tweetsPag)
     }
 
     if (users) {
       pageCount = Math.ceil(users.length / showItem)
       usersPag = this.subArray(users, showItem)
-      console.log(usersPag)
     }
 
     this.setState({ pageCount, tweetsPag, usersPag, pageActive: 0 })

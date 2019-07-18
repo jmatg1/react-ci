@@ -8,10 +8,9 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 
 import _ from 'lodash'
-import { urlify, unique, getImage } from '../../shared/utility'
+import { urlify } from '../../shared/utility'
 import ImagesList from '../ImageList/ImageList'
 import VideoList from '../VideoList/VideoList'
-import CardContent from '@material-ui/core/CardContent'
 import ImagesUploader from 'react-images-uploader'
 import 'react-images-uploader/styles.css'
 import 'react-images-uploader/font.css'
@@ -138,8 +137,8 @@ class FormDialog extends Component {
 
   render () {
     const { value, error, data: { img, idVideos } } = this.state
-    const { handleSave, handleClose, open, classes } = this.props
-    const { placeholder, title, inputValue } = this.props.dialog
+    const { open } = this.props
+    const { placeholder, title } = this.props.dialog
 
     return (
       <div>
@@ -174,7 +173,6 @@ class FormDialog extends Component {
             <Button onClick={this.handleCancel} color="primary">
               Отмена
             </Button>
-            {/* <input type="file" onChange={this.handleUpload}/> */}
             <Button onClick={this.handleSubmit} color="primary">
               Сохранить
             </Button>

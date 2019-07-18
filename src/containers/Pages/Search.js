@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions/index'
-import { fetchSearchUsersTweet, test } from '../../selectors/index'
+import { fetchSearchUsersTweet } from '../../selectors/index'
 import Grid from '@material-ui/core/Grid'
 import Content from '../Content/Content'
 
@@ -19,25 +19,28 @@ class Search extends Component {
      }
    }
    render () {
-    const { tweets } = this.props
+     const { tweets } = this.props
      return (<>
        <Grid>
          <h1>Search: {this.props.query}</h1>
        </Grid>
-        <Content tweets={tweets}/>
+       <Content tweets={tweets}/>
      </>
      )
    }
 }
 
 Search.propTypes = {
-
+  // redux
+  tweets: PropTypes.array.isRequired,
+  query: PropTypes.string.isRequired,
+  onQuerySet: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, prevProps) => {
   return {
     tweets: fetchSearchUsersTweet(state, prevProps),
-    query: state.profile.query,
+    query: state.profile.query
   }
 }
 

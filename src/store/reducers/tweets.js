@@ -1,4 +1,4 @@
-import { fromJS, Map } from 'immutable'
+import { fromJS } from 'immutable'
 import * as actionTypes from '../actions/actionTypes'
 import tweetsDate from '../data/tweets'
 import { getItem, setItem, arrToMap } from '../../shared/utility'

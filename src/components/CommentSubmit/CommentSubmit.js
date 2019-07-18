@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import * as typeProperty from '../../shared/typeProps'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles/index'
 import TextField from '@material-ui/core/TextField/index'
