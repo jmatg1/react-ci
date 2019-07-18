@@ -21,6 +21,7 @@ import * as actions from '../../store/actions/index'
 import { Link } from 'react-router-dom'
 import Moment from 'react-moment'
 import 'moment/locale/ru'
+import { compose } from 'recompose'
 
 import CommentList from '../../components/CommentList/CommentList'
 import { getProfileId, getUser } from '../../selectors'
@@ -168,7 +169,6 @@ Tweet.propTypes = {
 }
 
 const mapStateToProps = (state, prevProps) => {
-
   return {
     profileId: getProfileId(state),
     user: getUser(state, prevProps.tweet.createUserId)
@@ -206,4 +206,7 @@ const styles = {
   }
 }
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Tweet))
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps, mapDispatchToProps)
+)(Tweet)

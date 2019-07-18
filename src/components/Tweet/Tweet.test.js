@@ -16,7 +16,9 @@ describe('test Tweet', () => {
     likes: [],
     commentsId: [],
     dateCreate: "2018-12-26T00:00:20.786Z",
-    isFavorite: true
+    isFavorite: true,
+    img: [],
+    idVideos: []
   }
   const user =  {
     id: 7110,
