@@ -10,6 +10,7 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "express": "^4.17.1",
+    "firebase": "^6.3.0",
     "images-upload-middleware": "^1.1.1",
     "immutable": "^4.0.0-rc.12",
     "lodash": "^4.17.14",
@@ -29,6 +30,7 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "react-test-renderer": "^16.8.6",
+    "recompose": "^0.30.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0"
