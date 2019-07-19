@@ -1,4 +1,4 @@
-# Твиттер на React
+# Твиттер на React. бд Firebase
 
 ##### Запуск:
     npm run start

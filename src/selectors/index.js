@@ -83,7 +83,6 @@ export const fetchComments = createSelector(
   tweetsSelector,
   (profileId, tweetId, users, comments, tweets) => {
     return tweets.getIn([tweetId, 'commentsId']).map(cmId => {
-      console.log(cmId)
 
       const user = users.get(comments.get(cmId).createUserId).toJS()
       const isIgnore = users.getIn([profileId, 'ignoreList']).find(igId => igId === user.id) !== undefined

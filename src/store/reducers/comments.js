@@ -1,16 +1,7 @@
-import { fromJS, Map } from 'immutable'
 import * as actionTypes from '../actions/actionTypes'
-import commentsDate from '../data/comments'
-import { getItem, setItem, arrToMap, objToMap } from '../../shared/utility'
+import { objToMap } from '../../shared/utility'
 
-let commentsStore = getItem('comments')
-
-if (!commentsStore) {
-  setItem('comments', commentsDate)
-  commentsStore = commentsDate
-}
-
-const initialStore = new Map(arrToMap(commentsStore))
+const initialStore = null
 
 // ----------------------------------------
 

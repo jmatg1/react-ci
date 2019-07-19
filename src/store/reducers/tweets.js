@@ -1,17 +1,9 @@
 import { fromJS } from 'immutable'
 import _ from 'lodash'
 import * as actionTypes from '../actions/actionTypes'
-import tweetsDate from '../data/tweets'
-import { getItem, setItem, arrToMap, objToMap } from '../../shared/utility'
+import { objToMap } from '../../shared/utility'
 
-let tweetsStor = getItem('tweets')
-
-if (!tweetsStor) {
-  setItem('tweets', tweetsDate)
-  tweetsStor = tweetsDate
-}
-
-const initialStore = fromJS(arrToMap(tweetsStor, fromJS))
+const initialStore = null
 
 // ----------------------------------------
 

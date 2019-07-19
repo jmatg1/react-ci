@@ -1,17 +1,9 @@
 import { fromJS } from 'immutable'
 import * as actionTypes from '../actions/actionTypes'
-import contactsDate from '../data/users'
-import { arrToMap, objToMap, getItem, setItem } from '../../shared/utility'
+import { objToMap } from '../../shared/utility'
 import _ from 'lodash'
 
-let contactsStor = getItem('users')
-
-if (!contactsStor) {
-  setItem('users', contactsDate)
-  contactsStor = contactsDate
-}
-
-const initialStore = fromJS(arrToMap(contactsStor, fromJS))
+const initialStore = null
 
 // ----------------------------------------
 

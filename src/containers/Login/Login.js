@@ -201,7 +201,7 @@ const useStyles = makeStyles(theme => ({
 
 const mapStateToProps = state => {
   return {
-    users: state.users.valueSeq().toJS()
+    users: state.users ? state.users.valueSeq().toJS() : []
   }
 }
 const mapDispatchToProps = dispatch => {
