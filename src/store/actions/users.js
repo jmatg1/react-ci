@@ -1,5 +1,11 @@
 import * as actionTypes from './actionTypes'
 
+export const fetchUsers = payload => {
+  return {
+    type: actionTypes.USERS_FETCH,
+    payload
+  }
+}
 export const signupUser = payload => {
   return {
     type: actionTypes.USER_SIGN,

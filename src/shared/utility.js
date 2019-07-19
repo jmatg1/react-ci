@@ -1,4 +1,5 @@
 import { Map } from 'immutable'
+import _ from 'lodash'
 
 export const updateObject = (oldObject, updatedProperties) => {
   return {
@@ -94,7 +95,18 @@ export const randomId = () => Math.floor(Date.now() + Math.random())
 
 export function arrToMap (arr, DataModel) {
   return arr.reduce(
-    (acc, item) => acc.set(item.id, DataModel ? new DataModel(item) : item),
+    (acc, item) => {
+      return acc.set(item.id, DataModel ? new DataModel(item) : item)
+    },
+    new Map({})
+  )
+}
+
+export function objToMap (arr, DataModel) {
+  return _.reduce(arr,
+    (acc, item) => {
+      return acc.set(item.id, DataModel ? new DataModel(item) : item)
+    },
     new Map({})
   )
 }

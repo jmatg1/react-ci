@@ -1,4 +1,5 @@
 export {
+  fetchUsers,
   signupUser,
   addUserIgnore,
   deleteUserIgnore,
@@ -12,6 +13,7 @@ export {
 } from './profile'
 
 export {
+  fetchTweets,
   addTweet,
   editTweet,
   deleteTweet,
@@ -19,6 +21,7 @@ export {
 } from './tweets'
 
 export {
+  fetchComments,
   addComment,
   deleteComment
 } from './comments'

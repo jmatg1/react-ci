@@ -2,12 +2,16 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { compose } from 'recompose'
 
 import Login from './containers/Login/Login'
 import Wrapper from './containers/Wrapper/Wrapper'
 import Dialog from './components/Dialog/Dialog'
 import PopupsContext from './contexts'
 import TweetMenu from './components/TweetMenu/TweetMenu'
+import { withFirebase } from './firebase/index'
+import * as actions from './store/actions/index'
+
 class App extends Component {
   state = {
     dialog: {
@@ -30,11 +34,24 @@ class App extends Component {
   }
 
   componentDidMount () {
+    const { onFetchUsers, onFetchTweets, onFetchComments } = this.props
     const uptTweetMenu = { ...this.state.tweetMenu }
     uptTweetMenu.funcClose = this.handleTweetMenuClose
     uptTweetMenu.funcOpen = this.handleTweetMenuOpen
 
     this.setState({ tweetMenu: uptTweetMenu })
+
+    this.props.firebase.users().on('value', snapshot => {
+      onFetchUsers(snapshot.val())
+    })
+
+    this.props.firebase.comments().on('value', snapshot => {
+      onFetchComments(snapshot.val())
+    })
+
+    this.props.firebase.tweets().on('value', snapshot => {
+      onFetchTweets(snapshot.val())
+    })
   }
 
   /**
@@ -127,7 +144,10 @@ App.childContextTypes = {
 
 App.propTypes = {
   // redux
-  profileId: PropTypes.number
+  profileId: PropTypes.number,
+  onFetchUsers: PropTypes.func.isRequired,
+  onFetchTweets: PropTypes.func.isRequired,
+  onFetchComments: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => {
@@ -136,4 +156,15 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(App)
+const mapDispatchToProps = dispatch => {
+  return {
+    onFetchUsers: payload => dispatch(actions.fetchUsers(payload)),
+    onFetchTweets: payload => dispatch(actions.fetchTweets(payload)),
+    onFetchComments: payload => dispatch(actions.fetchComments(payload))
+  }
+}
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withFirebase
+)(App)

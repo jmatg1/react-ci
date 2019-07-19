@@ -1,7 +1,8 @@
 import { fromJS } from 'immutable'
+import _ from 'lodash'
 import * as actionTypes from '../actions/actionTypes'
 import tweetsDate from '../data/tweets'
-import { getItem, setItem, arrToMap } from '../../shared/utility'
+import { getItem, setItem, arrToMap, objToMap } from '../../shared/utility'
 
 let tweetsStor = getItem('tweets')
 
@@ -13,6 +14,17 @@ if (!tweetsStor) {
 const initialStore = fromJS(arrToMap(tweetsStor, fromJS))
 
 // ----------------------------------------
+
+const fetchTweets = (state, payload) => {
+  const tweets = _.map(payload, (el) => {
+    if (!el.img) el.img = []
+    if (!el.idVideos) el.idVideos = []
+    if (!el.likes) el.likes = []
+    if (!el.commentsId) el.commentsId = []
+    return el
+  })
+  return objToMap(tweets, fromJS)
+}
 
 const changeFavoriteTweet = (state, { tweetId, isFavorite, profileId }) => {
   return state
@@ -60,6 +72,7 @@ const tweetRemove = (state, { tweet }) => {
 const tweetStore = (state = initialStore, action) => {
   const { payload } = action
   switch (action.type) {
+    case actionTypes.TWEETS_FETCH: return fetchTweets(state, payload)
     case actionTypes.TWEET_CHANGE_FAVORITE: return changeFavoriteTweet(state, payload)
     case actionTypes.TWEET_EDIT: return tweetEdit(state, payload)
     case actionTypes.TWEET_REMOVE: return tweetRemove(state, payload)

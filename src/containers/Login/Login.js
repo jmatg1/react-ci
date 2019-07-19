@@ -20,6 +20,7 @@ function SignIn (props) {
   const [signNickName, setSignNickName] = useState('')
   const [signPassword, setSignPassword] = useState('')
   const classes = useStyles()
+
   /**
    * Поиск юзера в бд, при регистрации и авторизации
    * @param users - список юзеров

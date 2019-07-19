@@ -1,7 +1,8 @@
 import { fromJS } from 'immutable'
 import * as actionTypes from '../actions/actionTypes'
 import contactsDate from '../data/users'
-import { arrToMap, getItem, setItem } from '../../shared/utility'
+import { arrToMap, objToMap, getItem, setItem } from '../../shared/utility'
+import _ from 'lodash'
 
 let contactsStor = getItem('users')
 
@@ -10,9 +11,21 @@ if (!contactsStor) {
   contactsStor = contactsDate
 }
 
-export const initialStore = fromJS(arrToMap(contactsStor, fromJS))
+const initialStore = fromJS(arrToMap(contactsStor, fromJS))
 
 // ----------------------------------------
+
+const fetchUsers = (state, payload) => {
+  const users = _.map(payload, (el) => {
+    if (!el.tweets) el.tweets = []
+    if (!el.following) el.following = []
+    if (!el.followers) el.followers = []
+    if (!el.ignoreList) el.ignoreList = []
+    return el
+  })
+  return objToMap(users, fromJS)
+}
+
 // Добавление нового пользователя в БД
 const signupUser = (state, { newUser }) => {
   return state.set(newUser.id, fromJS(newUser))
@@ -94,6 +107,7 @@ const changeAvatar = (state, { profileId, url }) => {
 const usersStore = (state = initialStore, action) => {
   const { payload } = action
   switch (action.type) {
+    case actionTypes.USERS_FETCH: return fetchUsers(state, payload)
     case actionTypes.USER_SIGN: return signupUser(state, payload)
     case actionTypes.TWEET_REMOVE: return tweetRemove(state, payload)
     case actionTypes.TWEET_ADD: return tweetAdd(state, payload)

@@ -1,4 +1,11 @@
 import * as actionTypes from './actionTypes'
+
+export const fetchTweets = payload => {
+  return {
+    type: actionTypes.TWEETS_FETCH,
+    payload
+  }
+}
 // обрабатывает reducer tweets, users
 export const addTweet = payload => {
   return {
