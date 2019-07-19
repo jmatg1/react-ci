@@ -2,6 +2,7 @@
 
 ##### Запуск:
     npm run start
+    in folder server -> npm run start
     
 Можно войти используя nickName password в /store/data/users.json
 Либо просто зарегистрироваться
