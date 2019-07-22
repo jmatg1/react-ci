@@ -71,7 +71,7 @@ class Content extends Component {
           <Tweet tweet={tw}/>
         </Grid>
       ))
-      render = <Grid container spacing={3}>
+      render = <Grid item container spacing={3}>
         {renderTwits}
       </Grid>
     }
@@ -82,7 +82,7 @@ class Content extends Component {
           <UserItem user={us} ignore={ignore}/>
         </Grid>
       ))
-      render = <Grid container spacing={4}>
+      render = <Grid item container spacing={4}>
         {renderUsers}
       </Grid>
     }
