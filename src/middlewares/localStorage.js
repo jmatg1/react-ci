@@ -11,9 +11,9 @@ export default (store) => (next) => (action) => {
     case actions.USERS_FETCH:
       return null
     default:
-      firebase.users().set((store.getState().users.toJS()))
-      firebase.comments().set((store.getState().comments.toJS()))
-      firebase.tweets().set((store.getState().tweets.toJS()))
+      if (store.getState().users) firebase.users().set((store.getState().users.toJS()))
+      if (store.getState().comments) firebase.comments().set((store.getState().comments.toJS()))
+      if (store.getState().tweets) firebase.tweets().set((store.getState().tweets.toJS()))
       return true
   }
 }
