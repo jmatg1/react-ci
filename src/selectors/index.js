@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-
+import {Map} from 'immutable'
 export const profileIdSelector = state => state.profile.id
 export const querySelector = state => state.profile.query
 export const dateFromSelector = state => state.profile.dateFrom
@@ -82,20 +82,36 @@ export const fetchComments = createSelector(
   commentsSelector,
   tweetsSelector,
   (profileId, tweetId, users, comments, tweets) => {
-    return tweets.getIn([tweetId, 'commentsId']).map(cmId => {
-
+    const tweetComments = tweets.getIn([tweetId, 'commentsId']).map(cmId => {
       const user = users.get(comments.get(cmId).createUserId).toJS()
+      const comment = comments.get(cmId)
       const isIgnore = users.getIn([profileId, 'ignoreList']).find(igId => igId === user.id) !== undefined
 
-      return ({
-        comment: comments.get(cmId),
-        user: user,
-        isIgnore,
-        isMy: user.id === profileId
-      })
+      return (
+        new Map(
+          { [comment.id]: {
+            comment: comment,
+            user: user,
+            isIgnore,
+            isMy: user.id === profileId
+          }
+          }
+        ))
+    })
+
+    return tweetComments.filter(ob => {
+      let data = ob.valueSeq().toJS()[0]
+
+      // if (data.comment.reply) {
+      //   const replyComments = tweetComments.filter(cm => cm.reply === comment.reply ?).valueSeq().toJS()
+      //
+      //   comment.reply = replyComments
+      //   console.log(comment)
+      // }
+        debugger
+      return true
     }).valueSeq().toJS()
-  }
-)
+  })
 
 // Получаем пользователя
 export const getUser = (state, id) => {

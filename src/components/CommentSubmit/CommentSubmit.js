@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles/index'
@@ -10,8 +10,15 @@ import * as actions from '../../store/actions'
 import { getProfileId } from '../../selectors/index'
 
 const SubmitComment = (props) => {
+  const { replyComment = null, replyUser = null } = props
   const classes = useStyles()
   const [value, setValue] = React.useState('')
+
+  useEffect(() => {
+    if (!replyUser) return
+    setValue(`${replyUser.nickName}, `)
+  }, [replyComment, replyUser])
+
   const handleChange = event => {
     setValue(event.target.value)
   }
@@ -24,7 +31,8 @@ const SubmitComment = (props) => {
       id: Math.floor(Math.random() * 10000),
       createUserId: profileId,
       text: value,
-      dateCreate: new Date().toJSON()
+      dateCreate: new Date().toJSON(),
+      reply: replyComment ? replyComment.id : null
     }
     props.onAddComment({ tweetId, comment })
     setValue('')
@@ -52,6 +60,8 @@ const SubmitComment = (props) => {
 
 SubmitComment.propTypes = {
   tweetId: PropTypes.number.isRequired,
+  replyComment: PropTypes.object,
+  replyUser: PropTypes.object,
   // redux
   profileId: PropTypes.number.isRequired,
   onAddComment: PropTypes.func.isRequired

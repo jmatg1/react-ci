@@ -1,12 +1,20 @@
 import * as actionTypes from '../actions/actionTypes'
-import { objToMap } from '../../shared/utility'
+import { arrToMap, objToMap } from '../../shared/utility'
+import _ from 'lodash'
 
 const initialStore = null
 
 // ----------------------------------------
 
 const fetchComments = (state, payload) => {
-  return objToMap(payload)
+  console.log(payload)
+
+  const comments = _.map(payload, (el) => {
+    el.reply = !el.reply ? null : el.reply
+    return el
+  })
+
+  return arrToMap(comments)
 }
 
 const addComment = (state, { comment }) => {

@@ -10,15 +10,13 @@ const initialStore = null
 const fetchUsers = (state, payload) => {
   const users = _.map(payload, (el) => {
     // если нет такого массива значи он пусто. избавляемся от пустых значений в массиве
-    console.log(el.tweets)
-
     el.tweets = !el.tweets ? [] : el.tweets.filter(() => true)
     el.following = !el.following ? [] : el.following.filter(() => true)
     el.followers = !el.followers ? [] : el.followers.filter(() => true)
     el.ignoreList = !el.ignoreList ? [] : el.ignoreList.filter(() => true)
-    console.log(el.tweets)
     return el
   })
+
   return objToMap(users, fromJS)
 }
 
